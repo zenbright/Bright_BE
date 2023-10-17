@@ -8,6 +8,8 @@ import basicAuth from 'express-basic-auth';
 
 import redisClient from './service/redis/redisConfig';
 import ResponseHandler from './service/utils/responseHandler';
+import swaggerJSDoc from './swagger';
+import swaggerUI from 'swagger-ui-express';
 
 dotenv.config();
 
@@ -39,11 +41,12 @@ app.use(cors(CORS_OPTIONS));
 // Enable basic authentication for API docs
 if (['production', 'development', 'local'].includes(NODE_ENV)) {
     app.use(
-        '/icdp-backend-mobile/api-docs',
+        '/bright-backend/api-docs',
         basicAuth({
             users: { [USERNAME_API_DOCS]: PASSWORD_API_DOCS },
             challenge: true,
-        })
+        }),
+        swaggerUI.serve, swaggerUI.setup(swaggerJSDoc)
     );
 }
 

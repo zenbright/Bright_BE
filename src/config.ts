@@ -26,3 +26,8 @@ export const USERNAME_API_DOCS: string =
     process.env.USERNAME_API_DOCS || 'admin';
 
 export const API_DOCS_HOST: string = process.env.API_DOCS_HOST || 'localhost:4000';
+export const BRIGHT_URL: string = process.env.BRIGHT_URL || 'http://localhost:4000';
+export const ROUTE_ENDPOINT = {
+    BASE_URL_V1: '/bright-backend/api-docs',
+    PING: '/ping',
+};
