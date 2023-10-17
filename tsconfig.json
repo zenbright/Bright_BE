@@ -1,0 +1,24 @@
+{
+  "ts-node": {
+    "esm": true,
+    "experimentalSpecifierResolution": "node"
+  },
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "moduleResolution": "Node",
+    "target": "ES6", // Target output cho code
+    "module": "es2022", // Quy định output module được sử dụng
+    "rootDir": "./src",
+    "resolveJsonModule": true,
+    "allowJs": true,
+    "outDir": "./dist",
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "skipLibCheck": true,
+    "baseUrl": "" // Đường dẫn base cho các import
+  },
+  "include": [
+    "src/**/*"
+  ], // Các file dùng để defined global type cho dự án
+}
