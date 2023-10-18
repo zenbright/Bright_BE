@@ -3,4 +3,4 @@ node_modules
 logs
 **/logs
 logs/
-ACCESSTOKEN
+ACCESSTOKEN.pem
