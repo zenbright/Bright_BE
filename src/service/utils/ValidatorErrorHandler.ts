@@ -7,7 +7,7 @@ export default function validatorErrorHandler(req: any, res: any, next: any) {
     if (!errors.isEmpty()) {
         const arrayErrors = errors.array();
 
-        // Log errors for debugging
+        // Log errors
         logger.error('Validation Errors:', arrayErrors);
 
         return res.status(422).json({

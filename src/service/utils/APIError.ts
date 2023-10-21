@@ -16,7 +16,7 @@ export default class APIError extends Error {
     }
 }
 
-// Handle API response errors
+// Handle API errors
 export function handleErrorReponseAPI(error: any) {
     const defaultError = [500, ERROR_CODE.INTERNAL_SERVER_ERROR];
 

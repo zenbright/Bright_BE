@@ -29,7 +29,6 @@ export function checkIpSpamServer(endpoint = '') {
                 await redisClient.expire(keyRequest, RATE_LIMIT.seconds);
             }
 
-            // Limit 5 calls
             if (numRequest > RATE_LIMIT.requestsPerSecond) {
                 console.log('ERROR: ', { access: false, message: ERROR_CODE.RATELIMITED });
                 return next(new APIError(502, { access: false, message: ERROR_CODE.RATELIMITED }));
