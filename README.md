@@ -33,4 +33,6 @@ For more information and to understand why most TypeScript npm modules start wit
 
 ## To run the server
 
-You can start the server with the following command: `npm start`
+1. **Redis**: Make sure you have a Redis instance running on your local machine. If you don't have Redis installed, you can download and install it from the [official Redis website](https://redis.io/download/). You can start the Redis server using the following command: `redis-server`
+
+2. **Server**: You can start the back-end server with the following command: `npm start`
