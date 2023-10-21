@@ -33,7 +33,7 @@ if (['development', 'local', 'production'].includes(NODE_ENV)) {
     app.use(morgan(MORGAN_FORMAT, { skip: (req, res) => res.statusCode >= 400, stream: process.stdout }));
 }
 
-// redisClient.connect();
+redisClient.connect();
 
 // Enable CORS
 app.use(cors(CORS_OPTIONS));
