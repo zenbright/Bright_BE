@@ -11,7 +11,7 @@
     "rootDir": "./src",
     "resolveJsonModule": true,
     "allowJs": true,
-    "outDir": "./dist",
+    "outDir": "./build",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "noImplicitAny": true,

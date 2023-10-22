@@ -6,6 +6,8 @@ import bodyParser from 'body-parser';
 import morgan from 'morgan';
 import basicAuth from 'express-basic-auth';
 import ResponseHandler from './service/utils/responseHandler';
+import swaggerJSDoc from './swagger';
+import swaggerUI from 'swagger-ui-express';
 dotenv.config();
 import { MORGAN_FORMAT, CORS_OPTIONS, USERNAME_API_DOCS, PASSWORD_API_DOCS, NODE_ENV, } from './config';
 const app = express();
@@ -24,10 +26,10 @@ else {
 app.use(cors(CORS_OPTIONS));
 // Enable basic authentication for API docs
 if (['production', 'development', 'local'].includes(NODE_ENV)) {
-    app.use('/icdp-backend-mobile/api-docs', basicAuth({
+    app.use('/bright-backend/api-docs', basicAuth({
         users: { [USERNAME_API_DOCS]: PASSWORD_API_DOCS },
         challenge: true,
-    }));
+    }), swaggerUI.serve, swaggerUI.setup(swaggerJSDoc));
 }
 app.use(compression());
 app.use(bodyParser.json({ limit: '20mb' }));

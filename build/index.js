@@ -1,10 +1,11 @@
 import dotenv from 'dotenv';
 import cors from 'cors';
 import compression from 'compression';
-import app from './app';
-dotenv.config();
-import { PORT_SERVER, CORS_OPTIONS, } from './config';
+// import app from './app';
+import app from '../src/app';
+import { PORT_SERVER, CORS_OPTIONS } from './config';
 import logger from './logger';
+dotenv.config();
 app.enable('trust proxy');
 app.use(cors(CORS_OPTIONS));
 app.use(compression());
