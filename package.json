@@ -32,7 +32,6 @@
     "production": "nodemon --exec node ts-node src/index.ts"
   },
   "dependencies": {
-    "aws-sdk": "^2.1474.0",
     "axios": "^1.5.1",
     "compression": "^1.7.4",
     "core-js": "^3.33.0",
