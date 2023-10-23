@@ -32,7 +32,6 @@
     "production": "nodemon --exec node ts-node src/index.ts"
   },
   "dependencies": {
-    "aws-sdk": "^2.1474.0",
     "axios": "^1.5.1",
     "compression": "^1.7.4",
     "core-js": "^3.33.0",
@@ -43,7 +42,6 @@
     "express-validator": "^7.0.1",
     "moment": "^2.29.4",
     "morgan": "^1.10.0",
-    "next-auth": "^4.24.3",
     "redis": "^4.6.10",
     "regenerator-runtime": "^0.14.0",
     "swagger-jsdoc": "^6.2.8",
