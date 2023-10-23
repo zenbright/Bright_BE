@@ -22,9 +22,9 @@ const swaggerDefinition = {
 };
 
 const apiFiles = [
-    'src/components/**/*.route.ts',
-    'src/components/**/*.docs.ts',
-    'src/components/**/*.model.ts',
+    'src/service/**/*.route.ts',
+    'src/service/**/*.docs.ts',
+    'src/service/**/*.model.ts',
     'src/api/validatorErrorHandler.ts',
 ];
 
