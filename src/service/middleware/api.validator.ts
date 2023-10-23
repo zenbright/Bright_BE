@@ -7,6 +7,6 @@ export const tokenAPICredentialValidator = [
 ];
 
 export const loginWithGitHubValidator = [
-    body('code').isString().notEmpty().withMessage('Acess Code is invalid.'),
+    body('code').isString().notEmpty().withMessage('Invalid Github Auth Code.'),
     validatorErrorHandler,
 ];
