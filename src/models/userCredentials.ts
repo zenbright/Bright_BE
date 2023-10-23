@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const userCredentialSchema = new mongoose.Schema({
-    username: {
+    account: {
         type: String,
         unique: true,
         required: true
@@ -18,8 +18,13 @@ const userCredentialSchema = new mongoose.Schema({
     userId: mongoose.Schema.Types.ObjectId,
     refreshToken: String,
     refreshTokenExpires: Date,
+    provider: {
+        type: String,
+        enum: ["github", "google", "this"],
+        default: "github",
+    },
 }, {
     timestamps: true,
 });
 
-export default mongoose.model("Credentials", userCredentialSchema);
+export default mongoose.model("credentials", userCredentialSchema);

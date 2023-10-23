@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
 
 // import app from './app';
 import app from '../src/app';
-import { PORT_SERVER, CORS_OPTIONS } from './config';
+import { PORT_SERVER, CORS_OPTIONS, MONGO_URI, DB_NAME } from './config';
 import logger from './logger';
 
 dotenv.config();
@@ -15,6 +15,17 @@ app.enable('trust proxy');
 app.use(cors(CORS_OPTIONS));
 
 app.use(compression());
+
+// MongoDB Connection
+mongoose.set('strictQuery', false);
+mongoose.connect(MONGO_URI).then(async (data) => {
+    logger.info(`Mongodb connected ${MONGO_URI} : ${DB_NAME}`);
+})
+    .catch((error) => {
+        console.log(error);
+        logger.error('Please make sure Mongodb is installed and running!');
+        process.exit(1);
+    });
 
 app.listen(PORT_SERVER, () => {
     // ? Logging restart service

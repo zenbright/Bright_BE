@@ -30,7 +30,11 @@ For more information and to understand why most TypeScript npm modules start wit
 - `USERNAME_API_DOCS`
 - ` `
 - `DEFAULT_LANGUAGE`
-
+- `GITHUB_CLIENT`
+- `GITHUB_SECRET`
+- `MONGO_URI`
+- `DB_NAME`
+  
 ## To run the server
 
 1. **Redis**: If you don't have Redis installed, you can download and install it from the [official Redis website](https://redis.io/download/). You can start the Redis server using the following command: `redis-server`

@@ -1,4 +1,7 @@
 import axios from 'axios';
+import userCredentials from '../../../models/userCredentials';
+import userInfo from '../../../models/userInfo';
+import mongoose from 'mongoose';
 
 export async function loginWithGitHub(req: any, res: any) {
     try {
@@ -20,9 +23,45 @@ export async function loginWithGitHub(req: any, res: any) {
             },
         });
 
+        // get data from github
         const userData = userResponse.data;
 
-        res.json(userData);
+        if (!userData) {
+            return res.status(400).json({ error: 'Invalid Access Token!' });
+        }
+
+        // Check if user already exists in database
+        const userCred = await userCredentials.findOne({ account: userData.login });
+
+        // If user cred found
+        if (userCred) {
+            const userDataMongo = await userInfo.findOne({ _id: userCred.userId });
+            return res.json(userDataMongo);
+        }
+
+        const newUserInfo = new userInfo({
+            fullname: userData.name,
+            email: {
+                address: userData.email,
+                isVerified: userData.email ? true : false,
+            },
+            social: {
+                github: userData.html_url,
+            },
+            profileImage: userData.avatar_url,
+            userCredentialId: new mongoose.Types.ObjectId(),
+        });
+
+        // Create new credential
+        const newCredential = new userCredentials({
+            account: userData.login,
+            password: userData.login,
+            userId: newUserInfo._id,
+            provider: 'github',
+        });
+
+        await Promise.all([newUserInfo.save(), newCredential.save()]);
+        return res.json(newUserInfo);
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Internal Server Error' });
