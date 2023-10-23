@@ -2,6 +2,7 @@ import axios from 'axios';
 import userCredentials from '../../../models/userCredentials';
 import userInfo from '../../../models/userInfo';
 import mongoose from 'mongoose';
+import * as Formatter from '../../utils/formatter';
 
 export async function loginWithGitHub(req: any, res: any) {
     try {
@@ -48,7 +49,7 @@ export async function loginWithGitHub(req: any, res: any) {
             social: {
                 github: userData.html_url,
             },
-            profileImage: userData.avatar_url,
+            profileImage: await Formatter.imageToBase64FromURL(userData.avatar_url),
             userCredentialId: new mongoose.Types.ObjectId(),
         });
 
