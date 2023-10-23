@@ -5,6 +5,7 @@ import compression from 'compression';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
 import basicAuth from 'express-basic-auth';
+import redisClient from './service/redis/redisConfig';
 import ResponseHandler from './service/utils/responseHandler';
 import swaggerJSDoc from './swagger';
 import swaggerUI from 'swagger-ui-express';
@@ -21,7 +22,7 @@ else {
     app.use(morgan(MORGAN_FORMAT, { skip: (req, res) => res.statusCode < 400, stream: process.stderr }));
     app.use(morgan(MORGAN_FORMAT, { skip: (req, res) => res.statusCode >= 400, stream: process.stdout }));
 }
-// redisClient.connect();
+redisClient.connect();
 // Enable CORS
 app.use(cors(CORS_OPTIONS));
 // Enable basic authentication for API docs

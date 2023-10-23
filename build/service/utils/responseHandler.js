@@ -1,7 +1,4 @@
 import { NODE_ENV } from "../../config";
-/**
- * Response handler to client
- */
 export default class ResponseHandler {
     constructor(res) {
         this.res = res;
