@@ -80,7 +80,7 @@ app.use((req, res: any, next) => {
 });
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'src/index.html'));
+    res.sendFile(path.join(__dirname, 'src/service/authentication/github/index.html'));
 });
 
 // Handle Errors
