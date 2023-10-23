@@ -4,5 +4,4 @@ logs
 **/logs
 logs/
 ACCESSTOKEN.pem
-logs
 build
