@@ -3,11 +3,9 @@ import mongoose from "mongoose";
 const userInfoSchema = new mongoose.Schema({
 	fullname: {
 		type: String,
-		required: true
 	},
 	dayOfBirth: {
 		type: Date,
-		required: true
 	},
 	email: {
 		address: String,
@@ -18,11 +16,15 @@ const userInfoSchema = new mongoose.Schema({
 	},
 	gender: {
 		type: String,
-		required: true
 	},
 	address: {
 		type: String,
-		required: true
+	},
+	social: {
+		facebook: String,
+		twitter: String,
+		instagram: String,
+		github: String,
 	},
 	profileImage: String,
 	userCredentialId: mongoose.Schema.Types.ObjectId,
@@ -30,4 +32,4 @@ const userInfoSchema = new mongoose.Schema({
 	timestamps: true,
 });
 
-export default mongoose.model('User', userInfoSchema);
+export default mongoose.model('user', userInfoSchema);
