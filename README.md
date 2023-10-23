@@ -32,6 +32,8 @@ For more information and to understand why most TypeScript npm modules start wit
 - `DEFAULT_LANGUAGE`
 - `GITHUB_CLIENT`
 - `GITHUB_SECRET`
+- `MONGO_URI`
+- `DB_NAME`
   
 ## To run the server
 
