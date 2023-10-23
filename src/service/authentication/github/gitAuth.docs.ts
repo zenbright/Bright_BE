@@ -27,9 +27,4 @@
  *         schema:
  *           type: string
  *           example: "Internal server error"
- *       502:
- *         description: When got too many requests
- *         schema:
- *           type: string
- *           example: "Too many requests"
  */

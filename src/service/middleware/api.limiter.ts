@@ -27,7 +27,8 @@ export function checkIpSpamServer(endpoint = '') {
 
             if (numRequest > RATE_LIMIT.requestsPerSecond) {
                 console.log('IP Spam detected:', { access: false, message: ERROR_CODE.RATELIMITED });
-                return next(new APIError(500, { access: false, message: ERROR_CODE.RATELIMITED }));
+
+                return next(new APIError(502, { access: false, message: ERROR_CODE.RATELIMITED }));
             }
 
             // Continue to the next middleware or route

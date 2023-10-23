@@ -13,6 +13,7 @@ import swaggerUI from 'swagger-ui-express';
 import { ROUTE_ENDPOINT } from './config';
 import endpoint from './endpoints';
 import path from 'path';
+import errorResponseHandler from './service/utils/errorResponseHandler';
 
 const __dirname = path.resolve();
 
@@ -81,5 +82,8 @@ app.use((req, res: any, next) => {
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'src/index.html'));
 });
+
+// Handle Errors
+app.use(errorResponseHandler);
 
 export default app;
