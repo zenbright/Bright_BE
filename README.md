@@ -28,7 +28,7 @@ For more information and to understand why most TypeScript npm modules start wit
 - `BRIGHT_URL`
 - `API_VERSION`
 - `USERNAME_API_DOCS`
-- `PASSWORD_API_DOCS`
+- ` `
 - `DEFAULT_LANGUAGE`
 
 ## To run the server

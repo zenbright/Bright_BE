@@ -25,19 +25,19 @@ export function checkIpSpamServer(endpoint = '') {
         try {
             const ipUser = yield getIpUser(req);
             const keyRequest = `${ipUser}-${endpoint}`;
-            // Increment the request count in Redis
             const numRequest = yield redisClient.incr(keyRequest);
-            // Expire the key after 3 seconds
             if (numRequest === 1) {
                 yield redisClient.expire(keyRequest, RATE_LIMIT.seconds);
             }
             if (numRequest > RATE_LIMIT.requestsPerSecond) {
-                console.log('ERROR: ', { access: false, message: ERROR_CODE.RATELIMITED });
+                console.log('IP Spam detected:', { access: false, message: ERROR_CODE.RATELIMITED });
                 return next(new APIError(502, { access: false, message: ERROR_CODE.RATELIMITED }));
             }
+            // Continue to the next middleware or route
             return next();
         }
         catch (error) {
+            console.error('Error in IP spam checking middleware:', error);
             return next(new APIError(502, { access: false, message: ERROR_CODE.RATELIMITED }));
         }
     });
