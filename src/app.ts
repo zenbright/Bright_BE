@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 import express from 'express';
+import session from 'express-session';
 import cors from 'cors';
 import compression from 'compression';
 import bodyParser from 'body-parser';
@@ -12,10 +13,11 @@ import swaggerJSDoc from './swagger';
 import swaggerUI from 'swagger-ui-express';
 import { ROUTE_ENDPOINT } from './config';
 import endpoint from './endpoints';
+import router from './endpoints';
 import path from 'path';
 import errorResponseHandler from './service/utils/errorResponseHandler';
-import "./configs/googlePassport";
 import passport from "passport";
+import('./service/authentication/google/googlePassport')
 
 
 const __dirname = path.resolve();
@@ -66,6 +68,13 @@ app.use(compression());
 app.use(bodyParser.json({ limit: '20mb' }));
 app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }));
 app.use('/assets', express.static('assets'));
+
+app.use(session({
+    secret: 'my secret',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {secure: false}
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -76,6 +85,7 @@ app.get(`${ROUTE_ENDPOINT.BASE_URL_V1}${ROUTE_ENDPOINT.PING}`, (req, res) => {
     });
 });
 
+//app.use(endpoint)
 app.use(ROUTE_ENDPOINT.BASE_URL_V1, endpoint);
 
 // Handle Response
@@ -87,8 +97,12 @@ app.use((req, res: any, next) => {
 });
 
 app.get('/', (req, res) => {
+    
     res.sendFile(path.join(__dirname, 'src/service/authentication/github/index.html'));
+    //res.sendFile(path.join(__dirname, 'src/service/authentication/google/index.html'));
 });
+
+app.use(router);
 
 // Handle Errors
 app.use(errorResponseHandler);
