@@ -14,6 +14,9 @@ import { ROUTE_ENDPOINT } from './config';
 import endpoint from './endpoints';
 import path from 'path';
 import errorResponseHandler from './service/utils/errorResponseHandler';
+import "./configs/googlePassport";
+import passport from "passport";
+
 
 const __dirname = path.resolve();
 
@@ -28,6 +31,8 @@ import {
 } from './config';
 
 const app = express();
+
+app.set("view engine", "ejs");
 
 // Set up logging middleware
 if (['development', 'local', 'production'].includes(NODE_ENV)) {
@@ -61,6 +66,8 @@ app.use(compression());
 app.use(bodyParser.json({ limit: '20mb' }));
 app.use(bodyParser.urlencoded({ limit: '20mb', extended: false }));
 app.use('/assets', express.static('assets'));
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.get(`${ROUTE_ENDPOINT.BASE_URL_V1}${ROUTE_ENDPOINT.PING}`, (req, res) => {
     res.json({

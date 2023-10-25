@@ -21,4 +21,9 @@
   "include": [
     "src/**/*"
   ], // Các file dùng để defined global type cho dự án
+  "typeRoots": [
+    "./src/typing",
+    "./node_modules/@types"
+  ],
+  
 }
