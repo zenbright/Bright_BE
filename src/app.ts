@@ -40,7 +40,7 @@ if (['development', 'local', 'production'].includes(NODE_ENV)) {
 }
 
 // Connect to Redis
-redisClient.connect();
+// redisClient.connect();
 
 // Enable CORS
 app.use(cors(CORS_OPTIONS));
