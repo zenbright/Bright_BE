@@ -34,8 +34,6 @@ import {
 
 const app = express();
 
-app.set("view engine", "ejs");
-
 // Set up logging middleware
 if (['development', 'local', 'production'].includes(NODE_ENV)) {
     const morganStream = (statusCode: any) => (req: any, res: any) => !req.originalUrl.includes('api-docs') && res.statusCode >= statusCode;
@@ -96,9 +94,12 @@ app.use((req, res: any, next) => {
     next();
 });
 
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "./src/views"));
+
 app.get('/', (req, res) => {
-    
-    res.sendFile(path.join(__dirname, 'src/service/authentication/github/index.html'));
+    res.render("home", { user: req.user });
+    //res.sendFile(path.join(__dirname, 'src/service/authentication/github/index.html'));
     //res.sendFile(path.join(__dirname, 'src/service/authentication/google/index.html'));
 });
 

@@ -62,7 +62,7 @@ export async function loginWithGitHub(req: any, res: any) {
         });
 
         await Promise.all([newUserInfo.save(), newCredential.save()]);
-        return res.json(newUserInfo);
+        return res.json(userData);
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Internal Server Error' });

@@ -5,7 +5,6 @@ import googleprofileRoutes from "./service/authentication/google/googleProfileAu
 const router = Router();
 
 router.use('/auth', [GitAuthRoute, GoogleAuthRoute]);
-
-// router.use('/profile', [googleprofileRoutes]);
+router.use('/profile', [googleprofileRoutes]);
 
 export default router;

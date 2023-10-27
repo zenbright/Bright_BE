@@ -18,27 +18,24 @@ passport.use('google',
       callbackURL: "http://127.0.0.1:4000/auth/google/redirect",
       //passReqToCallback: true,
     },
-    (accessToken, refreshToken, profile, done) => {
-      return done(null, profile);
+    async (accessToken, refreshToken, profile, done) => {
+      const user = await User.findOne({ googleId: profile.id });
+      
+      // If user doesn't exist creates a new user. (similar to sign up)
+      if (!user) {
+        const newUser = await User.create({
+          googleId: profile.id,
+          name: profile.displayName,
+          email: profile.emails?.[0].value,
+          // we are using optional chaining because profile.emails may be undefined.
+        });
+        if (newUser) {
+          done(null, newUser);
+        }
+      } else {
+        done(null, user);
+      }
     }
-    // async (accessToken, refreshToken, profile, done) => {
-    //   const user = await User.findOne({ googleId: profile.id });
-
-    //   // If user doesn't exist creates a new user. (similar to sign up)
-    //   if (!user) {
-    //     const newUser = await User.create({
-    //       googleId: profile.id,
-    //       name: profile.displayName,
-    //       email: profile.emails?.[0].value,
-    //       // we are using optional chaining because profile.emails may be undefined.
-    //     });
-    //     if (newUser) {
-    //       done(null, newUser);
-    //     }
-    //   } else {
-    //     done(null, user);
-    //   }
-    // }
   )
 );
 
