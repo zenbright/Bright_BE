@@ -25,7 +25,7 @@ export async function loginWithGitHub(req: any, res: any) {
         });
 
         // get data from github
-        const userData = userResponse.data;
+        const userData = userResponse.data
 
         if (!userData) {
             return res.status(400).json({ error: 'Invalid Access Token!' });

@@ -98,8 +98,8 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "./src/views"));
 
 app.get('/', (req, res) => {
-    res.render("home", { user: req.user });
-    //res.sendFile(path.join(__dirname, 'src/service/authentication/github/index.html'));
+    //res.render("home", { user: req.user });
+    res.sendFile(path.join(__dirname, 'src/service/authentication/github/index.html'));
     //res.sendFile(path.join(__dirname, 'src/service/authentication/google/index.html'));
 });
 
