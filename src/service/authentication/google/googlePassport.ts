@@ -24,7 +24,7 @@ passport.use('google',
     async (accessToken, refreshToken , profile, done) => {
       try{
         const userCred = await userCredentials.findOne({ account: profile.id });
-        //.cookie("accessToken", accessToken, { httpOnly: true, secure: true, maxAge: 3600000 });
+
         // If user doesn't exist creates a new user. (similar to sign up)
         if(userCred) {
           const userDataMongo = await userInfo.findOne({ _id: userCred.userId });
@@ -32,7 +32,6 @@ passport.use('google',
             return done(null, userDataMongo);
           } else {
             // Handle the case where userInfo.findOne returned null
-            // You can return an appropriate response or handle the error here.
             return done(new Error('User data not found'));
           }
         }
