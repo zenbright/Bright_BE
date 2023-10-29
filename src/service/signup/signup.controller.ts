@@ -1,6 +1,5 @@
-import * as SignUpService from './signup.service';
+import * as SignUpService from "./signup.service";
 
-
-export async function signup(req: any, res: any) {
-    SignUpService.signup(req, res);
+export async function signupController(req: any, res: any) {
+  SignUpService.signupService(req, res);
 }

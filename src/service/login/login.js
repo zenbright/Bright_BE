@@ -19,7 +19,6 @@ document.addEventListener("DOMContentLoaded", function () {
       });
 
       if (response.ok) {
-        console.log("Success in login.js");
       } else if (response.status === 404) {
         console.log("User does not exist..!");
       } else {

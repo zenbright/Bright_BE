@@ -3,7 +3,7 @@ import userCredentials from "../../models/userCredentials";
 import userInfo from "../../models/userInfo";
 import * as Formatter from "../utils/formatter";
 
-export async function signup(req: any, res: any) {
+export async function signupService(req: any, res: any) {
   try {
     const userData = req.body;
 

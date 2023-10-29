@@ -12,24 +12,34 @@ export async function loginService(req: any, res: any) {
     }
 
     // Check if user already exists in the database
-    console.log("Before finding userCredentials");
-    const userCred = await userCredentials.findOne({ account: userData.login });
-    console.log("After finding userCredentials");
+    const userCred = await userCredentials.findOne({
+      account: userData.username,
+    });
 
     if (userCred) {
-      console.log("User credentials found. Before finding userInfo.");
+      // User credentials found. Now find userInfo.
       const userDataMongo = await userInfo.findOne({ _id: userCred.userId });
-      console.log("After finding userInfo");
-      // TODO: compare email / password
-      return res.json(userDataMongo);
+
+      if (userDataMongo) {
+        // User account found, return user data.
+        return res.json(userDataMongo);
+      } else {
+        // User data not found, handle the error.
+        res.status(404).json({
+          message: "User data not found.",
+        });
+      }
     } else {
-      console.log("User credentials not found.");
+      // User credentials not found.
       res.status(404).json({
-        message: "User does not exist..!",
+        message: "User credentials not found.",
       });
     }
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
+    // Handle any errors that may occur during the database query or fetch request.
+    console.error("Error:", error);
+    res.status(500).json({
+      message: "Internal Server Error",
+    });
   }
 }

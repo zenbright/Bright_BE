@@ -105,19 +105,23 @@ app.get("/", (req, res) => {
   );
 });
 
+// Log In 
 app.get("/login", (req, res) => {
   res.sendFile(path.join(__dirname, "src/service/login/index.html"));
 });
-
 app.get("/login.js", (req, res) => {
   res.sendFile(path.join(__dirname, "src/service/login/login.js"));
 });
-
 app.post("/login/post", loginController);
 
+// Sign Up 
 app.get("/signup", (req, res) => {
   res.sendFile(path.join(__dirname, "src/service/signup/index.html"));
 });
+app.get("/signup.js", (req, res) => {
+  res.sendFile(path.join(__dirname, "src/service/signup/signup.js"));
+});
+app.post("/signup/post", loginController);
 
 // Handle Errors
 app.use(errorResponseHandler);
