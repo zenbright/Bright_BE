@@ -15,6 +15,7 @@ import endpoint from "./endpoints";
 import path from "path";
 import errorResponseHandler from "./service/utils/errorResponseHandler";
 import { loginController } from "./service/login/login.controller";
+import { signupController } from "./service/signup/signup.controller";
 
 const __dirname = path.resolve();
 
@@ -121,7 +122,7 @@ app.get("/signup", (req, res) => {
 app.get("/signup.js", (req, res) => {
   res.sendFile(path.join(__dirname, "src/service/signup/signup.js"));
 });
-app.post("/signup/post", loginController);
+app.post("/signup/post", signupController);
 
 // Handle Errors
 app.use(errorResponseHandler);
