@@ -65,12 +65,5 @@ export async function loginWithGitHub(req: any, res: any, next: any) {
         return res.json(newUserInfo);
     } catch (error) {
         next(error);
-        // let errorMessage = 'An error occurred'; // Default message
-
-        // if (error instanceof Error) {
-        //     errorMessage = error.message + ": " + error.name;
-        // }
-
-        // res.status(500).json({ error: errorMessage });
     }
 }
