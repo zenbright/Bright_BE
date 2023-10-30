@@ -4,7 +4,7 @@ import userInfo from '../../../models/userInfo';
 import mongoose from 'mongoose';
 import * as Formatter from '../../utils/formatter';
 
-export async function loginWithGitHub(req: any, res: any) {
+export async function loginWithGitHub(req: any, res: any, next: any) {
     try {
         const { code } = req.body;
         const { GITHUB_ID, GITHUB_SECRET } = process.env;
@@ -64,7 +64,13 @@ export async function loginWithGitHub(req: any, res: any) {
         await Promise.all([newUserInfo.save(), newCredential.save()]);
         return res.json(newUserInfo);
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Internal Server Error' });
+        next(error);
+        // let errorMessage = 'An error occurred'; // Default message
+
+        // if (error instanceof Error) {
+        //     errorMessage = error.message + ": " + error.name;
+        // }
+
+        // res.status(500).json({ error: errorMessage });
     }
 }
