@@ -10,7 +10,7 @@ router.post('/git',
     IPSpamChecker.checkIpSpamServer('/auth/git'), // Check IP spam
     APIValidator.loginWithGitHubValidator, // Validate request body
     gitAuthController.loginWithGitHub, // Handle request
-    ErrorHandler // Handle error response
+    // ErrorHandler // Handle error response
 );
 
 export default router;
