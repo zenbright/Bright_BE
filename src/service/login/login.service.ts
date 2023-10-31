@@ -13,7 +13,7 @@ export async function loginService(req: any, res: any) {
 
     // Check if user already exists in the database
     const userCred = await userCredentials.findOne({
-      account: userData.username,
+      account: userData.account,
     });
 
     if (userCred) {
