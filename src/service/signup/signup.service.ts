@@ -1,16 +1,14 @@
 import mongoose from "mongoose";
 import userCredentials from "../../models/userCredentials";
 import userInfo from "../../models/userInfo";
-import * as Formatter from "../utils/formatter";
+// import * as Formatter from "../utils/formatter";
 
 export async function signupService(req: any, res: any) {
   try {
     const userData = req.body;
 
-    console.log("Received userData:", userData);
-
     if (!userData) {
-      return res.status(400).json({ error: "Invalid Access Token!" });
+      return res.status(400).json({ error: "Invalid Access Token!" }); 
     } else {
       const existingUser = await userCredentials.findOne({
         account: userData.fullname,
@@ -20,6 +18,14 @@ export async function signupService(req: any, res: any) {
         return res.status(400).json({ message: "User already exists" });
       }
     }
+
+    // Create new credential
+    const newCredential = new userCredentials({
+      account: userData.account,
+      password: userData.password,
+      userId: new mongoose.Types.ObjectId(),
+      provider: "this",
+    });
 
     // Create new user information
     const newUserInfo = new userInfo({
@@ -31,19 +37,9 @@ export async function signupService(req: any, res: any) {
       },
       gender: userData.gender,
       address: userData.address,
-      // social: {
-      //   github: userData.html_url,
-      // },
+      social: userData.social,
       // profileImage: await Formatter.imageToBase64FromURL(userData.avatar_url),
-      userCredentialId: new mongoose.Types.ObjectId(),
-    });
-
-    // Create new credential
-    const newCredential = new userCredentials({
-      account: userData.email,
-      password: userData.password,
-      userId: newUserInfo._id,
-      provider: "this",
+      userCredentialId: newCredential._id,
     });
 
     await Promise.all([newUserInfo.save(), newCredential.save()]);

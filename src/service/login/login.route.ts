@@ -1,13 +1,15 @@
+import { Router } from "express";
 import * as logInController from "./login.controller";
+import * as IPSpamChecker from "../middleware/api.limiter";
+import * as APIValidator from "../middleware/api.validator";
 
-var express = require("express");
-var app = express();
+const router = Router();
 
-app.post(
-  "/login/post",
-  //   IPSpamChecker.checkIpSpamServer("/auth/login"), // Check IP spam
-  // TODO: Validate request body
-  logInController.loginController, 
+router.post(
+  "/Bright/login",
+  IPSpamChecker.checkIpSpamServer("/auth/Bright/login"), // Check IP spam
+  APIValidator.generalAccountValidator, // Validate request body
+  logInController.loginController,
 );
 
-export default app;
+export default router;
