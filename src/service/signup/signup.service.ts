@@ -19,6 +19,8 @@ export async function signupService(req: any, res: any) {
       }
     }
 
+    // TODO: (Optional) Password regex
+
     // Create new credential
     const newCredential = new userCredentials({
       account: userData.account,
