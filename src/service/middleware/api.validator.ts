@@ -1,5 +1,6 @@
-import { body } from 'express-validator';
+import { body, param } from 'express-validator';
 import validatorErrorHandler from '../utils/validatorErrorHandler';
+import { AUTH_ACTION } from '../utils/constants';
 
 export const tokenAPICredentialValidator = [
     body('token').isString().notEmpty().withMessage('Token API is invalid.'),
@@ -12,6 +13,6 @@ export const loginWithGitHubValidator = [
 ];
 
 export const generalAccountValidator = [
-    body('code').isString().notEmpty().withMessage('Invalid Account Code.'),
-    validatorErrorHandler,
+    param('action').isIn(Object.values(AUTH_ACTION)).withMessage('action invalid!'),
+    validatorErrorHandler
 ];

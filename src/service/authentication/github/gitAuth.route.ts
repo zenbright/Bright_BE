@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import * as gitAuthController from './gitAuth.controller';
-import { IPSpamChecker, APIValidator } from '../../middleware';
+import { IPSpamChecker, APIValidator } from '../../..';
 
 const router = Router();
 

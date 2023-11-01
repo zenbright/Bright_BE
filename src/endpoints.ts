@@ -1,9 +1,9 @@
 import { Router } from 'express';
 import GitAuthRoute from './service/authentication/github/gitAuth.route';
-import LogInRoute from './service/login/login.route';
-import SignInRoute from './service/signup/signup.route';
+import BrightAuthRoute from './service/authentication/bright/brightAuth.route';
+
 const router = Router();
 
-router.use('/auth', [GitAuthRoute, LogInRoute, SignInRoute]);
+router.use('/auth', [GitAuthRoute, BrightAuthRoute]);
 
 export default router;
