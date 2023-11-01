@@ -4,8 +4,6 @@ import LogInRoute from './service/login/login.route';
 import SignInRoute from './service/signup/signup.route';
 const router = Router();
 
-router.use('/auth', [GitAuthRoute]);
-router.use('/auth', [LogInRoute]);
-router.use('/auth', [SignInRoute]);
+router.use('/auth', [GitAuthRoute, LogInRoute, SignInRoute]);
 
 export default router;
