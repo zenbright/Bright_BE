@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /auth/Bright/signup:
+ * /auth/bright/signup:
  *   post:
  *     summary: General Sign Up
  *     tags:
@@ -11,8 +11,13 @@
  *         required: true
  *         schema:
  *           type: object
- *           example:
- *             code: ""
+ *           example: {
+ *             account: 'account',
+ *             password: 'password',
+ *             fullName: 'Quoc',
+ *             email: 'quoc@gmail.com',
+ *             dateOfBirth: 07/06/2003
+ *           }
  *     responses:
  *       200:
  *         description: General Sign Up success

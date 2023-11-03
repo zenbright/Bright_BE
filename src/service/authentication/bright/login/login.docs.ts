@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /auth/Bright/login:
+ * /auth/bright/login:
  *   post:
  *      summary: General Log In
  *      tags:
@@ -11,7 +11,8 @@
  *         required: true
  *         properties:
  *         example: {
- *           "code": ""
+ *           "account": "",
+ *           "password": "",
  *         }
  *      responses:
  *       200:

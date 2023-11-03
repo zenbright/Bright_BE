@@ -25,7 +25,7 @@ const apiFiles = [
     'src/service/**/*.route.ts',
     'src/service/**/*.docs.ts',
     'src/service/**/*.model.ts',
-    'src/api/validatorErrorHandler.ts',
+    'src/service/utils/validatorErrorHandler.ts',
 ];
 
 const options = {
