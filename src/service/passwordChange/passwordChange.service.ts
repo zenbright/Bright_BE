@@ -4,8 +4,10 @@ export async function passwordChangeService(req: any, res: any) {
   try {
     const newCredentialData = req.body;
 
+    console.log("newCredentialData: " + newCredentialData);
+
     if (!newCredentialData) {
-      return res.status(400).json({ error: "Invalid Access Token!" });
+      return res.status(400).json({ error: "Invalid or missing data." });
     }
 
     // Find the existing credential with account
@@ -17,18 +19,11 @@ export async function passwordChangeService(req: any, res: any) {
       return res.status(404).json({ error: "User account not found." });
     } else {
       // TODO: (Optional) Password regex
-      // Create new credential with the new password
-      const newCredential = new userCredentials({
-        account: newCredentialData.account,
-        password: newCredentialData.newPassword,
-        userId: userCred.userId,
-        provider: userCred.provider,
-      });
+      // Update the password field of the existing credential
+      userCred.password = newCredentialData.newPassword;
 
-      await newCredential.save();
-      return res
-        .status(200)
-        .json({ message: "New account data saved successfully" });
+      await userCred.save();
+      return res.status(200).json({ message: "Password updated successfully" });
     }
   } catch (error) {
     console.error("Error:", error);

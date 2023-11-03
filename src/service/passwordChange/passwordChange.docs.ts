@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /auth/Bright/passwordChange:
+ * /auth/bright/passwordChange:
  *   put:
  *      summary: General Account Password Change
  *      tags:
@@ -11,7 +11,8 @@
  *         required: true
  *         properties:
  *         example: {
- *           "code": ""
+ *           "account": "account",
+ *           "newPassword": "newPassword",
  *         }
  *      responses:
  *       200:
@@ -22,6 +23,11 @@
  *             success: true,
  *             payload: "Access token",
  *           }
+ *       404:
+ *          description: When the user account not found
+ *          schema:
+ *           type: string
+ *           example: "User account not found"
  *       500:
  *         description: When got server exception
  *         schema:
