@@ -16,3 +16,8 @@ export const generalAccountValidator = [
     param('action').isIn(Object.values(AUTH_ACTION)).withMessage('action invalid!'),
     validatorErrorHandler
 ];
+
+export const brightAccountValidator = [
+    body("account").isString().notEmpty().withMessage("Invalid account."),
+    validatorErrorHandler,
+  ];
