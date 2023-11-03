@@ -18,6 +18,7 @@ export async function passwordChangeService(req: any, res: any) {
     if (!userCred) {
       return res.status(404).json({ error: "User account not found." });
     } else {
+      console.log("found credential");
       // TODO: (Optional) Password regex
       // Update the password field of the existing credential
       userCred.password = newCredentialData.newPassword;
