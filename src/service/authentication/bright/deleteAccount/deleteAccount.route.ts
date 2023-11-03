@@ -5,7 +5,7 @@ import * as APIValidator from "src/service/middleware/api.validator";
 
 const router = Router();
 
-router.put(
+router.post(
   "/bright/deleteAccount",
   IPSpamChecker.checkIpSpamServer("/auth/bright"), // Check IP spam
   APIValidator.brightAccountValidator,
