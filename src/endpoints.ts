@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import GitAuthRoute from './service/authentication/github/gitAuth.route';
 import BrightAuthRoute from './service/authentication/bright/brightAuth.route';
-import DeleteAccountRoute from './service/authentication/bright/brightAuth.route';
+import DeleteAccountRoute from './service/authentication/bright/deleteAccount/deleteAccount.route';
 
 const router = Router();
 

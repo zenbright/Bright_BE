@@ -9,11 +9,10 @@
  *       - name: body
  *         in: body
  *         required: true
- *         schema:
- *           type: object
- *           example: {
- *             account: 'account',
- *           }
+ *         properties:
+ *         example: {
+ *           "account": "account",
+ *         }
  *     responses:
  *       200:
  *         description: Delete account success

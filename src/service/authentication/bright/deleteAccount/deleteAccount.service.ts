@@ -1,5 +1,5 @@
-import userCredentials from "src/models/userCredentials";
-import userInformation from "src/models/userInfo";
+import userCredentials from "../../../../models/userCredentials";
+import userInformation from "../../../../models/userInfo";
 
 export async function deleteAccountService(req: any, res: any) {
   try {

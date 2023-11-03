@@ -1,13 +1,13 @@
 import { Router } from "express";
 import * as deleteAccountController from "./deleteAccount.controller";
-import * as IPSpamChecker from "src/service/middleware/api.limiter";
-import * as APIValidator from "src/service/middleware/api.validator";
+import * as IPSpamChecker from "../../../middleware/api.limiter";
+import * as APIValidator from "../../../middleware/api.validator";
 
 const router = Router();
 
 router.post(
   "/bright/deleteAccount",
-  IPSpamChecker.checkIpSpamServer("/auth/bright"), // Check IP spam
+  IPSpamChecker.checkIpSpamServer("/auth/bright"), 
   APIValidator.brightAccountValidator,
   deleteAccountController.deleteAccountController,
 );
