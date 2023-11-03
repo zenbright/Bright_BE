@@ -5,9 +5,10 @@ import * as APIValidator from "../../../middleware/api.validator";
 
 const router = Router();
 
+// If it's "/bright/deleteAccount", then it goes to /bright/:action since both are post
 router.post(
-  "/bright/deleteAccount",
-  IPSpamChecker.checkIpSpamServer("/auth/bright"), 
+  "/deleteAccount",
+  IPSpamChecker.checkIpSpamServer("/auth"), 
   APIValidator.brightAccountValidator,
   deleteAccountController.deleteAccountController,
 );

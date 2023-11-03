@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /auth/bright/deleteAccount:
+ * /auth/deleteAccount:
  *   post:
  *     summary: Delete account
  *     tags:
