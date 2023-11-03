@@ -12,6 +12,8 @@
  *         schema:
  *           type: object
  *           example: {
+ *             account: 'account',
+ *             password: 'password',
  *             fullName: 'Quoc',
  *             email: 'quoc@gmail.com',
  *             dateOfBirth: 07/06/2003
