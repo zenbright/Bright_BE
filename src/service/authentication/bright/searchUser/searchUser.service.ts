@@ -22,7 +22,12 @@ export async function searchUserService(req: any, res: any, next: any) {
 
       if (userInfo) {
         if (userInfo.fullname == fullname) {
-          return res.json(userInfo, userCred); // return userInfo and userCredentials
+          //return both userInfo and userCred
+          const userData = {
+            userInfo: userInfo,
+            userCred: userCred
+        };
+        return res.json(userData);
         } else {
           res.status(400).json({
             message: "Invalid User Fullname.",
