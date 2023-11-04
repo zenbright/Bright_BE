@@ -30,7 +30,7 @@ export async function signUpBrigthAccount(req: any, res: any, next: any) {
     // Create new user information
     const newUserInfo = new userInfo({
       fullname: userData.fullname || userData.account,
-      dateOfBirth: userData.dateOfBirth || new Date(),
+      dayOfBirth: userData.dayOfBirth || new Date(),
       email: {
         address: userData.email || '',
         isVerified: false,
@@ -45,7 +45,14 @@ export async function signUpBrigthAccount(req: any, res: any, next: any) {
     newCredential.userId = newUserInfo._id;
 
     await Promise.all([newUserInfo.save(), newCredential.save()]);
-    return res.status(200).json({ message: "Create new user successfully" });
+    // return res.status(200).json({ message: "Create new user successfully" });
+    const responsePayload = {
+      newCredentials: newCredential,
+      newInfo: newUserInfo,
+      message: "Create new user successfully"
+  };
+
+  return res.status(200).json(responsePayload);
   } catch (error) {
     next(error);
   }
