@@ -45,14 +45,7 @@ export async function signUpBrigthAccount(req: any, res: any, next: any) {
     newCredential.userId = newUserInfo._id;
 
     await Promise.all([newUserInfo.save(), newCredential.save()]);
-    // return res.status(200).json({ message: "Create new user successfully" });
-    const responsePayload = {
-      newCredentials: newCredential,
-      newInfo: newUserInfo,
-      message: "Create new user successfully"
-  };
-
-  return res.status(200).json(responsePayload);
+    return res.status(200).json({ message: "Create new user successfully" });
   } catch (error) {
     next(error);
   }
