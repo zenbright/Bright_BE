@@ -24,7 +24,3 @@ export const brightAccountValidator = [
   validatorErrorHandler,
 ];
 
-export const brightAccountValidator = [
-    body("account").isString().notEmpty().withMessage("Invalid account."),
-    validatorErrorHandler,
-];
