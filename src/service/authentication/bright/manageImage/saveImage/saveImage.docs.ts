@@ -11,8 +11,8 @@
  *         required: true
  *         properties:
  *         example: {
- *           "account": "",
- *           "password": "",
+ *           "userInfoId": "",
+ *           "imageFile": "",
  *         }
  *      responses:
  *       200:

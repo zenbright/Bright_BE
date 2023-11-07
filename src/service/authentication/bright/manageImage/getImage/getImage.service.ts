@@ -1,3 +1,4 @@
+import fs from "fs";
 import userInformation from "../../../../../models/userInfo";
 
 export async function getImageService(req: any, res: any, next: any) {
@@ -27,7 +28,24 @@ export async function getImageService(req: any, res: any, next: any) {
 }
 
 function convertBinaryToImage(binary: String | undefined) {
-  // Convert binary to base 64
-  // Convert the base64 to string (use toString())
-  // return that imagePath string
+  if (!binary) {
+    console.log("Binary data is missing.");
+    return;
+  }
+
+  // Convert binary to base64
+  const base64Data = Buffer.from(binary, "binary").toString("base64");
+
+  // Specify the image file path
+  const imagePath = "profile.jpg";
+
+  // Save the base64 data as an image file
+  fs.writeFile(imagePath, base64Data, { encoding: "base64" }, (error: any) => {
+    if (error) {
+      console.log("Error:", error);
+    } else {
+      console.log("File Created");
+      return imagePath;
+    }
+  });
 }

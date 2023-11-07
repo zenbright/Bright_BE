@@ -3,8 +3,8 @@ import fs from "fs";
 
 export async function saveImageService(req: any, res: any, next: any) {
   try {
-    const { imagePath, userInfoId } = req.body;
-    const base64Image = convertImageToBinary(imagePath);
+    const { imageFile, userInfoId } = req.body;
+    const base64Image = convertImageToBinary(imageFile);
 
     // Find the existing account with id
     const userInfo = await userInformation.findOne({
@@ -28,11 +28,22 @@ export async function saveImageService(req: any, res: any, next: any) {
   }
 }
 
-function convertImageToBinary(imagePath: any) {
+function convertImageToBinary(imageFile: any) {
   // Read the image file
-  const imageBuffer = fs.readFileSync(imagePath);
-  // Convert the image data to Base64 binary format
-  const base64Image = imageBuffer.toString("base64");
+  var reader = new FileReader();
+  reader.readAsDataURL(imageFile);
+  reader.onload = function () {
+    //me.modelvalue = reader.result;
+    console.log(reader.result);
+    return reader.result;
+  };
+  reader.onerror = function (error) {
+    console.log("Error: ", error);
+  };
+  return "";
 
-  return base64Image;
+  //   const imageBuffer = fs.readFileSync(imagePath);
+  // Convert the image data to Base64 binary format
+  //   const base64Image = imageBuffer.toString("base64");
+  //   return base64Image;
 }
