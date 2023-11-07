@@ -3,13 +3,21 @@ import userInformation from "../../../models/userInfo";
 
 export async function deleteAccountService(req: any, res: any, next: any) {
   try {
-    const { account, password } = req.body;
+    // the account is the login account of the user not the whole account
+    // For the validator of these two, we should leave them to the API Validator
+    // By entering this function, we can expect that we have all required information
+
+    // For this syntax, it is equals to the following
+    // const account = req.body.account;
+    // const provider = req.body.provider;
+    const { account, provider } = req.body;
 
     // Find the existing credential with account
+    // We need a field provider, since if user login with different provider, we cannot control their account, so there
+    // might be a duplicate credential between github, google and bright.
     const userCred = await userCredentials.findOne({
       account: account,
-      password: password,
-      provider: 'bright'
+      provider: provider
     });
 
     if (!userCred) {
@@ -32,6 +40,7 @@ export async function deleteAccountService(req: any, res: any, next: any) {
       }
     }
   } catch (error) {
+    // User next to trigger the error handler (Do not return the error here, the error at this point is different from the error handler we return above)
     next(error);
   }
 }

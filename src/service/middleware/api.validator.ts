@@ -19,9 +19,11 @@ export const loginWithBrightValidator = [
   validatorErrorHandler,
 ];
 
+
+// for this one, we should check for the corresponding body attribute
 export const userAccountDeleteValidator = [
   body("account").isString().notEmpty().withMessage("Missing Account Field."),
-  body("password").isString().notEmpty().withMessage("Missing Password Field."),
+  body("provider").isString().notEmpty().withMessage("Missing Password Field."),
   validatorErrorHandler,
 ];
 

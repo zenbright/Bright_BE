@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /auth/deleteAccount:
+ * /utils/user/deleteAccount:
  *   post:
  *     summary: Delete account
  *     tags:
@@ -12,6 +12,7 @@
  *         properties:
  *         example: {
  *           "account": "account",
+*            "provider": "bright",
  *         }
  *     responses:
  *       200:
@@ -20,7 +21,7 @@
  *           type: object
  *           example:
  *             success: true
- *             payload: "Access token"
+ *             payload: "Deleted Successfully"
  *       400:
  *         description: Invalid or missing account
  *         schema:
