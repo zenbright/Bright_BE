@@ -1,17 +1,19 @@
-import userCredentials from "../../models/userCredentials";
-import userInfo from "../../models/userInfo";
+import userCredentials from "../../../../models/userCredentials";
+import userInfo from "../../../../models/userInfo";
 
-export async function loginService(req: any, res: any) {
+export async function loginWithBright(req: any, res: any, next: any) {
   try {
-    const userData = req.body;
+    const { account, password } = req.body;
 
-    if (!userData) {
-      return res.status(400).json({ error: "Invalid Access Token!" });
+    if (!account || !password) {
+      return res.status(400).json({ error: "Invalid User Credentials!" });
     }
 
-    // Check if user already exists in the database
+    // Find user credentials
     const userCred = await userCredentials.findOne({
-      account: userData.account,
+      account: account,
+      password: password,
+      provider: 'bright'
     });
 
     if (userCred) {
@@ -30,9 +32,6 @@ export async function loginService(req: any, res: any) {
       });
     }
   } catch (error) {
-    console.error("Error:", error);
-    res.status(500).json({
-      message: "Internal Server Error",
-    });
+    next(error);
   }
 }

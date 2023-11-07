@@ -1,13 +1,7 @@
-import dotenv from "dotenv";
 import express from "express";
-import cors from "cors";
-import compression from "compression";
 import bodyParser from "body-parser";
 import morgan from "morgan";
 import basicAuth from "express-basic-auth";
-import logger from './logger';
-import mongoose from 'mongoose'; 
-import redisClient from "./service/redis/redisConfig";
 import ResponseHandler from "./service/utils/responseHandler";
 import swaggerJSDoc from "./swagger";
 import swaggerUI from "swagger-ui-express";
@@ -18,17 +12,11 @@ import errorResponseHandler from "./service/utils/errorResponseHandler";
 
 const __dirname = path.resolve();
 
-dotenv.config();
-
 import {
   MORGAN_FORMAT,
-  CORS_OPTIONS,
   USERNAME_API_DOCS,
   PASSWORD_API_DOCS,
   NODE_ENV,
-  PORT_SERVER,
-  MONGO_URI,
-  DB_NAME
 } from "./config";
 
 const app = express();
@@ -58,15 +46,6 @@ if (["development", "local", "production"].includes(NODE_ENV)) {
   );
 }
 
-// Connect to Redis
-redisClient.connect();
-
-// Enable CORS
-app.use(cors(CORS_OPTIONS));
-
-// Get access to user IP address
-app.enable('trust proxy');
-
 // Swagger APIs Docs
 if (["production", "development", "local"].includes(NODE_ENV)) {
   app.use(
@@ -80,7 +59,6 @@ if (["production", "development", "local"].includes(NODE_ENV)) {
   );
 }
 
-app.use(compression());
 app.use(bodyParser.json({ limit: "20mb" }));
 app.use(bodyParser.urlencoded({ limit: "20mb", extended: false }));
 
@@ -108,23 +86,6 @@ app.get("/", (req, res) => {
   res.sendFile(
     path.join(__dirname, "src/service/authentication/github/index.html"),
   );
-});
-
-// MongoDB Connection
-mongoose.set('strictQuery', false);
-mongoose.connect(MONGO_URI).then(async (data) => {
-  logger.info(`Mongodb connected ${MONGO_URI} : ${DB_NAME}`);
-})
-  .catch((error) => {
-    console.log(error);
-    logger.error('Please make sure Mongodb is installed and running!');
-    process.exit(1);
-  });
-
-app.listen(PORT_SERVER, () => {
-  // ? Logging restart service
-  logger.info(`Server is running on port ${PORT_SERVER}`);
-  console.log(`Server is running on port ${PORT_SERVER}`);
 });
 
 // Handle Errors

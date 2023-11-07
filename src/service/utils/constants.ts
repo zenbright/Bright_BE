@@ -7,3 +7,5 @@ export const ERROR_CODE = {
     RATELIMITED: 'RATELIMITED',
     SERVER_MAINTENANCE: 'SERVER_MAINTENANCE',
 };
+
+export const AUTH_ACTION = ['login', 'signup']

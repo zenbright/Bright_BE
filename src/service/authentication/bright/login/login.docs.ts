@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /auth/Bright/login:
+ * /auth/bright/login:
  *   post:
  *      summary: General Log In
  *      tags:
@@ -11,7 +11,8 @@
  *         required: true
  *         properties:
  *         example: {
- *           "code": ""
+ *           "account": "",
+ *           "password": "",
  *         }
  *      responses:
  *       200:
@@ -25,8 +26,8 @@
  *       404:
  *          description: When the user doesn't exist
  *          schema:
- *          type: string
- *          example: "User does not exist"
+ *           type: string
+ *           example: "User does not exist"
  *       500:
  *         description: When got server exception
  *         schema:

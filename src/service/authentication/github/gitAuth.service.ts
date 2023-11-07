@@ -61,6 +61,8 @@ export async function loginWithGitHub(req: any, res: any, next: any) {
             provider: 'github',
         });
 
+        newUserInfo.userCredentialId = newCredential._id;
+        
         await Promise.all([newUserInfo.save(), newCredential.save()]);
         return res.json(newUserInfo);
     } catch (error) {

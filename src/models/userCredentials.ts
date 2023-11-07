@@ -20,8 +20,8 @@ const userCredentialSchema = new mongoose.Schema({
     refreshTokenExpires: Date,
     provider: {
         type: String,
-        enum: ["github", "google", "this"],
-        default: "github",
+        enum: ["github", "google", "bright"],
+        default: "bright",
     },
 }, {
     timestamps: true,
