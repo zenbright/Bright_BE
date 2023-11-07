@@ -12,6 +12,7 @@
  *         properties:
  *         example: {
  *           "account": "account",
+ *           "provider": "bright",
  *           "fullname": "Quoc",
  *         }
  *      responses:

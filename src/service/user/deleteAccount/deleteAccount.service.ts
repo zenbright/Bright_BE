@@ -5,12 +5,9 @@ export async function deleteAccountService(req: any, res: any, next: any) {
   try {
     const { account, provider } = req.body;
 
-    // Find the existing credential with account
-    // We need a field provider, since if user login with different provider, we cannot control their account, so there
-    // might be a duplicate credential between github, google and bright.
     const userCred = await userCredentials.findOne({
       account: account,
-      provider: provider
+      provider: provider,
     });
 
     if (!userCred) {

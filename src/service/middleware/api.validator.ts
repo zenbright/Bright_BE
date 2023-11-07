@@ -21,12 +21,13 @@ export const loginWithBrightValidator = [
 
 export const userAccountDeleteValidator = [
   body("account").isString().notEmpty().withMessage("Missing Account Field."),
-  body("provider").isString().notEmpty().withMessage("Missing Password Field."),
+  body("provider").isString().notEmpty().withMessage("Missing Provider Field."),
   validatorErrorHandler,
 ];
 
 export const userPasswordChangeValidator = [
   body("account").isString().notEmpty().withMessage("Missing Account Field."),
+  body("provider").isString().notEmpty().withMessage("Missing Provider Field."),
   body("newPassword")
     .isString()
     .notEmpty()
@@ -36,9 +37,7 @@ export const userPasswordChangeValidator = [
 
 export const userSearchValidator = [
   body("account").isString().notEmpty().withMessage("Missing Account Field."),
-  body("fullname")
-    .isString()
-    .notEmpty()
-    .withMessage("Missing fullname Field."),
+  body("provider").isString().notEmpty().withMessage("Missing Provider Field."),
+  body("fullname").isString().notEmpty().withMessage("Missing fullname Field."),
   validatorErrorHandler,
 ];
