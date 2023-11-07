@@ -1,5 +1,5 @@
-import userCredentials from "../../../../models/userCredentials";
-import userInformation from "../../../../models/userInfo";
+import userCredentials from "../../../models/userCredentials";
+import userInformation from "../../../models/userInfo";
 
 export async function searchUserService(req: any, res: any, next: any) {
   try {
@@ -26,8 +26,8 @@ export async function searchUserService(req: any, res: any, next: any) {
           const userData = {
             userInfo: userInfo,
             userCred: userCred
-        };
-        return res.json(userData);
+          };
+          return res.json(userData);
         } else {
           res.status(400).json({
             message: "Invalid User Fullname.",

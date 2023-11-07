@@ -12,15 +12,17 @@ export const loginWithGitHubValidator = [
   validatorErrorHandler,
 ];
 
-export const generalAccountValidator = [
+export const loginWithBrightValidator = [
   param("action")
     .isIn(Object.values(AUTH_ACTION))
     .withMessage("action invalid!"),
   validatorErrorHandler,
 ];
 
-export const brightAccountValidator = [
-  body("account").isString().notEmpty().withMessage("Invalid account."),
+export const userAccountDeleteValidator = [
+  body("account").isString().notEmpty().withMessage("Missing Account Field."),
+  body("password").isString().notEmpty().withMessage("Missing Password Field."),
   validatorErrorHandler,
 ];
+
 

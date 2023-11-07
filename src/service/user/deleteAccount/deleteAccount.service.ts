@@ -1,19 +1,15 @@
-import userCredentials from "../../../../models/userCredentials";
-import userInformation from "../../../../models/userInfo";
+import userCredentials from "../../../models/userCredentials";
+import userInformation from "../../../models/userInfo";
 
-export async function deleteAccountService(req: any, res: any) {
+export async function deleteAccountService(req: any, res: any, next: any) {
   try {
-    const userData = req.body;
-
-    console.log("userData: " + userData);
-
-    if (!userData) {
-      return res.status(400).json({ error: "Invalid or missing data." });
-    }
+    const { account, password } = req.body;
 
     // Find the existing credential with account
     const userCred = await userCredentials.findOne({
-      account: userData.account,
+      account: account,
+      password: password,
+      provider: 'bright'
     });
 
     if (!userCred) {
@@ -36,9 +32,6 @@ export async function deleteAccountService(req: any, res: any) {
       }
     }
   } catch (error) {
-    console.error("Error:", error);
-    res.status(500).json({
-      message: "Internal Server Error",
-    });
+    next(error);
   }
 }

@@ -8,7 +8,7 @@ import mongoose from 'mongoose';
 import app from '../src/app';
 import { PORT_SERVER, CORS_OPTIONS, MONGO_URI, DB_NAME } from './config';
 import logger from './logger';
-import redisClient from "./service/redis/redisConfig";
+import redisClient from "./service/utils/redisConfig";
 
 dotenv.config();
 

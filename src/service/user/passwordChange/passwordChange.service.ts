@@ -1,4 +1,4 @@
-import userCredentials from "../../models/userCredentials";
+import userCredentials from "../../../models/userCredentials";
 
 export async function passwordChangeService(req: any, res: any) {
   try {
