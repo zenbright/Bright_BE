@@ -1,6 +1,6 @@
 import userCredentials from "../../../models/userCredentials";
 
-export async function passwordChangeService(req: any, res: any) {
+export async function passwordChangeService(req: any, res: any,  next: any) {
   try {
     const newCredentialData = req.body;
 
@@ -27,9 +27,6 @@ export async function passwordChangeService(req: any, res: any) {
       return res.status(200).json({ message: "Password updated successfully" });
     }
   } catch (error) {
-    console.error("Error:", error);
-    res.status(500).json({
-      message: "Internal Server Error",
-    });
+    next(error);
   }
 }

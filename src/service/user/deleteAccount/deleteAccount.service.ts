@@ -40,7 +40,6 @@ export async function deleteAccountService(req: any, res: any, next: any) {
       }
     }
   } catch (error) {
-    // User next to trigger the error handler (Do not return the error here, the error at this point is different from the error handler we return above)
     next(error);
   }
 }
