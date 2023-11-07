@@ -1,36 +1,36 @@
 /**
  * @swagger
- * /auth/bright/signup:
+ * /auth/deleteAccount:
  *   post:
- *     summary: General Sign Up
+ *     summary: Delete account
  *     tags:
  *       - Authentication
  *     parameters:
  *       - name: body
  *         in: body
  *         required: true
- *         schema:
- *           type: object
- *           example: {
- *             account: 'account2',
- *             password: 'password',
- *             fullname: 'kim',
- *             email: 'kim@gmail.com',
- *             dayOfBirth: '2003-06-17T12:00:00'
- *           }
+ *         properties:
+ *         example: {
+ *           "account": "account",
+ *         }
  *     responses:
  *       200:
- *         description: General Sign Up success
+ *         description: Delete account success
  *         schema:
  *           type: object
  *           example:
  *             success: true
  *             payload: "Access token"
  *       400:
- *         description: When the user already exists
+ *         description: Invalid or missing account
  *         schema:
  *           type: string
- *           example: "User already exists"
+ *           example: "Invalid or missing account"
+ *       404:
+ *         description: User not found
+ *         schema:
+ *           type: string
+ *           example: "User not found"
  *       500:
  *         description: When a server exception occurs
  *         schema:
