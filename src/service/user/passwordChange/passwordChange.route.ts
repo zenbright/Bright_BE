@@ -8,7 +8,7 @@ const router = Router();
 router.put(
   "/bright/passwordChange",
   IPSpamChecker.checkIpSpamServer("/auth/bright"), // Check IP spam
-  // APIValidator.brightAccountValidator,
+  APIValidator.userPasswordChangeValidator,
   passwordChangeController.passwordChangeController,
 );
 

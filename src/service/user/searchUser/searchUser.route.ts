@@ -6,7 +6,7 @@ const router = Router();
 
 router.post('/searchUser',
     IPSpamChecker.checkIpSpamServer('/auth/searchUser'),
-    // APIValidator.brightAccountValidator,
+    APIValidator.userSearchValidator,
     searchUserController.searchUserController,
 );
 
