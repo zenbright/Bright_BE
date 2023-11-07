@@ -3,13 +3,6 @@ import userInformation from "../../../models/userInfo";
 
 export async function deleteAccountService(req: any, res: any, next: any) {
   try {
-    // the account is the login account of the user not the whole account
-    // For the validator of these two, we should leave them to the API Validator
-    // By entering this function, we can expect that we have all required information
-
-    // For this syntax, it is equals to the following
-    // const account = req.body.account;
-    // const provider = req.body.provider;
     const { account, provider } = req.body;
 
     // Find the existing credential with account

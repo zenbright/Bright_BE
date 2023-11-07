@@ -1,18 +1,12 @@
 import userCredentials from "../../../models/userCredentials";
 
-export async function passwordChangeService(req: any, res: any,  next: any) {
+export async function passwordChangeService(req: any, res: any, next: any) {
   try {
-    const newCredentialData = req.body;
-
-    console.log("newCredentialData: " + newCredentialData);
-
-    if (!newCredentialData) {
-      return res.status(400).json({ error: "Invalid or missing data." });
-    }
+    const { account, newPassword } = req.body;
 
     // Find the existing credential with account
     const userCred = await userCredentials.findOne({
-      account: newCredentialData.account,
+      account: account,
     });
 
     if (!userCred) {
@@ -21,7 +15,7 @@ export async function passwordChangeService(req: any, res: any,  next: any) {
       console.log("found credential");
       // TODO: (Optional) Password regex
       // Update the password field of the existing credential
-      userCred.password = newCredentialData.newPassword;
+      userCred.password = newPassword;
 
       await userCred.save();
       return res.status(200).json({ message: "Password updated successfully" });
