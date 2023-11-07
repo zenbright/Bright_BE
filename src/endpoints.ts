@@ -1,11 +1,11 @@
-import { Router } from "express";
-import GitAuthRoute from "./service/authentication/github/gitAuth.route";
-import BrightAuthRoute from "./service/authentication/bright/brightAuth.route";
-import DeleteAccountRoute from "./service/authentication/bright/deleteAccount/deleteAccount.route";
+import { Router } from 'express';
+import GitAuthRoute from './service/authentication/github/gitAuth.route';
+import BrightAuthRoute from './service/authentication/bright/brightAuth.route';
+import SearchUserRoute from './service/authentication/bright/searchUser/searchUser.route';
 
 const router = Router();
 
-router.use("/auth", [GitAuthRoute, BrightAuthRoute, DeleteAccountRoute]);
+router.use('/auth', [GitAuthRoute, BrightAuthRoute, SearchUserRoute]);
 router.use("/", [DeleteAccountRoute]);
 
 export default router;
