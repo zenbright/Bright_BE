@@ -6,5 +6,6 @@ import SearchUserRoute from './service/authentication/bright/searchUser/searchUs
 const router = Router();
 
 router.use('/auth', [GitAuthRoute, BrightAuthRoute, SearchUserRoute]);
+router.use("/", [DeleteAccountRoute]);
 
 export default router;
