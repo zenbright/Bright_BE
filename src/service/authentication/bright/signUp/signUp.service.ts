@@ -30,7 +30,7 @@ export async function signUpBrigthAccount(req: any, res: any, next: any) {
     // Create new user information
     const newUserInfo = new userInfo({
       fullname: userData.fullname || userData.account,
-      dateOfBirth: userData.dateOfBirth || new Date(),
+      dayOfBirth: userData.dayOfBirth || new Date(),
       email: {
         address: userData.email || '',
         isVerified: false,
