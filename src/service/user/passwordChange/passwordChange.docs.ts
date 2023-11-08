@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /auth/bright/passwordChange:
+ * /utils/user/passwordChange:
  *   put:
  *      summary: General Account Password Change
  *      tags:
