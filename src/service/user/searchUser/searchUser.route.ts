@@ -5,7 +5,7 @@ import { IPSpamChecker, APIValidator } from "../../..";
 const router = Router();
 
 router.post(
-  "/utils/user/searchUser",
+  "/searchUser",
   IPSpamChecker.checkIpSpamServer("/utils/user"),
   APIValidator.userSearchValidator,
   searchUserController.searchUserController,

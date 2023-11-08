@@ -6,7 +6,7 @@ import * as APIValidator from "../../middleware/api.validator";
 const router = Router();
 
 router.put(
-  "/utils/user/deleteAccount",
+  "/deleteAccount",
   IPSpamChecker.checkIpSpamServer("/utils/user"), // Check IP spam
   APIValidator.userAccountDeleteValidator,
   deleteAccountController.deleteAccountController,
