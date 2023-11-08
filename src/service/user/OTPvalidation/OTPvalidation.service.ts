@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer";
-import userInfo from "src/models/userInfo";
+import userInfo from "../../../models/userInfo";
 
 export async function OTPvaldiationService(req: any, res: any, next: any) {
   try {
