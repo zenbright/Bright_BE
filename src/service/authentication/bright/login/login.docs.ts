@@ -26,8 +26,8 @@
  *       404:
  *          description: When the user doesn't exist
  *          schema:
- *          type: string
- *          example: "User does not exist"
+ *           type: string
+ *           example: "User does not exist"
  *       500:
  *         description: When got server exception
  *         schema:

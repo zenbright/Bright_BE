@@ -1,18 +1,28 @@
-import { body, param } from 'express-validator';
-import validatorErrorHandler from '../utils/validatorErrorHandler';
-import { AUTH_ACTION } from '../utils/constants';
+import { body, param } from "express-validator";
+import validatorErrorHandler from "../utils/validatorErrorHandler";
+import { AUTH_ACTION } from "../utils/constants";
 
 export const tokenAPICredentialValidator = [
-    body('token').isString().notEmpty().withMessage('Token API is invalid.'),
-    validatorErrorHandler,
+  body("token").isString().notEmpty().withMessage("Token API is invalid."),
+  validatorErrorHandler,
 ];
 
 export const loginWithGitHubValidator = [
-    body('code').isString().notEmpty().withMessage('Invalid Github Auth Code.'),
-    validatorErrorHandler,
+  body("code").isString().notEmpty().withMessage("Invalid Github Auth Code."),
+  validatorErrorHandler,
 ];
 
-export const generalAccountValidator = [
-    param('action').isIn(Object.values(AUTH_ACTION)).withMessage('action invalid!'),
-    validatorErrorHandler
+export const loginWithBrightValidator = [
+  param("action")
+    .isIn(Object.values(AUTH_ACTION))
+    .withMessage("action invalid!"),
+  validatorErrorHandler,
 ];
+
+export const userAccountDeleteValidator = [
+  body("account").isString().notEmpty().withMessage("Missing Account Field."),
+  body("password").isString().notEmpty().withMessage("Missing Password Field."),
+  validatorErrorHandler,
+];
+
+

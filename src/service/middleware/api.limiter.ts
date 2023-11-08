@@ -1,5 +1,5 @@
 import APIError from '../utils/APIError';
-import redisClient from '../redis/redisConfig';
+import redisClient from '../utils/redisConfig';
 import { ERROR_CODE } from '../utils/constants';
 
 // Get the user's IP

@@ -6,7 +6,7 @@ const router = Router();
 
 router.post("/bright/:action",
     IPSpamChecker.checkIpSpamServer("/auth/bright"), // Check IP spam
-    APIValidator.generalAccountValidator, // Validate request body
+    APIValidator.loginWithBrightValidator, // Validate request body
     brightAuthController.brightAuthentication, // Bright auth controller
 );
 
