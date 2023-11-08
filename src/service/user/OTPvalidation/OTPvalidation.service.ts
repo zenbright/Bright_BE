@@ -15,7 +15,7 @@ export async function OTPvaldiationService(req: any, res: any, next: any) {
         const OTP = generateOTP();
         await sendOTPByEmail(email, OTP);
 
-        return res.json({ message: "OTP sent to your email" });
+        return res.status(200).json({ message: "OTP sent to your email" });
       } else {
         return res.status(403).json({ error: "User not verified" });
       }
