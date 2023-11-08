@@ -5,7 +5,7 @@ export async function OTPvaldiationService(req: any, res: any, next: any) {
   try {
     const { email } = req.body;
 
-    const user = await userInfo.findOne({ email: email });
+    const user = await userInfo.findOne({ 'email.address': email });
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
