@@ -2,7 +2,7 @@
   "name": "bright_backend",
   "version": "1.0.0",
   "description": "api for bright website",
-  "main": "src/index.js",
+  "main": "src/app.ts",
   "type": "module",
   "devDependencies": {
     "@types/compression": "^1.7.3",
@@ -27,9 +27,9 @@
     "pretest": "npm run compile",
     "posttest": "npm run lint",
     "test": "npm start",
-    "dev": "nodemon --exec ts-node ./src/index.ts",
-    "start": "nodemon --exec node --loader ts-node/esm src/index.ts",
-    "production": "nodemon --exec node ts-node src/index.ts"
+    "dev": "nodemon --exec ts-node ./src/app.ts",
+    "start": "nodemon --exec node --loader ts-node/esm src/app.ts",
+    "production": "nodemon --exec node ts-node src/app.ts"
   },
   "dependencies": {
     "axios": "^1.5.1",
