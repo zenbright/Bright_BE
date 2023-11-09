@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /auth/bright/passwordChange:
+ * /utils/user/passwordChange:
  *   put:
  *      summary: General Account Password Change
  *      tags:
@@ -12,6 +12,7 @@
  *         properties:
  *         example: {
  *           "account": "account",
+ *           "provider": "bright",
  *           "newPassword": "newPassword",
  *         }
  *      responses:

@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /auth/searchUser:
+ * /utils/user/searchUser:
  *   post:
  *      summary: Search User 
  *      tags:
@@ -12,6 +12,7 @@
  *         properties:
  *         example: {
  *           "account": "account",
+ *           "provider": "bright",
  *           "fullname": "Quoc",
  *         }
  *      responses:

@@ -6,9 +6,9 @@ import * as APIValidator from "../../middleware/api.validator";
 const router = Router();
 
 router.put(
-  "/bright/passwordChange",
-  IPSpamChecker.checkIpSpamServer("/auth/bright"), // Check IP spam
-  APIValidator.brightAccountValidator,
+  "/passwordChange",
+  IPSpamChecker.checkIpSpamServer("/utils/user"), // Check IP spam
+  APIValidator.userPasswordChangeValidator,
   passwordChangeController.passwordChangeController,
 );
 

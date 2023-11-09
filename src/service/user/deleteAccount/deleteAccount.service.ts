@@ -3,13 +3,11 @@ import userInformation from "../../../models/userInfo";
 
 export async function deleteAccountService(req: any, res: any, next: any) {
   try {
-    const { account, password } = req.body;
+    const { account, provider } = req.body;
 
-    // Find the existing credential with account
     const userCred = await userCredentials.findOne({
       account: account,
-      password: password,
-      provider: 'bright'
+      provider: provider,
     });
 
     if (!userCred) {

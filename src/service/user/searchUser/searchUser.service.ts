@@ -3,21 +3,14 @@ import userInformation from "../../../models/userInfo";
 
 export async function searchUserService(req: any, res: any, next: any) {
   try {
-    const { account, fullname } = req.body;
+    const { account, provider, fullname } = req.body;
 
-    if (!account || !fullname) {
-      return res
-        .status(400)
-        .json({ error: "Invalid User Account or Fullname." });
-    }
-
-    // Find user credentials with account
     const userCred = await userCredentials.findOne({
       account: account,
+      provider: provider
     });
 
     if (userCred) {
-      // Find user Info with id
       const userInfo = await userInformation.findOne({ _id: userCred.userId });
 
       if (userInfo) {
@@ -25,7 +18,7 @@ export async function searchUserService(req: any, res: any, next: any) {
           //return both userInfo and userCred
           const userData = {
             userInfo: userInfo,
-            userCred: userCred
+            userCred: userCred,
           };
           return res.json(userData);
         } else {
