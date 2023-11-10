@@ -1,7 +1,7 @@
 import nodemailer from "nodemailer";
 import userInfo from "../../../models/userInfo";
 import OTPverification from "src/models/OTPverification";
-import { AUTH_EMAIL } from "../../../config";
+import { AUTH_EMAIL, AUTH_PASSWORD } from "../../../config";
 import { ERROR_CODE, SUCCESS_MESSAGE } from "../../utils/constants";
 
 export async function sendOTPService(req: any, res: any, next: any) {
@@ -67,6 +67,6 @@ const transporter = nodemailer.createTransport({
   service: "Gmail",
   auth: {
     user: AUTH_EMAIL,
-    pass: "BrightPassword", // TODO: Bright official email's password
+    pass: AUTH_PASSWORD,
   },
 });
