@@ -1,7 +1,7 @@
 import axios from "axios";
 import userInfo from "../../../models/userInfo";
 
-let GOOGLE_API_KEY = "12345678" // TODO: change it to the real API key
+let GOOGLE_API_KEY = "12345678"; // TODO: change it to the real API key
 
 export async function emailVerificationService(req: any, res: any, next: any) {
   try {

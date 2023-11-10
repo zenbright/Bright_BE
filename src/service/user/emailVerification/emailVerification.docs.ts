@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /utils/user/verify-email:
+ * /utils/user/verifyEmail:
  *   post:
  *      summary: Email Verification
  *      tags:

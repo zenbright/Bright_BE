@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /utils/user/validate-otp:
+ * /utils/user/validateOTP:
  *   post:
  *      summary: OTP Validation
  *      tags:

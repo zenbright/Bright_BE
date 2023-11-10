@@ -5,7 +5,7 @@ import { IPSpamChecker, APIValidator } from "../../..";
 const router = Router();
 
 router.post(
-  "/verify-email",
+  "/verifyEmail",
   IPSpamChecker.checkIpSpamServer("/utils/user"),
   APIValidator.emailVerificationValidator,
   emailVerificationController.emailVerificationController,
