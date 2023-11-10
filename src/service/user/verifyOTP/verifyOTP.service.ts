@@ -17,11 +17,12 @@ export async function verifyOTPService(req: any, res: any, next: any) {
         // handle expiration of OTP
         const currentDateTime = Date.now();
         if (currentDateTime > OTP.expiresAt.getTime()) {
-          //delete the OTP object
+          // delete the OTP object
           await OTPverification.findByIdAndDelete(userCred._id);
           return res.status(400).json({ error: "OTP expired." });
         } else {
           if (OTP == userTypedOTP) {
+            // when OTP is matched
             await OTPverification.findByIdAndDelete(userCred._id);
             return res
               .status(200)
