@@ -3,9 +3,7 @@ import userInfo from "../../../models/userInfo";
 
 export async function resetPasswordService(req: any, res: any, next: any) {
   try {
-    const { account, OTP } = req.body;
-
-    // if the OTP match, then simply return a success status (200)
+    const { account } = req.body;
     
   } catch (error) {
     next(error);
