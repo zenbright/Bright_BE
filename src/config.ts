@@ -35,5 +35,6 @@ export const ROUTE_ENDPOINT = {
 };
 export const MONGO_URI = process.env.MONGO_URI || "mongodb://0.0.0.0:27017";
 export const DB_NAME = process.env.DB_NAME || "bright";
-export const AUTH_EMAIL = process.env.AUTH_EMAIL || "Bright_official@gmail.com"; // TODO: Bright official email address
-export const AUTH_PASSWORD = process.env.AUTH_PASSWORD || "Bright_password"; // TODO: Bright official password
+export const AUTH_EMAIL =
+  process.env.AUTH_EMAIL || "bright.official.tools@gmail.com";
+export const AUTH_PASSWORD = process.env.AUTH_PASSWORD || "bright@123";

@@ -19,7 +19,7 @@ export async function sendOTPService(req: any, res: any, next: any) {
         // Send OTP to the user's email
         const OTP = generateOTP();
         await saveOTPMemory(OTP, user._id);
-        await sendOTPByEmail(email, OTP);
+        await sendOTPtoUser(email, OTP);
         return res.status(200).json({ message: SUCCESS_MESSAGE });
       } else {
         return res.status(403).json({ error: "USER_NOT_VERIFIED" });
@@ -36,11 +36,14 @@ function generateOTP() {
 }
 
 async function saveOTPMemory(OTP: string, userId: any) {
+  const expirationTimeInMinutes = 15; // OTP expires in 15 minutes
+  const expirationTimeInMilliseconds = expirationTimeInMinutes * 60 * 1000;
+
   const newOTPverification = new OTPverification({
     userId: userId,
     OTP: OTP,
     createdAt: Date.now(),
-    expiresAt: Date.now() + 900000, // expires in 15 minutes
+    expiresAt: Date.now() + expirationTimeInMilliseconds,
   });
 
   try {
@@ -51,18 +54,17 @@ async function saveOTPMemory(OTP: string, userId: any) {
   }
 }
 
-async function sendOTPByEmail(email: string, OTP: string) {
+async function sendOTPtoUser(email: string, OTP: string) {
   const mailOptions = {
     from: AUTH_EMAIL,
     to: email,
-    subject: "Bright OTP Validation Code",
+    subject: "Bright OTP Verification Code",
     html: `<p>Enter <b>${OTP}</b> in the app to verify your email</p><p>This code <b>expires in 15 minutes.</b></p>`,
   };
 
   await transporter.sendMail(mailOptions);
 }
 
-// Configure Nodemailer for sending emails
 const transporter = nodemailer.createTransport({
   service: "Gmail",
   auth: {
