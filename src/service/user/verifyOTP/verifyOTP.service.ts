@@ -10,12 +10,15 @@ export async function verifyOTPService(req: any, res: any, next: any) {
       account: account,
       provider: "bright",
     });
+
     if (userCred) {
       const OTP = await OTPverification.findOne({ _id: userCred._id });
       if (OTP) {
+        // TODO: handle expiration of OTP
         if (OTP == userTypedOTP) {
-          // TODO: if the OTP match, then simply call resetPassword service
-          // TODO: handle expiration of OTP
+          return res
+            .status(200)
+            .json({ message: "OTP verified successfully." });
         } else {
           return res.status(400).json({ error: "Invalid OTP!" });
         }
