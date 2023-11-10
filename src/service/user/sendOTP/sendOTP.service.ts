@@ -2,7 +2,7 @@ import nodemailer from "nodemailer";
 import userInfo from "../../../models/userInfo";
 import { AUTH_EMAIL } from "../../../config";
 
-export async function OTPvaldiationService(req: any, res: any, next: any) {
+export async function sendOTPService(req: any, res: any, next: any) {
   try {
     const { email } = req.body;
 

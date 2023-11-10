@@ -1,8 +1,8 @@
 /**
  * @swagger
- * /utils/user/validateOTP:
+ * /utils/user/sendOTP:
  *   post:
- *      summary: OTP Validation
+ *      summary: Send OTP
  *      tags:
  *       - Authentication
  *      parameters:
@@ -15,7 +15,7 @@
  *         }
  *      responses:
  *       200:
- *         description: OTP Validation success
+ *         description: Sent OTP successfully
  *         schema:
  *           type: object
  *           example: {

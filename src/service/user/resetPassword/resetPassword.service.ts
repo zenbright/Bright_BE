@@ -1,7 +1,7 @@
 import nodemailer from "nodemailer";
 import userInfo from "../../../models/userInfo";
 
-export async function OTPvaldiationService(req: any, res: any, next: any) {
+export async function resetPasswordService(req: any, res: any, next: any) {
   try {
     const { account, OTP } = req.body;
 
