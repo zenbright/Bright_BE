@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
 import userInfo from "../../../models/userInfo";
-import OTPverification from "src/models/OTPverification";
+import OTPverification from "../../../models/OTPverification";
 import { AUTH_EMAIL, AUTH_PASSWORD } from "../../../config";
 import { ERROR_CODE, SUCCESS_MESSAGE } from "../../utils/constants";
 

@@ -1,5 +1,5 @@
-import userCredentials from "src/models/userCredentials";
-import OTPverification from "src/models/OTPverification";
+import userCredentials from "../../../models/userCredentials";
+import OTPverification from "../../../models/OTPverification";
 import { ERROR_CODE, SUCCESS_MESSAGE, PROVIDER } from "../../utils/constants";
 
 export async function verifyOTPService(req: any, res: any, next: any) {
