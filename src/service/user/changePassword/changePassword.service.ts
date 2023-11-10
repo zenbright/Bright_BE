@@ -1,13 +1,14 @@
 import userCredentials from "../../../models/userCredentials";
+import {ERROR_CODE} from "../../utils/constants";
 
 export async function changePasswordService(req: any, res: any, next: any) {
   try {
-    const { account, provider, newPassword } = req.body;
-
+    const { account, newPassword } = req.body;
+    
     // Find the existing credential with account
     const userCred = await userCredentials.findOne({
       account: account,
-      provider: provider
+      provider: 'bright'
     });
 
     if (!userCred) {

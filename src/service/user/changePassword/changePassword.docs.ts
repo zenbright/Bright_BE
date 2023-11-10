@@ -12,7 +12,6 @@
  *         properties:
  *         example: {
  *           "account": "account",
- *           "provider": "bright",
  *           "newPassword": "newPassword",
  *         }
  *      responses:

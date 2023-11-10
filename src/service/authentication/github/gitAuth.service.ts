@@ -3,6 +3,7 @@ import userCredentials from '../../../models/userCredentials';
 import userInfo from '../../../models/userInfo';
 import mongoose from 'mongoose';
 import * as Formatter from '../../utils/formatter';
+import { CAUTION } from 'src/service/utils/constants';
 
 export async function loginWithGitHub(req: any, res: any, next: any) {
     try {
@@ -56,7 +57,7 @@ export async function loginWithGitHub(req: any, res: any, next: any) {
         // Create new credential
         const newCredential = new userCredentials({
             account: userData.login,
-            password: userData.login,
+            password: CAUTION.DO_NOT_USE,
             userId: newUserInfo._id,
             provider: 'github',
         });
