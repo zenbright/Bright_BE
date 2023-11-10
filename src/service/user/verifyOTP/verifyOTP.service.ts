@@ -12,15 +12,15 @@ export async function verifyOTPService(req: any, res: any, next: any) {
     });
 
     if (userCred) {
-      const OTP = await OTPverification.findOne({ _id: userCred._id });
+      const OTP = await OTPverification.findOne({ userId: userCred.userId });
       if (OTP) {
         if (isExpired(OTP)) {
-          await OTPverification.findByIdAndDelete(userCred._id);
+          await OTPverification.findByIdAndDelete(OTP._id);
           return res.status(400).json({ error: "OTP_EXPIRED" });
         } else {
           if (OTP == userTypedOTP) {
             // when OTP is matched
-            await OTPverification.findByIdAndDelete(userCred._id);
+            await OTPverification.findByIdAndDelete(OTP._id);
             return res.status(200).json({ message: SUCCESS_MESSAGE });
           } else {
             return res.status(400).json({ error: ERROR_CODE.INVALID + "_OTP" });

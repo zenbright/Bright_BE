@@ -11,19 +11,20 @@ export async function sendOTPService(req: any, res: any, next: any) {
     const user = await userInfo.findOne({ "email.address": email });
 
     if (!user) {
-      res.status(404).json({
-        message: ERROR_CODE.USER_NOT_FOUND,
-      });
+      res.status(404).json({ message: ERROR_CODE.USER_NOT_FOUND });
     } else {
-      if (user.email?.isVerified) {
-        // Send OTP to the user's email
-        const OTP = generateOTP();
-        await saveOTPMemory(OTP, user._id);
-        await sendOTPtoUser(email, OTP);
-        return res.status(200).json({ message: SUCCESS_MESSAGE });
-      } else {
-        return res.status(403).json({ error: "USER_NOT_VERIFIED" });
-      }
+      // if (user.email?.isVerified) {
+      // Send OTP to the user's email
+      const OTP = generateOTP();
+      console.log("OTP generated");
+      await saveOTPMemory(OTP, user.userCredentialId);
+      console.log("OTP saved");
+      await sendOTPtoUser(email, OTP);
+      console.log("OTP sent");
+      return res.status(200).json({ message: SUCCESS_MESSAGE });
+      // } else {
+      //   return res.status(403).json({ error: "USER_NOT_VERIFIED" });
+      // }
     }
   } catch (error) {
     next(error);
@@ -36,6 +37,14 @@ function generateOTP() {
 }
 
 async function saveOTPMemory(OTP: string, userId: any) {
+  const existingOTP = await OTPverification.findOne({ userId: userId });
+
+  if (existingOTP) {
+    // Handle the case where an OTP already exists for the user
+    console.log("User already has an OTP.");
+    await OTPverification.findByIdAndDelete(existingOTP._id);
+    console.log("Previous OTP deleted.");
+  }
   const expirationTimeInMinutes = 15; // OTP expires in 15 minutes
   const expirationTimeInMilliseconds = expirationTimeInMinutes * 60 * 1000;
 
@@ -66,9 +75,15 @@ async function sendOTPtoUser(email: string, OTP: string) {
 }
 
 const transporter = nodemailer.createTransport({
-  service: "Gmail",
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true,
   auth: {
     user: AUTH_EMAIL,
     pass: AUTH_PASSWORD,
+  },
+  tls: {
+    // This is important for avoiding self-signed certificate errors
+    rejectUnauthorized: false,
   },
 });

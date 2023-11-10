@@ -11,7 +11,8 @@
  *         required: true
  *         properties:
  *         example: {
- *           "email": "0617@gmail.com",
+ *           "account": "0617lucia",
+ *           "userTypedOTP": "1234"
  *         }
  *      responses:
  *       200:

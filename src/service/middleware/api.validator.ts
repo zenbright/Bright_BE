@@ -29,6 +29,7 @@ export const emailVerificationValidator = [
   body("email").isString().notEmpty().withMessage("Missing Email Field."),
   validatorErrorHandler,
 ];
+
 export const userPasswordChangeValidator = [
   body("account").isString().notEmpty().withMessage("Missing Account Field."),
   body("provider").isString().notEmpty().withMessage("Missing Provider Field."),
@@ -48,6 +49,6 @@ export const userSearchValidator = [
 
 export const OTPValidator = [
   body("account").isString().notEmpty().withMessage("Missing Account Field."),
-  body("OTP").isString().notEmpty().withMessage("Missing OTP Field."),
+  body("userTypedOTP").isString().notEmpty().withMessage("Missing OTP Field."),
   validatorErrorHandler,
 ];
