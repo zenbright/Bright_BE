@@ -45,3 +45,9 @@ export const userSearchValidator = [
   body("fullname").isString().notEmpty().withMessage("Missing fullname Field."),
   validatorErrorHandler,
 ];
+
+export const OTPValidator = [
+  body("account").isString().notEmpty().withMessage("Missing Account Field."),
+  body("OTP").isString().notEmpty().withMessage("Missing OTP Field."),
+  validatorErrorHandler,
+];
