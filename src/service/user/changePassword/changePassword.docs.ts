@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /utils/user/passwordChange:
+ * /utils/user/changePassword:
  *   put:
  *      summary: General Account Password Change
  *      tags:

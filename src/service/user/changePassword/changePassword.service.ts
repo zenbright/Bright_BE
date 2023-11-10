@@ -1,6 +1,6 @@
 import userCredentials from "../../../models/userCredentials";
 
-export async function passwordChangeService(req: any, res: any, next: any) {
+export async function changePasswordService(req: any, res: any, next: any) {
   try {
     const { account, provider, newPassword } = req.body;
 
