@@ -2,6 +2,7 @@ import nodemailer from "nodemailer";
 import userInfo from "../../../models/userInfo";
 import OTPverification from "src/models/OTPverification";
 import { AUTH_EMAIL } from "../../../config";
+import { ERROR_CODE, SUCCESS_MESSAGE } from "../../utils/constants";
 
 export async function sendOTPService(req: any, res: any, next: any) {
   try {
@@ -10,16 +11,20 @@ export async function sendOTPService(req: any, res: any, next: any) {
     const user = await userInfo.findOne({ "email.address": email });
 
     if (!user) {
-      return res.status(404).json({ error: "User not found" });
+      res.status(404).json({
+        message: ERROR_CODE.USER_NOT_FOUND,
+      });
     } else {
       if (user.email?.isVerified) {
         // Send OTP to the user's email
         const OTP = generateOTP();
         await saveOTPMemory(OTP, user._id);
         await sendOTPByEmail(email, OTP);
-        return res.status(200).json({ message: "OTP sent to your email" });
+        return res.status(200).json({
+          message: SUCCESS_MESSAGE,
+        });
       } else {
-        return res.status(403).json({ error: "User not verified" });
+        return res.status(403).json({ error: "USER_NOT_VERIFIED" });
       }
     }
   } catch (error) {
@@ -42,9 +47,9 @@ async function saveOTPMemory(OTP: string, userId: any) {
 
   try {
     await newOTPverification.save();
-    console.log("OTP saved successfully");
+    console.log(SUCCESS_MESSAGE);
   } catch (error) {
-    console.error("Error saving OTP:", error);
+    console.error(error);
   }
 }
 

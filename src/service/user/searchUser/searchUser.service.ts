@@ -1,5 +1,6 @@
 import userCredentials from "../../../models/userCredentials";
 import userInformation from "../../../models/userInfo";
+import { ERROR_CODE, SUCCESS_MESSAGE } from "../../utils/constants";
 
 export async function searchUserService(req: any, res: any, next: any) {
   try {
@@ -7,7 +8,7 @@ export async function searchUserService(req: any, res: any, next: any) {
 
     const userCred = await userCredentials.findOne({
       account: account,
-      provider: provider
+      provider: provider,
     });
 
     if (userCred) {
@@ -20,21 +21,17 @@ export async function searchUserService(req: any, res: any, next: any) {
             userInfo: userInfo,
             userCred: userCred,
           };
-          return res.json(userData);
+          return res.status(200).json(userData);
         } else {
           res.status(400).json({
             message: "Invalid User Fullname.",
           });
         }
       } else {
-        res.status(404).json({
-          message: "User Information not found.",
-        });
+        return res.status(404).json({ error: ERROR_CODE.USER_NOT_FOUND });
       }
     } else {
-      res.status(404).json({
-        message: "User credentials not found.",
-      });
+      return res.status(404).json({ error: ERROR_CODE.USER_NOT_FOUND });
     }
   } catch (error) {
     next(error);

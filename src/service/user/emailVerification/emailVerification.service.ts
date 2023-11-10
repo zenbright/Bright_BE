@@ -1,5 +1,6 @@
 import axios from "axios";
 import userInfo from "../../../models/userInfo";
+import { ERROR_CODE, SUCCESS_MESSAGE } from "../../utils/constants";
 
 let GOOGLE_API_KEY = "12345678"; // TODO: change it to the real API key
 
@@ -18,13 +19,13 @@ export async function emailVerificationService(req: any, res: any, next: any) {
         if (user.email) {
           user.email.isVerified = true;
           await user.save();
-          return res.status(200).json({ message: "User email verified" });
+          return res.status(200).json({ message: SUCCESS_MESSAGE });
         }
       } else {
-        return res.status(404).json({ error: "User not found" });
+        return res.status(404).json({ error: ERROR_CODE.USER_NOT_FOUND });
       }
     }
-    return res.status(400).json({ error: "Invalid email address" });
+    return res.status(400).json({ error: "INVALID_EMAIL_ADDRESS" });
   } catch (error) {
     next(error);
   }
