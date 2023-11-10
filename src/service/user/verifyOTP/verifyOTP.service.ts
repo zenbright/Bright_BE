@@ -14,13 +14,21 @@ export async function verifyOTPService(req: any, res: any, next: any) {
     if (userCred) {
       const OTP = await OTPverification.findOne({ _id: userCred._id });
       if (OTP) {
-        // TODO: handle expiration of OTP
-        if (OTP == userTypedOTP) {
-          return res
-            .status(200)
-            .json({ message: "OTP verified successfully." });
+        // handle expiration of OTP
+        const currentDateTime = Date.now();
+        if (currentDateTime > OTP.expiresAt.getTime()) {
+          //delete the OTP object
+          await OTPverification.findByIdAndDelete(userCred._id);
+          return res.status(400).json({ error: "OTP expired." });
         } else {
-          return res.status(400).json({ error: "Invalid OTP!" });
+          if (OTP == userTypedOTP) {
+            await OTPverification.findByIdAndDelete(userCred._id);
+            return res
+              .status(200)
+              .json({ message: "OTP verified successfully." });
+          } else {
+            return res.status(400).json({ error: "Invalid OTP!" });
+          }
         }
       } else {
         res.status(404).json({
