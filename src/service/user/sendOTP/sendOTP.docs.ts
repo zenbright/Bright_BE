@@ -26,15 +26,15 @@
  *          description: When the email is not verified
  *          schema:
  *           type: string
- *           example: "Email not verified"
+ *           example: "EMAIL NOT VERIFIED"
  *       404:
  *          description: When the user doesn't exist
  *          schema:
  *           type: string
- *           example: "User does not exist"
+ *           example: "USER DOES NOT EXIST"
  *       500:
  *         description: When got server exception
  *         schema:
  *           type: string
- *           example: "Internal server error"
+ *           example: "INTERNAL SERVER ERROR"
  */

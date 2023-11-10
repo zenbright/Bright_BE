@@ -26,15 +26,15 @@
  *          description: When OTP is expired or invalid
  *          schema:
  *           type: string
- *           example: "OTP is expired or invalid"
+ *           example: "OTP EXPIRED OR INVALID"
  *       404:
  *          description: When user credential or OTP is not found
  *          schema:
  *           type: string
- *           example: "user credential or OTP does not exist"
+ *           example: "USER CREDENTIAL OR OTP DOES NOT EXIST"
  *       500:
  *         description: When got server exception
  *         schema:
  *           type: string
- *           example: "Internal server error"
+ *           example: "INTERNAL SERVER ERROR"
  */

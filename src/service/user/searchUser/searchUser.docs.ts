@@ -28,15 +28,15 @@
  *          description: Invalid User Account or Fullname
  *          schema:
  *           type: string
- *           example: "Invalid User Account or Fullname."
+ *           example: "INVALID USER ACCOUNT OR FULLNAME"
  *       404:
  *          description: When the user doesn't exist
  *          schema:
  *           type: string
- *           example: "User does not exist"
+ *           example: "USER DOES NOT EXIST"
  *       500:
  *         description: When got server exception
  *         schema:
  *           type: string
- *           example: "Internal server error"
+ *           example: "INTERNAL SERVER ERROR"
  */

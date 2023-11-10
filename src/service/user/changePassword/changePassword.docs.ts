@@ -27,10 +27,10 @@
  *          description: When the user account not found
  *          schema:
  *           type: string
- *           example: "User account not found"
+ *           example: "USER ACCOUNT NOT FOUND"
  *       500:
  *         description: When got server exception
  *         schema:
  *           type: string
- *           example: "Internal server error"
+ *           example: "INTERNAL SERVER ERROR"
  */
