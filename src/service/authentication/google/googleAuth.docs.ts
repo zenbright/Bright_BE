@@ -2,28 +2,31 @@
  * @swagger
  * /auth/google/redirect:
  *   get:
- *     summary: Callback after Google OAuth authentication
- *     tags:
+ *      summary: Login with Google
+ *      tags:
  *       - Authentication
- *     parameters:
+ *      parameters:
  *       - name: code
  *         in: query
  *         required: true
- *         description: Google OAuth authorization code
+ *         schema:
+ *           type: string    
+ *         properties:
+ *         example: {
+ *           "code": ""
+ *         }
+ *      responses:
+ *       200:
+ *         description: Login with Google success
+ *         schema:
+ *           type: object
+ *           example: {
+ *             success: true,
+ *             payload: "Access token",
+ *           }
+ *       500:
+ *         description: When got server exception
  *         schema:
  *           type: string
- *     responses:
- *       '200':
- *         description: User successfully authenticated
- *         content:
- *           application/json:
- *             example:
- *               success: true
- *               payload: "Access token"
- *       '500':
- *         description: Internal Server Error
- *         content:
- *           application/json:
- *             example:
- *               error: "Internal server error"
+ *           example: "Internal server error"
  */

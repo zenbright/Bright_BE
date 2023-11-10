@@ -10,3 +10,7 @@ export const loginWithGitHubValidator = [
     body('code').isString().notEmpty().withMessage('Invalid Github Auth Code.'),
     validatorErrorHandler,
 ];
+
+export const loginWithGoogleValidator = [
+    body('code')
+]

@@ -20,23 +20,26 @@ passport.use('google',
       clientID: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
       callbackURL: "http://127.0.0.1:4000/auth/google/redirect",
+      userProfileURL: 'https://www.googleapis.com/oauth2/v3/userinfo',
+      passReqToCallback: true,
     },
-    async (accessToken, refreshToken , profile, done) => {
+    async (req, accessToken, refreshToken , profile, done) => {
       try{
+        // Check if user already exists in database
         const userCred = await userCredentials.findOne({ account: profile.id });
+        
+        // set exp time for token
+        const currentDate = new Date()
+        const expireDate = new Date(currentDate);
+        expireDate.setDate(expireDate.getDate() + 30);
 
-        // If user doesn't exist creates a new user. (similar to sign up)
+        // If user cred found
         if(userCred) {
-          const userDataMongo = await userInfo.findOne({ _id: userCred.userId });
-          if (userDataMongo) {
-            return done(null, userDataMongo);
-          } else {
-            // Handle the case where userInfo.findOne returned null
-            return done(new Error('User data not found'));
-          }
-        }
-
-        if (!userCred) {
+          userCred.refreshToken = refreshToken;
+          await userCred.save();
+          console.log(accessToken);
+          return done(null, userCred);
+        } else {
           const newUserInfo = new userInfo({
             fullname: profile.name?.familyName + ' ' + profile.name?.givenName,
             email: {
@@ -49,16 +52,19 @@ passport.use('google',
             profileImage: profile.photos && profile.photos[0] ? profile.photos[0].value : '',
             userCredentialId: new mongoose.Types.ObjectId(),
           });
+          await newUserInfo.save();
 
           const newCredential = new userCredentials({
             account: profile.id,
             password: profile.id,
             userId: newUserInfo._id,
+            refreshToken: refreshToken,
+            refreshTokenExpires: expireDate,
             provider: 'google',
           });
-
-          await Promise.all([newUserInfo.save(), newCredential.save()]);
-          return done(null, newUserInfo);
+          console.log(accessToken);
+          await newCredential.save()
+          return done(null, [newUserInfo, newCredential]);
         }
       } catch (error) {
         console.error(error); // Log the error
@@ -68,3 +74,4 @@ passport.use('google',
   )
 );
 
+export default passport;
