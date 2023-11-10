@@ -1,11 +1,12 @@
 import nodemailer from "nodemailer";
 import userInfo from "../../../models/userInfo";
+import { AUTH_EMAIL } from "../../../config";
 
 export async function OTPvaldiationService(req: any, res: any, next: any) {
   try {
     const { email } = req.body;
 
-    const user = await userInfo.findOne({ 'email.address': email });
+    const user = await userInfo.findOne({ "email.address": email });
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
@@ -26,15 +27,15 @@ export async function OTPvaldiationService(req: any, res: any, next: any) {
 }
 
 function generateOTP() {
-  // Generate a random 6-digit OTP
-  return Math.floor(100000 + Math.random() * 900000).toString();
+  // Generate a random 4-digit OTP
+  return Math.floor(1000 + Math.random() * 9000).toString();
 }
 
 async function sendOTPByEmail(email: string, OTP: string) {
   const mailOptions = {
-    from: "Bright_official@gmail.com", // TODO: Bright official email address
+    from: AUTH_EMAIL,
     to: email,
-    subject: "OTP Validation Code",
+    subject: "Bright OTP Validation Code",
     text: `Your OTP code is: ${OTP}`,
   };
 
@@ -45,7 +46,7 @@ async function sendOTPByEmail(email: string, OTP: string) {
 const transporter = nodemailer.createTransport({
   service: "Gmail",
   auth: {
-    user: "Bright_official@gmail.com", // TODO: Bright official email address
+    user: AUTH_EMAIL,
     pass: "BrightPassword", // TODO: Bright official email's password address
   },
 });

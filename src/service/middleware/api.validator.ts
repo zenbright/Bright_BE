@@ -25,7 +25,7 @@ export const userAccountDeleteValidator = [
   validatorErrorHandler,
 ];
 
-export const OTPvalidationValidator = [
+export const emailVerificationValidator = [
   body("email").isString().notEmpty().withMessage("Missing Email Field."),
   validatorErrorHandler,
 ];

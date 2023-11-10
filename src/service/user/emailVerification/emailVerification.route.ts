@@ -1,14 +1,14 @@
 import { Router } from "express";
-import * as OTPvalidationController from "./OTPvalidation.controller";
+import * as emailVerificationController from "./emailVerification.controller";
 import { IPSpamChecker, APIValidator } from "../../..";
 
 const router = Router();
 
 router.post(
-  "/validate-otp",
+  "/verify-email",
   IPSpamChecker.checkIpSpamServer("/utils/user"),
   APIValidator.emailVerificationValidator,
-  OTPvalidationController.OTPvalidationController,
+  emailVerificationController.emailVerificationController,
 );
 
 export default router;

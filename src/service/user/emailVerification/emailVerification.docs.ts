@@ -1,8 +1,8 @@
 /**
  * @swagger
- * /utils/user/validate-otp:
+ * /utils/user/verify-email:
  *   post:
- *      summary: OTP Validation
+ *      summary: Email Verification
  *      tags:
  *       - Authentication
  *      parameters:
@@ -15,18 +15,18 @@
  *         }
  *      responses:
  *       200:
- *         description: OTP Validation success
+ *         description: Email Verification success
  *         schema:
  *           type: object
  *           example: {
  *             success: true,
  *             payload: "Access token",
  *           }
- *       403:
- *          description: When the email is not verified
+ *       400:
+ *          description: When the email is invalid
  *          schema:
  *           type: string
- *           example: "Email not verified"
+ *           example: "Invalid email address"
  *       404:
  *          description: When the user doesn't exist
  *          schema:
