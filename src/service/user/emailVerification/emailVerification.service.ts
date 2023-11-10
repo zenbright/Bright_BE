@@ -25,7 +25,9 @@ export async function emailVerificationService(req: any, res: any, next: any) {
         return res.status(404).json({ error: ERROR_CODE.USER_NOT_FOUND });
       }
     }
-    return res.status(400).json({ error: "INVALID_EMAIL_ADDRESS" });
+    return res
+      .status(400)
+      .json({ error: ERROR_CODE.INVALID + "_EMAIL_ADDRESS" });
   } catch (error) {
     next(error);
   }

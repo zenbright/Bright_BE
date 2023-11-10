@@ -9,6 +9,7 @@ export const ERROR_CODE = {
     NOT_ALLOWED: 'NOT_ALLOWED',
     INSUFFICIENT_PERMISSION: 'INSUFFICIENT_PERMISSION',
     USER_NOT_FOUND: 'USER_NOT_FOUND',
+    INVALID: 'INVALID',
 };
 
 export const AUTH_ACTION = ['login', 'signup']

@@ -20,9 +20,7 @@ export async function sendOTPService(req: any, res: any, next: any) {
         const OTP = generateOTP();
         await saveOTPMemory(OTP, user._id);
         await sendOTPByEmail(email, OTP);
-        return res.status(200).json({
-          message: SUCCESS_MESSAGE,
-        });
+        return res.status(200).json({ message: SUCCESS_MESSAGE });
       } else {
         return res.status(403).json({ error: "USER_NOT_VERIFIED" });
       }

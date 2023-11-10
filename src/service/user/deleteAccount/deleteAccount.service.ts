@@ -21,13 +21,9 @@ export async function deleteAccountService(req: any, res: any, next: any) {
         await userCredentials.deleteOne({ _id: userCred._id });
         await userInformation.deleteOne({ _id: userInfo._id });
 
-        return res.status(200).json({
-          message: SUCCESS_MESSAGE,
-        });
+        return res.status(200).json({ message: SUCCESS_MESSAGE });
       } else {
-        res.status(404).json({
-          message: ERROR_CODE.USER_NOT_FOUND,
-        });
+        res.status(404).json({ message: ERROR_CODE.USER_NOT_FOUND });
       }
     }
   } catch (error) {

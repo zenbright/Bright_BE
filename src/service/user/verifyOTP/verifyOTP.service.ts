@@ -1,6 +1,6 @@
 import userCredentials from "src/models/userCredentials";
 import OTPverification from "src/models/OTPverification";
-import { ERROR_CODE, SUCCESS_MESSAGE } from "../../utils/constants";
+import { ERROR_CODE, SUCCESS_MESSAGE, PROVIDER } from "../../utils/constants";
 
 export async function verifyOTPService(req: any, res: any, next: any) {
   try {
@@ -8,16 +8,13 @@ export async function verifyOTPService(req: any, res: any, next: any) {
 
     const userCred = await userCredentials.findOne({
       account: account,
-      provider: "bright",
+      provider: PROVIDER.BRIGHT,
     });
 
     if (userCred) {
       const OTP = await OTPverification.findOne({ _id: userCred._id });
       if (OTP) {
-        // handle expiration of OTP
-        const currentDateTime = Date.now();
-        if (currentDateTime > OTP.expiresAt.getTime()) {
-          // delete the OTP object
+        if (isExpired(OTP)) {
           await OTPverification.findByIdAndDelete(userCred._id);
           return res.status(400).json({ error: "OTP_EXPIRED" });
         } else {
@@ -26,7 +23,7 @@ export async function verifyOTPService(req: any, res: any, next: any) {
             await OTPverification.findByIdAndDelete(userCred._id);
             return res.status(200).json({ message: SUCCESS_MESSAGE });
           } else {
-            return res.status(400).json({ error: "INVALID_OTP" });
+            return res.status(400).json({ error: ERROR_CODE.INVALID + "_OTP" });
           }
         }
       } else {
@@ -40,4 +37,12 @@ export async function verifyOTPService(req: any, res: any, next: any) {
   } catch (error) {
     next(error);
   }
+}
+
+function isExpired(OTP: any) {
+  const currentTime = Date.now();
+  if (currentTime > OTP.expiresAt.getTime()) {
+    return true;
+  }
+  return false;
 }

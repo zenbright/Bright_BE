@@ -21,10 +21,10 @@ export async function searchUserService(req: any, res: any, next: any) {
             userInfo: userInfo,
             userCred: userCred,
           };
-          return res.status(200).json(userData);
+          return res.status(200).json({ message: SUCCESS_MESSAGE, userData });
         } else {
           res.status(400).json({
-            message: "Invalid User Fullname.",
+            message: ERROR_CODE.INVALID + "_USER_FULLNAME",
           });
         }
       } else {
