@@ -1,19 +1,20 @@
 import userCredentials from "../../../../models/userCredentials";
 import userInfo from "../../../../models/userInfo";
+import { ERROR_CODE, PROVIDER } from "../../../utils/constants";
 
 export async function loginWithBright(req: any, res: any, next: any) {
   try {
     const { account, password } = req.body;
 
     if (!account || !password) {
-      return res.status(400).json({ error: "Invalid User Credentials!" });
+      return res.status(400).json({ error: ERROR_CODE.NOT_FOUND_ERROR });
     }
 
     // Find user credentials
     const userCred = await userCredentials.findOne({
       account: account,
       password: password,
-      provider: 'bright'
+      provider: PROVIDER.BRIGHT
     });
 
     if (userCred) {
@@ -23,12 +24,12 @@ export async function loginWithBright(req: any, res: any, next: any) {
         return res.json(userDataMongo); // return user
       } else {
         res.status(404).json({
-          message: "User data not found.",
+          message: ERROR_CODE.NOT_FOUND_ERROR,
         });
       }
     } else {
       res.status(404).json({
-        message: "User credentials not found.",
+        message: ERROR_CODE.NOT_FOUND_ERROR,
       });
     }
   } catch (error) {
