@@ -5,8 +5,8 @@ import compression from "compression";
 import bodyParser from "body-parser";
 import morgan from "morgan";
 import basicAuth from "express-basic-auth";
-import logger from './logger';
-import mongoose from 'mongoose';
+import logger from "./logger";
+import mongoose from "mongoose";
 import redisClient from "./service/utils/redisConfig";
 import ResponseHandler from "./service/utils/responseHandler";
 import swaggerJSDoc from "./swagger";
@@ -15,6 +15,7 @@ import { ROUTE_ENDPOINT } from "./config";
 import endpoint from "./endpoints";
 import path from "path";
 import errorResponseHandler from "./service/utils/errorResponseHandler";
+import { Server, Socket } from "socket.io";
 
 const __dirname = path.resolve();
 
@@ -28,7 +29,7 @@ import {
   NODE_ENV,
   PORT_SERVER,
   MONGO_URI,
-  DB_NAME
+  DB_NAME,
 } from "./config";
 
 const app = express();
@@ -65,7 +66,7 @@ redisClient.connect();
 app.use(cors(CORS_OPTIONS));
 
 // Get access to user IP address
-app.enable('trust proxy');
+app.enable("trust proxy");
 
 // Swagger APIs Docs
 if (["production", "development", "local"].includes(NODE_ENV)) {
@@ -110,21 +111,56 @@ app.get("/", (req, res) => {
   );
 });
 
+// Tempory html, css, js (copy from yt & github tutotirals)
+app.get("/realtimeChat.css", (req, res) => {
+  res.sendFile(
+    path.join(__dirname, "src/service/realtimeChat/realtimeChat.css"),
+  );
+});
+
+app.get("/main.js", (req, res) => {
+  res.sendFile(path.join(__dirname, "src/service/realtimeChat/main.js"));
+});
+
+app.get("/realtimeChat", (req, res) => {
+  res.sendFile(
+    path.join(__dirname, "src/service/realtimeChat/realtimeChat.html"),
+  );
+});
+
 // MongoDB Connection
-mongoose.set('strictQuery', false);
-mongoose.connect(MONGO_URI).then(async (data) => {
-  logger.info(`Mongodb connected ${MONGO_URI} : ${DB_NAME}`);
-})
+mongoose.set("strictQuery", false);
+mongoose
+  .connect(MONGO_URI)
+  .then(async (data) => {
+    logger.info(`Mongodb connected ${MONGO_URI} : ${DB_NAME}`);
+  })
   .catch((error) => {
     console.log(error);
-    logger.error('Please make sure Mongodb is installed and running!');
+    logger.error("Please make sure Mongodb is installed and running!");
     process.exit(1);
   });
 
-app.listen(PORT_SERVER, () => {
+const server = app.listen(PORT_SERVER, () => {
   // ? Logging restart service
   logger.info(`Server is running on port ${PORT_SERVER}`);
   console.log(`Server is running on port ${PORT_SERVER}`);
+});
+
+// Connect to socket.io
+const io = new Server(server, {});
+
+io.on("connection", (socket: Socket) => {
+  console.log("a user connected");
+  console.log("socket id: " + socket.id);
+
+  socket.on("chat message", (msg: string) => {
+    io.emit("chat message", msg);
+  });
+
+  socket.on("disconnect", () => {
+    console.log("user disconnected");
+  });
 });
 
 // Handle Errors
