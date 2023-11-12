@@ -64,18 +64,18 @@ async function saveOTPMemory(OTP: string, userId: any) {
 }
 
 async function sendOTPtoUser(email: string, OTP: string) {
-  const mailOptions = {
+  const mailInfo = {
     from: AUTH_EMAIL,
     to: email,
     subject: "Bright OTP Verification Code",
     html: `<p>Enter <b>${OTP}</b> in the app to verify your email</p><p>This code <b>expires in 15 minutes.</b></p>`,
   };
 
-  await transporter.sendMail(mailOptions);
+  await transporter.sendMail(mailInfo);
 }
 
 const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
+  host: "smtp.google.com",
   port: 465,
   secure: true,
   auth: {

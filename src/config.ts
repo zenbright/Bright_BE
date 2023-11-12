@@ -36,5 +36,7 @@ export const ROUTE_ENDPOINT = {
 export const MONGO_URI = process.env.MONGO_URI || "mongodb://0.0.0.0:27017";
 export const DB_NAME = process.env.DB_NAME || "bright";
 export const AUTH_EMAIL =
-  process.env.AUTH_EMAIL || "bright.official.tools@gmail.com";
-export const AUTH_PASSWORD = process.env.AUTH_PASSWORD || "bright@123";
+  process.env.AUTH_EMAIL || "bright.pmtools@gmail.com";
+export const AUTH_PASSWORD = process.env.AUTH_PASSWORD || "7cayxanH";
+export const GOOGLE_CLIENT_ID = "852626779740-jgr1dq6mh299pi4m24ag7t47dptct7kr.apps.googleusercontent.com"; 
+export const GOOGLE_CLIENT_SECRET = "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";
