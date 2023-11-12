@@ -11,22 +11,22 @@ export async function sendOTPService(req: any, res: any, next: any) {
     const user = await userInfo.findOne({ "email.address": email });
 
     if (!user) {
-      res.status(404).json({ message: ERROR_CODE.USER_NOT_FOUND });
-    } else {
-      // if (user.email?.isVerified) {
-      // Send OTP to the user's email
-      const OTP = generateOTP();
-      console.log("OTP generated");
-      await saveOTPMemory(OTP, user.userCredentialId);
-      console.log("OTP saved");
-      await sendOTPtoUser(email, OTP);
-      console.log("OTP sent");
-      return res.status(200).json({ message: SUCCESS_MESSAGE });
-      // } else {
-      //   return res.status(403).json({ error: "USER_NOT_VERIFIED" });
-      // }
+      return res.status(404).json({ message: ERROR_CODE.USER_NOT_FOUND });
     }
+
+    if (!user.email?.isVerified) {
+      return res.status(403).json({ error: "USER_NOT_VERIFIED" });
+    }
+
+    const OTP = generateOTP();
+    await saveOTPMemory(OTP, user.userCredentialId);
+
+    const mailInfo = generateEmailContent(email, OTP);
+    await sendOTPtoUser(mailInfo);
+
+    return res.status(200).json({ message: SUCCESS_MESSAGE });
   } catch (error) {
+    console.error(error);
     next(error);
   }
 }
@@ -37,14 +37,7 @@ function generateOTP() {
 }
 
 async function saveOTPMemory(OTP: string, userId: any) {
-  const existingOTP = await OTPverification.findOne({ userId: userId });
-
-  if (existingOTP) {
-    // Handle the case where an OTP already exists for the user
-    console.log("User already has an OTP.");
-    await OTPverification.findByIdAndDelete(existingOTP._id);
-    console.log("Previous OTP deleted.");
-  }
+  await handleExistingOTP(userId);
   const expirationTimeInMinutes = 15; // OTP expires in 15 minutes
   const expirationTimeInMilliseconds = expirationTimeInMinutes * 60 * 1000;
 
@@ -55,35 +48,34 @@ async function saveOTPMemory(OTP: string, userId: any) {
     expiresAt: Date.now() + expirationTimeInMilliseconds,
   });
 
-  try {
-    await newOTPverification.save();
-    console.log(SUCCESS_MESSAGE);
-  } catch (error) {
-    console.error(error);
+  await newOTPverification.save();
+}
+
+async function handleExistingOTP(userId: any) {
+  const existingOTP = await OTPverification.findOne({ userId: userId });
+  if (existingOTP) {
+    await OTPverification.findByIdAndDelete(existingOTP._id);
   }
 }
 
-async function sendOTPtoUser(email: string, OTP: string) {
-  const mailInfo = {
+async function sendOTPtoUser(mailInfo: any) {
+  let transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
+    auth: {
+      user: AUTH_EMAIL,
+      pass: AUTH_PASSWORD,
+    },
+  });
+  transporter.sendMail(mailInfo);
+}
+
+function generateEmailContent(email: string, OTP: string) {
+  return {
     from: AUTH_EMAIL,
     to: email,
     subject: "Bright OTP Verification Code",
     html: `<p>Enter <b>${OTP}</b> in the app to verify your email</p><p>This code <b>expires in 15 minutes.</b></p>`,
   };
-
-  await transporter.sendMail(mailInfo);
 }
-
-const transporter = nodemailer.createTransport({
-  host: "smtp.google.com",
-  port: 465,
-  secure: true,
-  auth: {
-    user: AUTH_EMAIL,
-    pass: AUTH_PASSWORD,
-  },
-  tls: {
-    // This is important for avoiding self-signed certificate errors
-    rejectUnauthorized: false,
-  },
-});
