@@ -17,7 +17,6 @@ export async function emailVerificationService(req: any, res: any, next: any) {
       validateSMTP: true,
     });
 
-    console.log(response.valid);
     if (response.valid) {
       // If email is valid, update the user's isVerified field
       const user = await userInfo.findOne({ "email.address": email });
