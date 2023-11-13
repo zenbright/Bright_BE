@@ -116,7 +116,7 @@ const server = app.listen(PORT_SERVER, () => {
 });
 
 // Connect to socket.io
-initSocketIo(server);
+initSocketIo(server, redisClient);
 
 // Handle Errors
 app.use(errorResponseHandler);
