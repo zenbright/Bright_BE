@@ -6,7 +6,6 @@ import bodyParser from "body-parser";
 import morgan from "morgan";
 import basicAuth from "express-basic-auth";
 import logger from "./logger";
-// import mongoose from "mongoose";
 import redisClient from "./service/utils/redisConfig";
 import ResponseHandler from "./service/utils/responseHandler";
 import swaggerJSDoc from "./swagger";
@@ -15,7 +14,6 @@ import { ROUTE_ENDPOINT } from "./config";
 import endpoint from "./endpoints";
 import path from "path";
 import errorResponseHandler from "./service/utils/errorResponseHandler";
-// import { Server, Socket } from "socket.io";
 import connectToMongoDB from "./mongodb";
 import initSocketIo from "./socketIo";
 import {
@@ -25,8 +23,6 @@ import {
   PASSWORD_API_DOCS,
   NODE_ENV,
   PORT_SERVER,
-  MONGO_URI,
-  DB_NAME,
 } from "./config";
 
 const __dirname = path.resolve();
@@ -129,7 +125,7 @@ app.get("/realtimeChat", (req, res) => {
   );
 });
 
-// MongoDB Connection
+// Connect to MongoDB
 connectToMongoDB();
 
 const server = app.listen(PORT_SERVER, () => {
