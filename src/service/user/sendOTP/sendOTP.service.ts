@@ -16,6 +16,8 @@ export async function sendOTPService(req: any, res: any, next: any) {
       return res.status(403).json({ error: "USER_NOT_VERIFIED" });
     }
 
+    await SendOTPfunction.handleExistingOTP(user.userCredentialId);
+
     const OTP = SendOTPfunction.generateOTP();
     await SendOTPfunction.saveOTPMemory(OTP, user.userCredentialId);
 

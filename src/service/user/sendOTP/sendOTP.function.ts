@@ -8,7 +8,6 @@ export function generateOTP() {
 }
 
 export async function saveOTPMemory(OTP: string, userId: any) {
-  await handleExistingOTP(userId);
   const expirationTimeInMinutes = 15; // OTP expires in 15 minutes
   const expirationTimeInMilliseconds = expirationTimeInMinutes * 60 * 1000;
 
@@ -18,11 +17,10 @@ export async function saveOTPMemory(OTP: string, userId: any) {
     createdAt: Date.now(),
     expiresAt: Date.now() + expirationTimeInMilliseconds,
   });
-
   await newOTPverification.save();
 }
 
-async function handleExistingOTP(userId: any) {
+export async function handleExistingOTP(userId: any) {
   const existingOTP = await OTPverification.findOne({ userId: userId });
   if (existingOTP) {
     await OTPverification.findByIdAndDelete(existingOTP._id);
@@ -47,6 +45,6 @@ export function generateEmailContent(email: string, OTP: string) {
     from: AUTH_EMAIL,
     to: email,
     subject: "Bright OTP Verification Code",
-    html: `<p>Enter <b>${OTP}</b> in the app to verify your email</p><p>This code <b>expires in 15 minutes.</b></p>`,
+    html: `<p>Enter <b>${OTP}</b> in the app to verify your email. This code <b>expires in 15 minutes.</b></p>`,
   };
 }

@@ -12,13 +12,13 @@ export async function verifyOTPService(req: any, res: any, next: any) {
     });
 
     if (userCred) {
-      const OTP = await OTPverification.findOne({ userId: userCred.userId });
+      const OTP = await OTPverification.findOne({ userId: userCred._id });
       if (OTP) {
         if (isExpired(OTP)) {
           await OTPverification.findByIdAndDelete(OTP._id);
           return res.status(400).json({ error: "OTP_EXPIRED" });
         } else {
-          if (OTP == userTypedOTP) {
+          if (OTP.OTP == userTypedOTP) {
             // when OTP is matched
             await OTPverification.findByIdAndDelete(OTP._id);
             return res.status(200).json({ message: SUCCESS_MESSAGE });
