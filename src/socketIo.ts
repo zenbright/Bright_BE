@@ -1,4 +1,5 @@
 import { Server, Socket } from "socket.io";
+import { realtimeChatService } from "./service/user/realtimeChat/realtimeChat.service";
 
 const socketsConnected = new Set();
 
@@ -12,6 +13,8 @@ export const initSocketIo = (server: any, redisClient: any) => {
       console.log("received message: " + data.message);
       console.log("sender: " + socket.id);
 
+      const userId = socket.id; // TODO: replace with userId in userCredentials
+      realtimeChatService(userId, data);
       io.emit("message", data);
       socket.broadcast.emit("chat-message", data);
     });
