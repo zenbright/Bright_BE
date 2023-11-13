@@ -111,17 +111,17 @@ app.get("/", (req, res) => {
 // Tempory html, css, js (copy from yt & github tutotirals)
 app.get("/realtimeChat.css", (req, res) => {
   res.sendFile(
-    path.join(__dirname, "src/service/realtimeChat/realtimeChat.css"),
+    path.join(__dirname, "src/service/realtimeChat/realtimeChat-FE/realtimeChat.css"),
   );
 });
 
 app.get("/main.js", (req, res) => {
-  res.sendFile(path.join(__dirname, "src/service/realtimeChat/main.js"));
+  res.sendFile(path.join(__dirname, "src/service/realtimeChat/realtimeChat-FE/main.js"));
 });
 
 app.get("/realtimeChat", (req, res) => {
   res.sendFile(
-    path.join(__dirname, "src/service/realtimeChat/realtimeChat.html"),
+    path.join(__dirname, "src/service/realtimeChat/realtimeChat-FE/realtimeChat.html"),
   );
 });
 
