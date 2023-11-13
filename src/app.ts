@@ -6,7 +6,7 @@ import bodyParser from "body-parser";
 import morgan from "morgan";
 import basicAuth from "express-basic-auth";
 import logger from "./logger";
-import mongoose from "mongoose";
+// import mongoose from "mongoose";
 import redisClient from "./service/utils/redisConfig";
 import ResponseHandler from "./service/utils/responseHandler";
 import swaggerJSDoc from "./swagger";
@@ -15,12 +15,9 @@ import { ROUTE_ENDPOINT } from "./config";
 import endpoint from "./endpoints";
 import path from "path";
 import errorResponseHandler from "./service/utils/errorResponseHandler";
-import { Server, Socket } from "socket.io";
-
-const __dirname = path.resolve();
-
-dotenv.config();
-
+// import { Server, Socket } from "socket.io";
+import connectToMongoDB from "./mongodb";
+import initSocketIo from "./socketIo";
 import {
   MORGAN_FORMAT,
   CORS_OPTIONS,
@@ -31,6 +28,10 @@ import {
   MONGO_URI,
   DB_NAME,
 } from "./config";
+
+const __dirname = path.resolve();
+
+dotenv.config();
 
 const app = express();
 
@@ -129,17 +130,7 @@ app.get("/realtimeChat", (req, res) => {
 });
 
 // MongoDB Connection
-mongoose.set("strictQuery", false);
-mongoose
-  .connect(MONGO_URI)
-  .then(async (data) => {
-    logger.info(`Mongodb connected ${MONGO_URI} : ${DB_NAME}`);
-  })
-  .catch((error) => {
-    console.log(error);
-    logger.error("Please make sure Mongodb is installed and running!");
-    process.exit(1);
-  });
+connectToMongoDB();
 
 const server = app.listen(PORT_SERVER, () => {
   // ? Logging restart service
@@ -148,30 +139,7 @@ const server = app.listen(PORT_SERVER, () => {
 });
 
 // Connect to socket.io
-const io = new Server(server, {});
-let socketsConnected = new Set()
-
-io.on("connection", (socket: Socket) => {
-  console.log("a user connected");
-  console.log("socket id: " + socket.id);
-  // Increase Total Client Count
-  socketsConnected.add(socket.id)
-  io.emit('clients-total', socketsConnected.size) 
-
-  socket.on('message', (data) => {
-    console.log("received message: "  + data.message);
-    console.log("sender: "  + socket.id);
-    io.emit('message', data);
-    socket.broadcast.emit('chat-message', data);
-  });
-
-  socket.on('disconnect', () => {
-    console.log("a user disconnected");
-    // Decrease Total Client Count
-    socketsConnected.delete(socket.id)
-    io.emit('clients-total', socketsConnected.size) 
-  });
-});
+initSocketIo(server);
 
 // Handle Errors
 app.use(errorResponseHandler);
