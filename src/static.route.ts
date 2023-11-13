@@ -9,15 +9,15 @@ staticRoutes.get('/', (req, res) => {
 });
 
 staticRoutes.get('/realtimeChat.css', (req, res) => {
-    res.sendFile(path.join(__dirname, 'src/service/realtimeChat/realtimeChat-FE/realtimeChat.css'));
+    res.sendFile(path.join(__dirname, 'src/service/user/realtimeChat/realtimeChat-FE/realtimeChat.css'));
 });
 
 staticRoutes.get('/main.js', (req, res) => {
-    res.sendFile(path.join(__dirname, 'src/service/realtimeChat/realtimeChat-FE/main.js'));
+    res.sendFile(path.join(__dirname, 'src/service/user/realtimeChat/realtimeChat-FE/main.js'));
 });
 
 staticRoutes.get('/realtimeChat', (req, res) => {
-    res.sendFile(path.join(__dirname, 'src/service/realtimeChat/realtimeChat-FE/realtimeChat.html'));
+    res.sendFile(path.join(__dirname, 'src/service/user/realtimeChat/realtimeChat-FE/realtimeChat.html'));
 });
 
 export default staticRoutes;
