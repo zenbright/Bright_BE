@@ -16,6 +16,7 @@ import path from "path";
 import errorResponseHandler from "./service/utils/errorResponseHandler";
 import connectToMongoDB from "./mongodb";
 import initSocketIo from "./socketIo";
+import staticRoutes from "./static.route";
 import {
   MORGAN_FORMAT,
   CORS_OPTIONS,
@@ -102,28 +103,8 @@ app.use((req, res: any, next) => {
   next();
 });
 
-app.get("/", (req, res) => {
-  res.sendFile(
-    path.join(__dirname, "src/service/authentication/github/index.html"),
-  );
-});
-
-// Tempory html, css, js (copy from yt & github tutotirals)
-app.get("/realtimeChat.css", (req, res) => {
-  res.sendFile(
-    path.join(__dirname, "src/service/realtimeChat/realtimeChat-FE/realtimeChat.css"),
-  );
-});
-
-app.get("/main.js", (req, res) => {
-  res.sendFile(path.join(__dirname, "src/service/realtimeChat/realtimeChat-FE/main.js"));
-});
-
-app.get("/realtimeChat", (req, res) => {
-  res.sendFile(
-    path.join(__dirname, "src/service/realtimeChat/realtimeChat-FE/realtimeChat.html"),
-  );
-});
+// Use the static routes module
+app.use("/", staticRoutes);
 
 // Connect to MongoDB
 connectToMongoDB();
