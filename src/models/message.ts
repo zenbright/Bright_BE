@@ -1,19 +1,34 @@
 import mongoose from "mongoose";
 
-const messageSchema = new mongoose.Schema({
-    userId: {
+const messageDataSchema = new mongoose.Schema({
+    groupId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Group",
+        required: true,
+    },
+    fromId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "credentials",
+        required: true,
+    },
+    isSeen: {
+        type: Boolean,
+        default: false,
+    },
+    text: {
         type: String,
-        unique: true,
-        required: true
     },
-    messageData: {
-        type: Object,
-        required: true
+    multimedia: {
+        type: String, // Binary data of a file 
     },
-    timeStamp: {
+    timestamp: {
         type: Date,
         default: Date.now(),
-    }
+    },
+    order: {
+        type: Number,
+        required: true,
+    },
 });
 
-export default mongoose.model("message", messageSchema);
+export default mongoose.model("Message", messageDataSchema);

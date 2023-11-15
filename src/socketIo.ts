@@ -3,20 +3,28 @@ import { realtimeChatService } from "./service/user/realtimeChat/realtimeChat.se
 
 const socketsConnected = new Set();
 
-export const initSocketIo = (server: any, redisClient: any) => {
+// socket.io setup
+export const initSocketIo = (server: any) => {
   const io = new Server(server, {});
 
-  io.on("connection", (socket: Socket) => {
+  io.on("connection", (socket) => {
     increaseClientCount(socket.id, io);
 
-    socket.on("message", (data) => {
-      console.log("received message: " + data.message);
-      console.log("sender: " + socket.id);
+    let groupId= "";
+    socket.on("join", (groupId) => {
+      console.log("groupId: " + groupId);
+      groupId = groupId;
+      socket.join(groupId); // Join the room corresponding to the group
+    });
 
-      const userId = socket.id; // TODO: replace with userId in userCredentials
-      realtimeChatService(userId, data);
-      io.emit("message", data);
-      socket.broadcast.emit("chat-message", data);
+    socket.on("message", (data) => {
+      console.log("received message:", data); // data: name, message, dateTime
+      console.log("sender:", socket.id);
+
+      const userId = socket.id; // Replace with userId from userCredentials
+      realtimeChatService(groupId, userId, data);
+
+      io.to(data.groupId).emit("message", data); // Send to all users in the group
     });
 
     socket.on("disconnect", () => {
