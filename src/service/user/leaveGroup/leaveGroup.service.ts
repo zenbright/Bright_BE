@@ -34,7 +34,15 @@ export async function leaveGroupService(req: any, res: any, next: any) {
 
       // Save the modified group document
       console.log("existingGroup users: " + existingGroup.users);
-      await existingGroup.save();
+      
+      // If there are no users left, delete the group
+      if (existingGroup.users.length === 0) {
+        await Group.deleteOne({ groupId: groupId });
+      } else {
+        // Save the modified group document
+        await existingGroup.save();
+      }
+      
       return res.status(200).json({ message: SUCCESS_MESSAGE });
     }
   } catch (error) {
