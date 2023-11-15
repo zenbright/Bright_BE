@@ -35,6 +35,7 @@ export async function createGroupService(req: any, res: any, next: any) {
       const existingGroup = await Group.findOne({ users: groupMembers });
 
       if (existingGroup) {
+        // console.log("existingGroup: " + existingGroup.groupId);
         return res.status(400).json({ message: "ERROR_CODE.GROUP_ALREADY_EXISTS" });
       }
 
