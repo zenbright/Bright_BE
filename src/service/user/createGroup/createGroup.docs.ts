@@ -11,8 +11,8 @@
  *         required: true
  *         properties:
  *         example: {
- *           "userCredId": "userCredId",
-*            "invitedUsers": ["userCredId", "userCredId"],
+ *           "userCredId": "654de4a54a26432a6383a293",
+*            "invitedUsers": ["654b5224aac8570c61b5e7cf", "6545c64a5f02b55dbe204fa8"],
  *         }
  *     responses:
  *       200:
