@@ -59,7 +59,7 @@ export const createGroupValidator = [
   validatorErrorHandler,
 ];
 
-export const leaveGroupValidator = [
+export const JoinLeaveGroupValidator = [
   body("userCredId")
     .isString()
     .notEmpty()
