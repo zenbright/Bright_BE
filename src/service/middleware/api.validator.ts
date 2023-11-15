@@ -65,4 +65,10 @@ export const leaveGroupValidator = [
     .notEmpty()
     .withMessage("Missing userCredId Field."),
   body("groupId").isString().notEmpty().withMessage("Missing groupId Field."),
+  validatorErrorHandler,
+];
+
+export const deleteGroupValidator = [
+  body("groupId").isString().notEmpty().withMessage("Missing groupId Field."),
+  validatorErrorHandler,
 ];

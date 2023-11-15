@@ -6,6 +6,7 @@ import UserPasswordChangeRoute from "./service/user/passwordChange/passwordChang
 import UserAccountDeleteRoute from "./service/user/deleteAccount/deleteAccount.route";
 import CreateGroupRoute from "./service/user/createGroup/createGroup.route";
 import LeaveGroupRoute from "./service/user/leaveGroup/leaveGroup.route";
+import DeleteGroupRoute from "./service/user/deleteGroup/deleteGroup.route";
 // import RealtimeChatRoute from "./service/user/realtimeChat/realtimeChat.route";
 
 const router = Router();
@@ -16,7 +17,8 @@ router.use("/utils/user", [
   UserPasswordChangeRoute,
   UserAccountDeleteRoute,
   CreateGroupRoute,
-  LeaveGroupRoute
+  LeaveGroupRoute,
+  DeleteGroupRoute
   // RealtimeChatRoute,
 ]);
 
