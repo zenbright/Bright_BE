@@ -14,7 +14,7 @@ export async function realtimeChatService(groupId: String, userId: String, data:
       false, // isSeen
       message, // text
       "", // TODO: multimedia
-      // dateTime,
+      dateTime, // timestamp
       0, // TODO: make the order dynamic
     );
   } catch (error) {
@@ -29,7 +29,7 @@ async function storeNewMessage(
   isSeen: Boolean,
   text: String,
   multimedia: String,
-  // timestamp: Date,
+  timestamp: Date,
   order: Number,
 ) {
   const newMessage = new Message({
@@ -38,7 +38,7 @@ async function storeNewMessage(
     isSeen,
     text,
     multimedia,
-    // timestamp,
+    timestamp,
     order,
   });
 
