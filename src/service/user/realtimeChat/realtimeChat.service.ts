@@ -7,6 +7,9 @@ export async function realtimeChatService(groupId: String, userId: String, data:
   try {
     const { name, message, dateTime } = data;
     
+    // TODO: check if groupId exists in group schema
+    // TODO: check if userId exists in user schema
+    
     // groupId, fromId, toId, isSeen, multimedia, timestamp, order
     await storeNewMessage(
       groupId,
@@ -18,8 +21,8 @@ export async function realtimeChatService(groupId: String, userId: String, data:
       0, // TODO: make the order dynamic
     );
   } catch (error) {
-    // Handle error
-    console.error(ERROR_CODE);
+    // TODO: Handle error
+    console.error("ERROR OCCURED");
   }
 }
 

@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const messageDataSchema = new mongoose.Schema({
+const messageSchema = new mongoose.Schema({
     groupId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Group",
@@ -31,4 +31,4 @@ const messageDataSchema = new mongoose.Schema({
     },
 });
 
-export default mongoose.model("Message", messageDataSchema);
+export default mongoose.model("Message", messageSchema);

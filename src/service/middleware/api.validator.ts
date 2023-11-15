@@ -41,3 +41,20 @@ export const userSearchValidator = [
   body("fullname").isString().notEmpty().withMessage("Missing fullname Field."),
   validatorErrorHandler,
 ];
+
+export const createGroupValidator = [
+  body("userCredId")
+    .isString()
+    .notEmpty()
+    .withMessage("Missing userCredId Field."),
+  body("invitedUsers")
+    .isArray({ min: 1 }) // Ensure invitedUsers is an array with at least one element
+    .custom((value: any) => {
+      // Check if all elements in the array are strings
+      if (!value.every((item: any) => typeof item === "string")) {
+        throw new Error("invitedUsers must be an array of strings.");
+      }
+      return true;
+    }),
+  validatorErrorHandler,
+];

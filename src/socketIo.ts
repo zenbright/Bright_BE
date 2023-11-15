@@ -8,8 +8,11 @@ export const initSocketIo = (server: any) => {
   const io = new Server(server, {});
 
   io.on("connection", (socket) => {
+    console.log(socket.id);
     increaseClientCount(socket.id, io);
 
+     // TODO: check if groupId exists in group schema + make a connection to socket
+    // TODO: check if userId exists in user schema + make a connection to socket
     let groupId= "";
     socket.on("join", (groupId) => {
       console.log("groupId: " + groupId);

@@ -12,6 +12,7 @@ const groupSchema = new mongoose.Schema({
         required: true, 
       },
     ],
+    // TODO: messages or not
   });
 
 export default mongoose.model("Group", groupSchema);

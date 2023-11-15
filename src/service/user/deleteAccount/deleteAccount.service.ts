@@ -25,7 +25,7 @@ export async function deleteAccountService(req: any, res: any, next: any) {
           message: SUCCESS_MESSAGE,
         });
       } else {
-        res.status(404).json({
+        return res.status(404).json({
           message: ERROR_CODE.USER_NOT_FOUND,
         });
       }
