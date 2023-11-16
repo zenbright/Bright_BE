@@ -1,8 +1,8 @@
 /**
  * @swagger
- * /utils/user/leaveGroup:
+ * /utils/user/deleteMessage:
  *   put:
- *     summary: Leave a group
+ *     summary: Delete a message from a group
  *     tags:
  *       - Authentication
  *     parameters:
@@ -11,12 +11,12 @@
  *         required: true
  *         properties:
  *         example: {
- *           "userCredId": "654de4a54a26432a6383a293",
  *            "groupId": "655481db98d3e616d89d755c",
+ *            "messageId": "655481db98d3e616d89d755c",
  *         }
  *     responses:
  *       200:
- *         description: Leave a group success
+ *         description: Delete a message from a group success
  *         schema:
  *           type: object
  *           example:

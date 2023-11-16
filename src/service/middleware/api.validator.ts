@@ -72,3 +72,9 @@ export const deleteGroupValidator = [
   body("groupId").isString().notEmpty().withMessage("Missing groupId Field."),
   validatorErrorHandler,
 ];
+
+export const deleteMessageValidator = [
+  body("groupId").isString().notEmpty().withMessage("Missing groupId Field."),
+  body("messageId").isString().notEmpty().withMessage("Missing messageId Field."),
+  validatorErrorHandler,
+]
