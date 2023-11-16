@@ -13,7 +13,7 @@ export async function deleteMessageService(req: any, res: any, next: any) {
         .json({ error: "GROUP_" + ERROR_CODE.NOT_FOUND_ERROR });
     }
 
-    await removeMessageFromGroup(existingGroup, messageId);
+    await removeMessageFromGroup(existingGroup, messageId, res);
 
     return res.status(200).json({ message: SUCCESS_MESSAGE });
   } catch (error) {
@@ -21,11 +21,19 @@ export async function deleteMessageService(req: any, res: any, next: any) {
   }
 }
 
-async function removeMessageFromGroup(existingGroup: any, messageId: string) {
+async function removeMessageFromGroup(
+  existingGroup: any,
+  messageId: string,
+  res: any,
+) {
   const messageIndex = existingGroup.messages.indexOf(messageId);
 
   if (messageIndex !== -1) {
     existingGroup.messages.splice(messageIndex, 1);
+  } else {
+    return res
+      .status(404)
+      .json({ error: "Message_" + ERROR_CODE.NOT_FOUND_ERROR });
   }
 
   return existingGroup;
