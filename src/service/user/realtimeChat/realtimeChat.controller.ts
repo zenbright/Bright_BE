@@ -1,5 +1,9 @@
-// import * as RealtimeChatService from "./realtimeChat.service";
+import * as RealtimeChatService from "./realtimeChat.service";
 
-// export async function realtimeChatController(req: any, res: any, next: any) {
-//   RealtimeChatService.realtimeChatService(req, res, next);
-// }
+export async function realtimeChatController(
+  groupId: String,
+  userId: String,
+  data: any,
+) {
+  RealtimeChatService.realtimeChatService(groupId, userId, data);
+}

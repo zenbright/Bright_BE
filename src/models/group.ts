@@ -1,18 +1,22 @@
 import mongoose from "mongoose";
+import message from "./message";
 
 const groupSchema = new mongoose.Schema({
-    groupId: {
+  groupId: {
+    type: String,
+    required: true,
+  },
+  users: [
+    {
       type: String,
       required: true,
     },
-    users: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "credentials", // Reference to the userCredentials model
-        required: true, 
-      },
-    ],
-    // TODO: messages or not
-  });
+  ],
+  messages: [
+    {
+      type: String,
+    },
+  ],
+});
 
 export default mongoose.model("Group", groupSchema);
