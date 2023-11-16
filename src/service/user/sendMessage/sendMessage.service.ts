@@ -1,10 +1,9 @@
-// service/user/realtimeChat/realtimeChat.service.js
 import Message from "../../../models/message";
 import mongoose from "mongoose";
 import Group from "../../../models/group";
 import { ERROR_CODE, SUCCESS_MESSAGE } from "../../utils/constants";
 
-export async function realtimeChatService(
+export async function sendMessageService(
   groupId: String,
   userId: String,
   data: any,

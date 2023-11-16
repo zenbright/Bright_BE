@@ -1,5 +1,5 @@
 import { Server, Socket } from "socket.io";
-import { realtimeChatService } from "./service/user/realtimeChat/realtimeChat.service";
+import { sendMessageService } from "./service/user/sendMessage/sendMessage.service";
 
 const socketsConnected = new Set();
 
@@ -30,7 +30,7 @@ export const initSocketIo = (server: any) => {
         console.log("sender:", socket.id);
 
         // const userId = socket.id;
-        realtimeChatService(groupId, userId, data);
+        sendMessageService(groupId, userId, data);
 
         io.to(groupId).emit("message", data); // Send to all users in the group
       });

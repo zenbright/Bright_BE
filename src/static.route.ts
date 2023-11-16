@@ -13,12 +13,12 @@ staticRoutes.get("/", (req, res) => {
 });
 
 staticRoutes.get(
-  "/:userId/:groupId/realtimeChat.css",
+  "/:userId/:groupId/sendMessage.css",
   (req, res) => {
     res.sendFile(
       path.join(
         __dirname,
-        "src/service/user/realtimeChat/realtimeChat-FE/realtimeChat.css",
+        "src/service/user/sendMessage/sendMessage-FE/sendMessage.css",
       ),
     );
   },
@@ -28,18 +28,18 @@ staticRoutes.get("/:userId/:groupId/main.js", (req, res) => {
   res.sendFile(
     path.join(
       __dirname,
-      "src/service/user/realtimeChat/realtimeChat-FE/main.js",
+      "src/service/user/sendMessage/sendMessage-FE/main.js",
     ),
   );
 });
 
-staticRoutes.get("/:userId/:groupId/realtimechat", async (req, res) => {
+staticRoutes.get("/:userId/:groupId/sendMessage", async (req, res) => {
   validateUserGroupId(req, res);
 
   res.sendFile(
     path.join(
       __dirname,
-      "src/service/user/realtimeChat/realtimeChat-FE/realtimeChat.html",
+      "src/service/user/sendMessage/sendMessage-FE/sendMessage.html",
     ),
   );
 });
