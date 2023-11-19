@@ -8,7 +8,7 @@ export function generateOTP() {
 }
 
 export async function saveOTPMemory(OTP: string, userId: any) {
-  const expirationTimeInMinutes = 15; // OTP expires in 15 minutes
+  const expirationTimeInMinutes = 60; // OTP expires in 60 minutes
   const expirationTimeInMilliseconds = expirationTimeInMinutes * 60 * 1000;
 
   const newOTPverification = new OTPverification({
