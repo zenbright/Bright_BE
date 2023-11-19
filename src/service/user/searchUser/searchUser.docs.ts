@@ -13,7 +13,7 @@
  *         example: {
  *           "account": "account",
  *           "provider": "bright",
- *           "fullname": "Quoc",
+ *           "searchInput": "Quo",
  *         }
  *      responses:
  *       200:
