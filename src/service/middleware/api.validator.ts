@@ -36,8 +36,6 @@ export const userPasswordChangeValidator = [
 ];
 
 export const userSearchValidator = [
-  body("account").isString().notEmpty().withMessage("Missing Account Field."),
-  body("provider").isString().notEmpty().withMessage("Missing Provider Field."),
-  body("searchInput").isString().notEmpty().withMessage("Missing searchInput Field."),
+  body("searchPhrase").isString().notEmpty().withMessage("Missing searchInput Field."),
   validatorErrorHandler,
 ];
