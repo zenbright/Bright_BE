@@ -2,7 +2,7 @@ import nodemailer from "nodemailer";
 import OTPverification from "../../../models/OTPverification";
 import { AUTH_EMAIL, AUTH_PASSWORD } from "../../../config";
 
-const expirationTimeInMinutes = 60; // OTP expires in 60 minutes
+const expirationTimeInMinutes = 1; // OTP expires in 1 minute
 
 export function generateOTP() {
   // a random 4-digit OTP
@@ -46,6 +46,6 @@ export function generateEmailContent(email: string, OTP: string) {
     from: AUTH_EMAIL,
     to: email,
     subject: "Bright OTP Verification Code",
-    html: `<p>Enter <b>${OTP}</b> in the app to verify your email. This code <b>expires in ${expirationTimeInMinutes} minutes.</b></p>`,
+    html: `<p>Enter <b>${OTP}</b> in the app to verify your email. This code <b>expires in ${expirationTimeInMinutes} minute.</b></p>`,
   };
 }
