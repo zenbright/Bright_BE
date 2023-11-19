@@ -1,4 +1,4 @@
-import { validate } from "deep-email-validator";
+import { validate } from "deep-email-validator"; // npm i deep-email-validator
 import userInfo from "../../../models/userInfo";
 import { ERROR_CODE, SUCCESS_MESSAGE } from "../../utils/constants";
 import { AUTH_EMAIL } from "../../../config";
