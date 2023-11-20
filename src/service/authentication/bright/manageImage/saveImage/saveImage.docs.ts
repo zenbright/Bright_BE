@@ -6,14 +6,17 @@
  *      tags:
  *       - Authentication
  *      parameters:
- *       - name: body
- *         in: body
+ *       - name: userInfoId
+ *         in: formData
  *         required: true
  *         properties:
- *         example: {
- *           "userInfoId": "",
- *           "imageFile": "",
- *         }
+ *         example: "654de4a54a26432a6383a293"
+ *       - name: image
+ *         in: formData
+ *         description: The image file to upload (PNG, JPG, or JPEG).
+ *         required: true
+ *         type: file
+ *         format: Binary
  *      responses:
  *       200:
  *         description: Save Image success
