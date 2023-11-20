@@ -20,17 +20,17 @@ export const initSocketIo = (server: any) => {
 
       console.log("userId:", userId, "groupId:", groupId);
 
-      socket.on("join", (groupId) => {
-        console.log("groupId: " + groupId);
-        socket.join(groupId); // Join the room corresponding to the group
-      });
+      // socket.on("join", (groupId) => {
+      //   console.log("groupId: " + groupId);
+      //   socket.join(groupId); // Join the room corresponding to the group
+      // });
 
       socket.on("message", (data) => {
         console.log("received message:", data); // data: name, message, dateTime
         console.log("sender:", socket.id);
 
         // const userId = socket.id;
-        sendMessageService(groupId, userId, data);
+        // sendMessageService(groupId, userId, data);
 
         io.to(groupId).emit("message", data); // Send to all users in the group
       });
