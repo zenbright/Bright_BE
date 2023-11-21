@@ -28,15 +28,18 @@ export const userAccountDeleteValidator = [
 export const imageValidator = [
   body("userInfoId")
     .notEmpty()
-    .withMessage("The userInfoId is required.")
+    .withMessage("The userInfoId field is required.")
     .isString()
     .withMessage("Invalid userInfoId type."),
   body("image")
-    .notEmpty()
-    .withMessage("The image is required.")
     .custom((value, { req }) => {
+      if (req == undefined) {
+        throw new Error(
+          "The image field is required.",
+        );
+      }
       const allowedExtensions = ["png", "jpg", "jpeg"];
-      console.log("req.file");
+      console.log("req.file: " + req.file);
       const fileExtension = req.file.originalname
         .split(".")
         .pop()

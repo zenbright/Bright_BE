@@ -16,7 +16,7 @@
  *         description: The image file to upload (PNG, JPG, or JPEG).
  *         required: true
  *         type: file
- *         format: Binary
+ *         format: binary
  *      responses:
  *       200:
  *         description: Save Image success
