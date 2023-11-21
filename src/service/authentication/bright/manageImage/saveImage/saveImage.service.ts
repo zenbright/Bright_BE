@@ -5,7 +5,9 @@ export async function saveImageService(req: any, res: any, next: any) {
   try {
     const { userInfoId } = req.body;
     const filePath = req.file.path; // Multer has saved the file to disk
-    const base64Image = convertImageToBinary(filePath);
+    const binaryString = convertImageToBinary(filePath);
+
+    deleteMulterImage(filePath);
 
     // Find the existing account with id
     const userInfo = await userInformation.findOne({
@@ -15,9 +17,8 @@ export async function saveImageService(req: any, res: any, next: any) {
     if (!userInfo) {
       return res.status(404).json({ error: "User account not found." });
     } else {
-      console.log("found Info");
-      // Update the profileImage as base64 string
-      userInfo.profileImage = base64Image;
+      // Update the profileImage as binary string
+      userInfo.profileImage = binaryString;
 
       await userInfo.save();
       return res
@@ -35,4 +36,15 @@ function convertImageToBinary(filePath: string) {
   // const base64String = binaryData.toString('base64'); // base64 string
   console.log(binaryData.toString());
   return binaryData.toString();
+}
+
+function deleteMulterImage(filePath: string) {
+  // Delete the file from the "uploads" folder
+  fs.unlink(filePath, (err) => {
+    if (err) {
+      console.error("Error deleting file:", err);
+    } else {
+      console.log("File deleted successfully");
+    }
+  });
 }
