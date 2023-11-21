@@ -1,10 +1,11 @@
 import userInformation from "../../../../../models/userInfo";
-import fs from "fs";
+import fs from "fs"; // node.js environment
 
 export async function saveImageService(req: any, res: any, next: any) {
   try {
-    const { imageFile, userInfoId } = req.body;
-    const base64Image = convertImageToBinary(imageFile);
+    const { userInfoId } = req.body;
+    const filePath = req.file.path; // Multer has saved the file to disk
+    const base64Image = convertImageToBinary(filePath);
 
     // Find the existing account with id
     const userInfo = await userInformation.findOne({
@@ -28,22 +29,10 @@ export async function saveImageService(req: any, res: any, next: any) {
   }
 }
 
-function convertImageToBinary(imageFile: any) {
+function convertImageToBinary(filePath: string) {
   // Read the image file
-  var reader = new FileReader();
-  reader.readAsDataURL(imageFile);
-  reader.onload = function () {
-    //me.modelvalue = reader.result;
-    console.log(reader.result);
-    return reader.result;
-  };
-  reader.onerror = function (error) {
-    console.log("Error: ", error);
-  };
-  return "";
-
-  //   const imageBuffer = fs.readFileSync(imagePath);
-  // Convert the image data to Base64 binary format
-  //   const base64Image = imageBuffer.toString("base64");
-  //   return base64Image;
+  const binaryData = fs.readFileSync(filePath, { encoding: "base64" });
+  // const base64String = binaryData.toString('base64'); // base64 string
+  console.log(binaryData.toString());
+  return binaryData.toString();
 }

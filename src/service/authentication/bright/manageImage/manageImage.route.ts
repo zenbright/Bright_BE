@@ -2,10 +2,19 @@ import { Router } from "express";
 import * as manageImageController from "./manageImage.controller";
 import { IPSpamChecker, APIValidator } from "../../../../";
 import multer from "multer"; // npm i @types/multer
+import path from "path";
 
 const router = Router();
 
-const storage = multer.memoryStorage(); // Use memory storage for simplicity
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "./src/service/authentication/bright/manageImage/uploads"); // Set a desired upload directory
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(null, file.fieldname + "-" + uniqueSuffix + path.extname(file.originalname));
+  },
+}); // Use memory storage for simplicity
 const upload = multer({
   storage: storage,
 });
