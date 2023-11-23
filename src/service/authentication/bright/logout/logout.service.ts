@@ -12,7 +12,7 @@ export async function logoutwithBright(req: any, res: any, next: any) {
     const userCred = await userCredentials.findOne({ refreshToken }).exec();
     if (!userCred) {
       res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true });
-      return res.sendStatus(204);
+      return res.sendStatus(204).json("Cookie clear");
     }
     
     // Delete refreshToken in db
@@ -21,7 +21,7 @@ export async function logoutwithBright(req: any, res: any, next: any) {
     console.log(result);
 
     res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true });
-    res.sendStatus(204)
+    res.sendStatus(204).json("SUCCESS LOGOUT");
 
   } catch (error) {
     next(error);
