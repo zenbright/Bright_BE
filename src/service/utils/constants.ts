@@ -9,6 +9,8 @@ export const ERROR_CODE = {
     NOT_ALLOWED: 'NOT_ALLOWED',
     INSUFFICIENT_PERMISSION: 'INSUFFICIENT_PERMISSION',
     USER_NOT_FOUND: 'USER_NOT_FOUND',
+    JWT_NOT_FOUND: 'JWT_NOT_FOUND',
+    TOKEN_NOT_FOUND: 'TOKEN_NOT_FOUND',
 };
 
 export const AUTH_ACTION = ['login', 'signup', 'refresh', 'logout']

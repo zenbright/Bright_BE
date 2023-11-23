@@ -10,13 +10,13 @@ export async function loginWithBright(req: any, res: any, next: any) {
     const { account, password } = req.body;
 
     if (!account || !password) {
-      return res.status(400).json({ error: ERROR_CODE.NOT_FOUND_ERROR });
+      return res.status(404).json({ error: ERROR_CODE.NOT_FOUND_ERROR });
     }
 
     // Find user credentials
     const userCred = await userCredentials.findOne({
       account: account,
-      provider: PROVIDER.BRIGHT
+      provider: PROVIDER.BRIGHT 
     });
 
     const matchPassword = await bcrypt.compare(password, String(userCred?.password));
@@ -47,15 +47,14 @@ export async function loginWithBright(req: any, res: any, next: any) {
 
         res.cookie("jwt", refreshToken, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 })
         res.status(200).json(accessToken);
-        return res.json(userDataMongo); // return user
       } else {
         res.status(404).json({
-          message: ERROR_CODE.NOT_FOUND_ERROR,
+          message: ERROR_CODE.USER_NOT_FOUND,
         });
       }
     } else {
       res.status(404).json({
-        message: ERROR_CODE.NOT_FOUND_ERROR,
+        message: ERROR_CODE.USER_NOT_FOUND,
       });
     }
   } catch (error) {

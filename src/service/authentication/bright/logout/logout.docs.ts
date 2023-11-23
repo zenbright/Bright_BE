@@ -7,7 +7,7 @@
  *     tags:
  *       - Authentication
  *     responses:
- *       204:
+ *       200:
  *         description: User successfully logged out.
  *       401:
  *         description: Unauthorized - JWT cookie not found.

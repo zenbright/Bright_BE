@@ -7,7 +7,9 @@ import jwt from "jsonwebtoken";
 export async function RefreshToken(req: any, res: any, next: any) {
   try {
     const cookies = req.cookies;
-    if(!cookies?.jwt) return res.sendStatus(401);
+    if(!cookies?.jwt) return res.status(401).json({
+      message: ERROR_CODE.JWT_NOT_FOUND,
+    });
     const refreshToken = cookies.jwt;
 
     // Find user credentials
@@ -18,7 +20,7 @@ export async function RefreshToken(req: any, res: any, next: any) {
         refreshToken,
         REFRESH_TOKEN_SECRET,
         (err: any, decoded: any) => {
-            if (err || userCred.account !== decoded.account) return res.sendStatus(403);
+            if (err || userCred.account !== decoded.account) return res.status(403).json({ message: "Invalid or expired refresh token or mismatched account" });
             const accessToken = jwt.sign(
                 {
                     "account": userCred?.account,
