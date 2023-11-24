@@ -11,9 +11,7 @@
  *         required: true
  *         properties:
  *         example: {
- *           "account": "account",
- *           "provider": "bright",
- *           "fullname": "Quoc",
+ *           "searchPhrase": "Quo",
  *         }
  *      responses:
  *       200:
