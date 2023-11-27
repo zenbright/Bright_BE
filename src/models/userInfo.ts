@@ -26,10 +26,10 @@ const userInfoSchema = new mongoose.Schema({
 		instagram: String,
 		github: String,
 	},
-	profileImage: String,
+	profileImage: Buffer,
 	userCredentialId: mongoose.Schema.Types.ObjectId,
 }, {
 	timestamps: true,
 });
 
-export default mongoose.model('user', userInfoSchema);
+export default mongoose.model('users', userInfoSchema);

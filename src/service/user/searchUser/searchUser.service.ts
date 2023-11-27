@@ -1,5 +1,5 @@
 import userInformation from "../../../models/userInfo";
-import { ERROR_CODE, SUCCESS_MESSAGE } from "../../utils/constants";
+import { RESPONSE_CODE } from "../../utils/constants";
 
 export async function searchUserService(req: any, res: any, next: any) {
   try {
@@ -18,17 +18,17 @@ export async function searchUserService(req: any, res: any, next: any) {
         const fullnames = filteredUserInfo.map((userInfo) => userInfo.fullname);
 
         return res.status(200).json({
-          message: SUCCESS_MESSAGE,
+          message: RESPONSE_CODE.SUCCESS,
           data: fullnames,
         });
       } else {
         res.status(404).json({
-          message: ERROR_CODE.USER_NOT_FOUND,
+          message: RESPONSE_CODE.USER_NOT_FOUND,
         });
       }
     } else {
       res.status(404).json({
-        message: ERROR_CODE.USER_NOT_FOUND,
+        message: RESPONSE_CODE.USER_NOT_FOUND,
       });
     }
   } catch (error) {
