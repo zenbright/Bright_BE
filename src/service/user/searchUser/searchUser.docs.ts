@@ -11,9 +11,7 @@
  *         required: true
  *         properties:
  *         example: {
- *           "account": "account",
- *           "provider": "bright",
- *           "fullname": "Quoc",
+ *           "searchPhrase": "Quo",
  *         }
  *      responses:
  *       200:
@@ -22,13 +20,13 @@
  *           type: object
  *           example: {
  *             success: true,
- *             payload: "Access token",
+ *             payload: "Quoc Doan, Quoc Huu, ...",
  *           }
  *       400:
- *          description: Invalid User Account or Fullname
+ *          description: Invalid Search Phrase
  *          schema:
  *           type: string
- *           example: "INVALID USER ACCOUNT OR FULLNAME"
+ *           example: "No search"
  *       404:
  *          description: When the user doesn't exist
  *          schema:
