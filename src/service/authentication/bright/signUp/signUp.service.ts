@@ -1,21 +1,28 @@
 import mongoose from "mongoose";
 import userCredentials from "../../../../models/userCredentials";
 import userInfo from "../../../../models/userInfo";
+import { ERROR_CODE, PROVIDER, SUCCESS_MESSAGE } from "../../../utils/constants";
+import { passwordValidator } from "../../../utils/validator";
 
 export async function signUpBrigthAccount(req: any, res: any, next: any) {
   try {
     const userData = req.body;
 
     if (!userData) {
-      return res.status(400).json({ error: "Invalid User Data!" });
+      return res.status(404).json({ error: ERROR_CODE.NOT_FOUND_ERROR });
     } else {
       const existingUser = await userCredentials.findOne({
         account: userData.account,
-        provider: 'bright'
+        provider: PROVIDER.BRIGHT
       });
 
+      // User already exists
       if (existingUser) {
-        return res.status(400).json({ message: "User already exists" });
+        return res.status(400).json({ message: ERROR_CODE.NOT_ALLOWED });
+      }
+
+      if (!passwordValidator(userData.password)) {
+        return res.status(400).json({ message: ERROR_CODE.NOT_ALLOWED });
       }
     }
 
@@ -24,7 +31,7 @@ export async function signUpBrigthAccount(req: any, res: any, next: any) {
       account: userData.account,
       password: userData.password,
       userId: new mongoose.Types.ObjectId(),
-      provider: 'bright',
+      provider: PROVIDER.BRIGHT,
     });
 
     // Create new user information
@@ -45,7 +52,7 @@ export async function signUpBrigthAccount(req: any, res: any, next: any) {
     newCredential.userId = newUserInfo._id;
 
     await Promise.all([newUserInfo.save(), newCredential.save()]);
-    return res.status(200).json({ message: "Create new user successfully" });
+    return res.status(200).json({ message: SUCCESS_MESSAGE });
   } catch (error) {
     next(error);
   }

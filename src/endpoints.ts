@@ -6,5 +6,6 @@ import ManageImageRoute from './service/authentication/bright/manageImage/manage
 const router = Router();
 
 router.use('/auth', [GitAuthRoute, BrightAuthRoute, ManageImageRoute]);
+router.use("/utils/user", [UserSearchRoute, UserPasswordChangeRoute, UserAccountDeleteRoute]);
 
 export default router;

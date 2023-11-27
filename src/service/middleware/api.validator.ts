@@ -13,9 +13,7 @@ export const loginWithGitHubValidator = [
 ];
 
 export const loginWithBrightValidator = [
-  param("action")
-    .isIn(Object.values(AUTH_ACTION))
-    .withMessage("action invalid!"),
+  param("action").isIn(Object.values(AUTH_ACTION)).withMessage("action invalid!"),
   validatorErrorHandler,
 ];
 
@@ -54,5 +52,14 @@ export const imageValidator = [
       return true; // Validation passed if file format is correct
     }),
 
+  body("account").isString().notEmpty().withMessage("Missing Account Field."),
+  body("provider").isString().notEmpty().withMessage("Missing Provider Field."),
+  validatorErrorHandler,
+];
+
+export const userPasswordChangeValidator = [
+  body("account").isString().notEmpty().withMessage("Missing Account Field."),
+  body("provider").isString().notEmpty().withMessage("Missing Provider Field."),
+  body("newPassword").isString().notEmpty().withMessage("Missing New password Field."),
   validatorErrorHandler,
 ];
