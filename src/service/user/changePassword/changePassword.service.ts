@@ -1,4 +1,4 @@
-import userCredentials from "../../../models/userCredentials";
+import userCredentials from "../../../models/userCredentialsModel";
 import { RESPONSE_CODE, PROVIDER } from "../../utils/constants";
 import { passwordValidator } from "../../utils/validator";
 

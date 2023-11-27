@@ -6,7 +6,7 @@ const router = Router();
 
 router.post(
   "/sendOTP",
-  IPSpamChecker.checkIpSpamServer("/utils/user"),
+  IPSpamChecker.checkIpSpamServer("/auth/sendOTP"),
   APIValidator.emailVerificationValidator,
   sendOTPController.sendOTPController,
 );

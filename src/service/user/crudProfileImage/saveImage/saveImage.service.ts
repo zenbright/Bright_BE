@@ -1,4 +1,4 @@
-import userInformation from "../../../../models/userInfo";
+import userInformation from "../../../../models/userInfoModel";
 import { RESPONSE_CODE, ALLOWED_FILE_EXTENSIONS } from "../../../utils/constants";
 import path from "path";
 

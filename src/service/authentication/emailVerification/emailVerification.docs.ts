@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /utils/user/verifyEmail:
+ * /auth/verifyEmail:
  *   post:
  *      summary: Email Verification
  *      tags:
@@ -11,6 +11,7 @@
  *         required: true
  *         properties:
  *         example: {
+ *           "userId": "123456",
  *           "email": "0617@gmail.com",
  *         }
  *      responses:

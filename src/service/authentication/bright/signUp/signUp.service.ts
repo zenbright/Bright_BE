@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import userCredentials from "../../../../models/userCredentials";
-import userInfo from "../../../../models/userInfo";
+import userCredentials from "../../../../models/userCredentialsModel";
+import userInfo from "../../../../models/userInfoModel";
 import { RESPONSE_CODE, PROVIDER } from "../../../utils/constants";
 import { passwordValidator } from "../../../utils/validator";
 

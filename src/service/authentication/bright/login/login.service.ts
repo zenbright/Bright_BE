@@ -1,5 +1,5 @@
-import userCredentials from "../../../../models/userCredentials";
-import userInfo from "../../../../models/userInfo";
+import userCredentials from "../../../../models/userCredentialsModel";
+import userInfo from "../../../../models/userInfoModel";
 import { RESPONSE_CODE, PROVIDER } from "../../../utils/constants";
 
 export async function loginWithBright(req: any, res: any, next: any) {

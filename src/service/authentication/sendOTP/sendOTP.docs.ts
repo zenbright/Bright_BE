@@ -1,8 +1,8 @@
 /**
  * @swagger
- * /utils/user/verifyOTP:
+ * /auth/sendOTP:
  *   post:
- *      summary: Verify OTP
+ *      summary: Send OTP
  *      tags:
  *       - Authentication
  *      parameters:
@@ -11,28 +11,28 @@
  *         required: true
  *         properties:
  *         example: {
- *           "account": "0617lucia",
- *           "userTypedOTP": "1234"
+ *           "userId": "abc",
+ *           "email": "0617@gmail.com",
  *         }
  *      responses:
  *       200:
- *         description: OTP verified successfully
+ *         description: Sent OTP successfully
  *         schema:
  *           type: object
  *           example: {
  *             success: true,
  *             payload: "Access token",
  *           }
- *       400:
- *          description: When OTP is expired or invalid
+ *       403:
+ *          description: When the email is not verified
  *          schema:
  *           type: string
- *           example: "OTP EXPIRED OR INVALID"
+ *           example: "EMAIL NOT VERIFIED"
  *       404:
- *          description: When user credential or OTP is not found
+ *          description: When the user doesn't exist
  *          schema:
  *           type: string
- *           example: "USER CREDENTIAL OR OTP DOES NOT EXIST"
+ *           example: "USER DOES NOT EXIST"
  *       500:
  *         description: When got server exception
  *         schema:

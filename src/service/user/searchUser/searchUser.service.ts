@@ -1,4 +1,4 @@
-import userInformation from "../../../models/userInfo";
+import userInformation from "../../../models/userInfoModel";
 import { RESPONSE_CODE } from "../../utils/constants";
 
 export async function searchUserService(req: any, res: any, next: any) {

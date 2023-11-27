@@ -2,6 +2,7 @@ export const LANGUAGE_DEFAULT = "vi";
 
 export const RESPONSE_CODE = {
     SUCCESS: "SUCCESS",
+    INVALID_VALUE: "INVALID_VALUE",
     INTERNAL_SERVER_ERROR: 'INTERNAL_SERVER_ERROR',
     NOT_FOUND_ERROR: 'NOT_FOUND_ERROR',
     UNAUTHORIZED: 'UNAUTHORIZED',
@@ -37,3 +38,5 @@ export const PASSWORD_REGEXP = /^[a-zA-Z0-9]{8,}$/
 export const ALLOWED_FILE_EXTENSIONS = {
     IMAGE: ['.png', '.jpeg', '.jpg'],
 }
+
+export const OTP_EXPIRATION_INTERVAL = 1;

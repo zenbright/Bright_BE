@@ -6,7 +6,7 @@ const router = Router();
 
 router.post(
   "/verifyEmail",
-  IPSpamChecker.checkIpSpamServer("/utils/user"),
+  IPSpamChecker.checkIpSpamServer("/auth/verifyEmail"),
   APIValidator.emailVerificationValidator,
   emailVerificationController.emailVerificationController,
 );

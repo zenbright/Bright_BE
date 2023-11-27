@@ -26,6 +26,7 @@ export const userAccountDeleteValidator = [
 ];
 
 export const emailVerificationValidator = [
+  body("userId").notEmpty().isString().withMessage(" UserID is required "),
   body("email").isString().notEmpty().withMessage("Missing Email Field."),
   validatorErrorHandler,
 ];
@@ -60,8 +61,8 @@ export const userPasswordChangeValidator = [
   validatorErrorHandler,
 ];
 
-export const OTPValidator = [
-  body("account").isString().notEmpty().withMessage("Missing Account Field."),
-  body("userTypedOTP").isString().notEmpty().withMessage("Missing OTP Field."),
+export const OTPVerificationValidator = [
+  body("userId").isString().notEmpty().withMessage("Missing Id Field."),
+  body("OTP").isString().notEmpty().withMessage("Missing OTP Field."),
   validatorErrorHandler,
 ];

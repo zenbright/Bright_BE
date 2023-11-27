@@ -1,5 +1,5 @@
-import userCredentials from "../../../models/userCredentials";
-import userInformation from "../../../models/userInfo";
+import userCredentials from "../../../models/userCredentialsModel";
+import userInformation from "../../../models/userInfoModel";
 import { RESPONSE_CODE } from "../../utils/constants";
 
 export async function deleteAccountService(req: any, res: any, next: any) {

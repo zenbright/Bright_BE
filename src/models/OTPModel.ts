@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const OTPverificationSchema = new mongoose.Schema({
+const OTPSchema = new mongoose.Schema({
   userId: {
     type: String,
     unique: true,
@@ -21,4 +21,4 @@ const OTPverificationSchema = new mongoose.Schema({
   },
 });
 
-export default mongoose.model("OTPverification", OTPverificationSchema);
+export default mongoose.model("OTPCode", OTPSchema);

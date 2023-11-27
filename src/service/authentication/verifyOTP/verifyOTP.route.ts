@@ -6,8 +6,8 @@ const router = Router();
 
 router.post(
   "/verifyOTP",
-  IPSpamChecker.checkIpSpamServer("/utils/user"),
-  APIValidator.OTPValidator,
+  IPSpamChecker.checkIpSpamServer("/auth/verifyOTP"),
+  APIValidator.OTPVerificationValidator,
   verifyOTPController.verifyOTPController,
 );
 
