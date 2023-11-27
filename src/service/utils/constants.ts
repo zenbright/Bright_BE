@@ -30,4 +30,5 @@ export const EXTERNAL_URL = {
     GITHUB_OAUTH_GET_USERDATA: 'https://api.github.com/user',
 }
 
+// a/A/0 - z/Z/9 & at least 8 characters 
 export const PASSWORD_REGEXP = /^[a-zA-Z0-9]{8,}$/

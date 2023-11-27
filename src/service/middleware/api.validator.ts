@@ -13,9 +13,7 @@ export const loginWithGitHubValidator = [
 ];
 
 export const loginWithBrightValidator = [
-  param("action")
-    .isIn(Object.values(AUTH_ACTION))
-    .withMessage("action invalid!"),
+  param("action").isIn(Object.values(AUTH_ACTION)).withMessage("action invalid!"),
   validatorErrorHandler,
 ];
 
@@ -28,10 +26,7 @@ export const userAccountDeleteValidator = [
 export const userPasswordChangeValidator = [
   body("account").isString().notEmpty().withMessage("Missing Account Field."),
   body("provider").isString().notEmpty().withMessage("Missing Provider Field."),
-  body("newPassword")
-    .isString()
-    .notEmpty()
-    .withMessage("Missing New password Field."),
+  body("newPassword").isString().notEmpty().withMessage("Missing New password Field."),
   validatorErrorHandler,
 ];
 

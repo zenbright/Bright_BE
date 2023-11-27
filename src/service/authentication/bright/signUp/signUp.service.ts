@@ -9,15 +9,16 @@ export async function signUpBrigthAccount(req: any, res: any, next: any) {
     const userData = req.body;
 
     if (!userData) {
-      return res.status(400).json({ error: ERROR_CODE.NOT_FOUND_ERROR });
+      return res.status(404).json({ error: ERROR_CODE.NOT_FOUND_ERROR });
     } else {
       const existingUser = await userCredentials.findOne({
         account: userData.account,
         provider: PROVIDER.BRIGHT
       });
 
+      // User already exists
       if (existingUser) {
-        return res.status(400).json({ message: ERROR_CODE.NOT_FOUND_ERROR });
+        return res.status(400).json({ message: ERROR_CODE.NOT_ALLOWED });
       }
 
       if (!passwordValidator(userData.password)) {

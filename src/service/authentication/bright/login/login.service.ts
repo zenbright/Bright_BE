@@ -23,12 +23,12 @@ export async function loginWithBright(req: any, res: any, next: any) {
       if (userDataMongo) {
         return res.json(userDataMongo); // return user
       } else {
-        res.status(404).json({
+        res.status(400).json({
           message: ERROR_CODE.NOT_FOUND_ERROR,
         });
       }
     } else {
-      res.status(404).json({
+      res.status(400).json({
         message: ERROR_CODE.NOT_FOUND_ERROR,
       });
     }
