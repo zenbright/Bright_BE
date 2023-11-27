@@ -2,7 +2,7 @@ import userCredentials from "../../../models/userCredentials";
 import { RESPONSE_CODE, PROVIDER } from "../../utils/constants";
 import { passwordValidator } from "../../utils/validator";
 
-export async function passwordChangeService(req: any, res: any, next: any) {
+export async function changePasswordService(req: any, res: any, next: any) {
   try {
     const { account, newPassword } = req.body;
 

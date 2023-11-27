@@ -1,8 +1,8 @@
 /**
  * @swagger
- * /utils/user/searchUser:
- *   post:
- *      summary: Search User 
+ * /utils/user/changePassword:
+ *   put:
+ *      summary: General Account Password Change
  *      tags:
  *       - Authentication
  *      parameters:
@@ -11,27 +11,23 @@
  *         required: true
  *         properties:
  *         example: {
- *           "searchPhrase": "Quo",
+ *           "account": "account",
+ *           "newPassword": "newPassword",
  *         }
  *      responses:
  *       200:
- *         description: Search User success
+ *         description: General Account Password Change success
  *         schema:
  *           type: object
  *           example: {
  *             success: true,
- *             payload: "Quoc Doan, Quoc Huu, ...",
+ *             payload: "Access token",
  *           }
- *       400:
- *          description: Invalid Search Phrase
- *          schema:
- *           type: string
- *           example: "No search"
  *       404:
- *          description: When the user doesn't exist
+ *          description: When the user account not found
  *          schema:
  *           type: string
- *           example: "USER DOES NOT EXIST"
+ *           example: "USER ACCOUNT NOT FOUND"
  *       500:
  *         description: When got server exception
  *         schema:

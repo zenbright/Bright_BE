@@ -1,4 +1,4 @@
-export const LANGUAGE_DEFAULT = 'vi';
+export const LANGUAGE_DEFAULT = "vi";
 
 export const RESPONSE_CODE = {
     SUCCESS: "SUCCESS",
@@ -17,8 +17,8 @@ export const AUTH_ACTION = ['login', 'signup']
 export const USER_PROFILE_IMAGE_ACTION = ['get', 'save', 'delete']
 
 export const CAUTION = {
-    DO_NOT_USE: 'DO_NOT_USE',
-}
+  DO_NOT_USE: "DO_NOT_USE",
+};
 
 export const PROVIDER = {
     BRIGHT: 'bright',
@@ -27,9 +27,9 @@ export const PROVIDER = {
 }
 
 export const EXTERNAL_URL = {
-    GITHUB_OAUTH_GET_ACCESSTOKEN: 'https://github.com/login/oauth/access_token',
-    GITHUB_OAUTH_GET_USERDATA: 'https://api.github.com/user',
-}
+  GITHUB_OAUTH_GET_ACCESSTOKEN: "https://github.com/login/oauth/access_token",
+  GITHUB_OAUTH_GET_USERDATA: "https://api.github.com/user",
+};
 
 // a/A/0 - z/Z/9 & at least 8 characters 
 export const PASSWORD_REGEXP = /^[a-zA-Z0-9]{8,}$/

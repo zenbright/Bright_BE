@@ -1,8 +1,8 @@
 /**
  * @swagger
- * /utils/user/passwordChange:
- *   put:
- *      summary: General Account Password Change
+ * /utils/user/sendOTP:
+ *   post:
+ *      summary: Send OTP
  *      tags:
  *       - Authentication
  *      parameters:
@@ -11,26 +11,30 @@
  *         required: true
  *         properties:
  *         example: {
- *           "account": "account",
- *           "newPassword": "newPassword",
+ *           "email": "0617@gmail.com",
  *         }
  *      responses:
  *       200:
- *         description: General Account Password Change success
+ *         description: Sent OTP successfully
  *         schema:
  *           type: object
  *           example: {
  *             success: true,
  *             payload: "Access token",
  *           }
- *       404:
- *          description: When the user account not found
+ *       403:
+ *          description: When the email is not verified
  *          schema:
  *           type: string
- *           example: "User account not found"
+ *           example: "EMAIL NOT VERIFIED"
+ *       404:
+ *          description: When the user doesn't exist
+ *          schema:
+ *           type: string
+ *           example: "USER DOES NOT EXIST"
  *       500:
  *         description: When got server exception
  *         schema:
  *           type: string
- *           example: "Internal server error"
+ *           example: "INTERNAL SERVER ERROR"
  */

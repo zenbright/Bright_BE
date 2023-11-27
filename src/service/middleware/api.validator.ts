@@ -13,7 +13,9 @@ export const loginWithGitHubValidator = [
 ];
 
 export const loginWithBrightValidator = [
-  param("action").isIn(Object.values(AUTH_ACTION).map(action => action.toLowerCase())).withMessage("action invalid!"),
+  param("action")
+    .isIn(Object.values(AUTH_ACTION).map((action) => action.toLowerCase()))
+    .withMessage("action invalid!"),
   validatorErrorHandler,
 ];
 
@@ -23,20 +25,43 @@ export const userAccountDeleteValidator = [
   validatorErrorHandler,
 ];
 
+export const emailVerificationValidator = [
+  body("email").isString().notEmpty().withMessage("Missing Email Field."),
+  validatorErrorHandler,
+];
+
 export const userProfileImageValidator = [
-  param("action").isIn(Object.values(USER_PROFILE_IMAGE_ACTION).map(action => action.toLowerCase())).withMessage("Action is invalid!"),
+  param("action")
+    .isIn(
+      Object.values(USER_PROFILE_IMAGE_ACTION).map((action) =>
+        action.toLowerCase(),
+      ),
+    )
+    .withMessage("Action is invalid!"),
   body("userId").notEmpty().isString().withMessage(" UserID is required "),
   validatorErrorHandler,
 ];
 
 export const userSearchValidator = [
-  body("searchPhrase").isString().notEmpty().withMessage("Missing search phrase."),
+  body("searchPhrase")
+    .isString()
+    .notEmpty()
+    .withMessage("Missing search phrase."),
   validatorErrorHandler,
-]
+];
 
 export const userPasswordChangeValidator = [
   body("account").isString().notEmpty().withMessage("Missing Account Field."),
   body("provider").isString().notEmpty().withMessage("Missing Provider Field."),
-  body("newPassword").isString().notEmpty().withMessage("Missing New password Field."),
+  body("newPassword")
+    .isString()
+    .notEmpty()
+    .withMessage("Missing New password Field."),
+  validatorErrorHandler,
+];
+
+export const OTPValidator = [
+  body("account").isString().notEmpty().withMessage("Missing Account Field."),
+  body("userTypedOTP").isString().notEmpty().withMessage("Missing OTP Field."),
   validatorErrorHandler,
 ];
