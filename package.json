@@ -32,6 +32,7 @@
     "production": "nodemon --exec node ts-node src/app.ts"
   },
   "dependencies": {
+    "@types/multer": "^1.4.10",
     "axios": "^1.5.1",
     "compression": "^1.7.4",
     "core-js": "^3.33.0",
@@ -43,6 +44,7 @@
     "moment": "^2.29.4",
     "mongoose": "^7.6.3",
     "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
     "redis": "^4.6.10",
     "regenerator-runtime": "^0.14.0",
     "swagger-jsdoc": "^6.2.8",
