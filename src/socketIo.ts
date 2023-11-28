@@ -30,9 +30,9 @@ export const initSocketIo = (server: any) => {
         console.log("sender:", socket.id);
 
         // const userId = socket.id;
-        // sendMessageService(groupId, userId, data);
+        sendMessageService(groupId, userId, data);
 
-        io.to(groupId).emit("message", data); // Send to all users in the group
+        io.to(groupId).emit("message", data); // Send to all users in the group0
       });
 
       socket.on("disconnect", () => {

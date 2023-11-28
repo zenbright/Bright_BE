@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const messageSchema = new mongoose.Schema({
-  messageId: {
+  messageId: { // sdfgfds
     type: mongoose.Schema.Types.ObjectId,
     default: new mongoose.Types.ObjectId(),
   },
@@ -32,5 +32,6 @@ const messageSchema = new mongoose.Schema({
     required: true,
   },
 });
+
 
 export default mongoose.model("Message", messageSchema);

@@ -1,5 +1,4 @@
 import Message from "../../../models/message";
-import mongoose from "mongoose";
 import Group from "../../../models/group";
 import { ERROR_CODE, SUCCESS_MESSAGE } from "../../utils/constants";
 
@@ -10,15 +9,23 @@ export async function sendMessageService(
 ) {
   try {
     const { name, message, dateTime } = data;
+    /*
+    data: {
+    name: 'anonymous',
+    message: 'haha',
+    dateTime: '2023-11-28T11:59:21.879Z'
+    }
+    */
 
     const newMessage = new Message({
       groupId: groupId,
-      userId: userId,
+      fromId: userId,
       text: message,
       multimedia: "", // TODO: multimedia
       order: 0, // TODO: make the order dynamic
     });
 
+    console.log("newMessage: ", newMessage);
     await newMessage.save();
 
     const newMsgId = newMessage.messageId.toString();
@@ -31,9 +38,11 @@ export async function sendMessageService(
       return { error: "GROUP_" + ERROR_CODE.NOT_FOUND_ERROR };
     }
 
-    return { SUCCESS_MESSAGE };
+    console.log("SUCCESS");
+    return { message: SUCCESS_MESSAGE };
   } catch (error) {
     // TODO: Handle error
+    console.error(error);
     console.error("FAILED TO SAVE MESSAGE");
   }
 }
