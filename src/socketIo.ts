@@ -13,22 +13,31 @@ export const initSocketIo = (server: any) => {
 
     const referer = socket.handshake.headers.referer;
     console.log("referer: " + referer);
+
     // Extract userId and groupId from the referer URL
     if (referer) {
-      const userId = referer.split("/")[3]; 
+      const userId = referer.split("/")[3];
       const groupId = referer.split("/")[4];
 
       console.log("userId:", userId, "groupId:", groupId);
+      const room = `${groupId}-${userId}`;
+
+      // Listen for joining a room
+      socket.on("join", () => {
+        socket.join(room);
+      });
 
       socket.on("message", (data) => {
         console.log("received message:", data); // data: name, message, dateTime
         console.log("sender:", socket.id);
 
-        // const userId = socket.id;
         sendMessageService(groupId, userId, data);
 
-        io.emit("message", data); // Send to all users in the group0
-        socket.broadcast.emit('chat-message', data);
+        // Broadcast the message to all users in the room
+        io.to(room).emit("message", { userId, data });
+
+        // io.emit("message", data);
+        socket.broadcast.emit("chat-message", data);
       });
 
       socket.on("disconnect", () => {
@@ -37,6 +46,7 @@ export const initSocketIo = (server: any) => {
     }
   });
 };
+
 
 function increaseClientCount(socketId: string, io: Server) {
   socketsConnected.add(socketId);
