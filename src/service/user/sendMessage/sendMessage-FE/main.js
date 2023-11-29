@@ -1,6 +1,7 @@
 // Initialize Socket.IO
 socket = io();
-
+// const Group = require("../../../../models/group");
+// const Message = require("../../../../models/message");
 // DOM elements
 const clientsTotal = document.getElementById("client-total");
 const messageContainer = document.getElementById("message-container");
@@ -48,8 +49,13 @@ messageForm.addEventListener("submit", (e) => {
 });
 
 // Update total number of clients
-socket.on("clients-total", (data) => {
-  clientsTotal.innerText = `Total Clients: ${data}`;
+socket.on("clients-total", ({ groupId, socketsConnectedSize }) => {
+  console.log("groupId: ", groupId, " serverGroupId: ", serverGroupId);
+  if (groupId == serverGroupId) {
+    clientsTotal.innerText = `Total Clients: ${socketsConnectedSize}`;
+  } else {
+    console.log("Different group");
+  }
 });
 
 // Function to send a message
