@@ -1,3 +1,4 @@
+// route
 import express from "express";
 import path from "path";
 import userCredentials from "./models/userCredentials";
@@ -34,8 +35,6 @@ staticRoutes.get("/:userId/:groupId/main.js", (req, res) => {
       "src/service/user/sendMessage/sendMessage-FE/main.js",
     ),
   );
-  // Render main.ejs with userId and groupId as variables
-  // res.render('main', { userId, groupId });
 });
 
 staticRoutes.get("/:userId/:groupId/sendMessage", async (req, res) => {

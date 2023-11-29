@@ -7,6 +7,7 @@ const messageContainer = document.getElementById("message-container");
 const nameInput = document.getElementById("name-input");
 const messageForm = document.getElementById("message-form");
 const messageInput = document.getElementById("message-input");
+
 // const messageTone = new Audio('/message-tone.mp3')
 
 // Function to fetch messages for a group
@@ -31,11 +32,14 @@ const messageInput = document.getElementById("message-input");
 // }
 
 // When the DOM is loaded, fetch messages for the user and group
-// document.addEventListener('DOMContentLoaded', () => {
-// console.log("DOM content loaded");
-
-//   // fetchMessages(userId, groupId);
-// });
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("DOM content loaded");
+  const userId = window.location.pathname.split("/")[1]; // Assumes userId is the first part of the path
+  const groupId = window.location.pathname.split("/")[2];
+  console.log("userId:", userId);
+  console.log("groupId: " + groupId);
+  // fetchMessages(userId, groupId);
+});
 
 // When the user wants to send a message
 messageForm.addEventListener("submit", (e) => {
