@@ -106,6 +106,7 @@ app.use((req, res: any, next) => {
 // Use the static routes module
 app.use("/", staticRoutes);
 
+
 // Connect to MongoDB
 connectToMongoDB();
 

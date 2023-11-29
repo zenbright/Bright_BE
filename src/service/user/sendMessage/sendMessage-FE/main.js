@@ -1,18 +1,48 @@
-const socket = io()
+
+socket = io()
 
 const clientsTotal = document.getElementById('client-total')
-
 const messageContainer = document.getElementById('message-container')
 const nameInput = document.getElementById('name-input')
 const messageForm = document.getElementById('message-form')
 const messageInput = document.getElementById('message-input')
 
+
 // const messageTone = new Audio('/message-tone.mp3')
+
+// Function to fetch messages for a group
+async function fetchMessages(userId, groupId) {
+  console.log("Fetching messages");
+  try {
+    const group = await Group.findOne({groupId: groupId});
+    const messageIds = group.messages;
+    console.log("messages:", messageIds);
+    // Render messages
+    messageIds.forEach(async (msgId) => {
+      const message = await Message.findOne({messageId: msgId});
+      const isOwnMessage = message.fromId === userId;
+      addMessageToUI(isOwnMessage, message);
+    });
+
+    // Scroll to the bottom
+    scrollToBottom();
+  } catch (error) {
+    console.error('Error fetching messages:', error);
+  }
+}
 
 messageForm.addEventListener('submit', (e) => {
   e.preventDefault()
   sendMessage()
 })
+
+// When the DOM is loaded, fetch messages for the user and group
+document.addEventListener('DOMContentLoaded', () => {
+console.log("DOM content loaded");
+
+  // fetchMessages(userId, groupId);
+});
+
 
 socket.on('clients-total', (data) => {
   clientsTotal.innerText = `Total Clients: ${data}`

@@ -25,12 +25,17 @@ staticRoutes.get(
 );
 
 staticRoutes.get("/:userId/:groupId/main.js", (req, res) => {
+  const userId = req.params.userId;
+  const groupId = req.params.groupId;
+
   res.sendFile(
     path.join(
       __dirname,
       "src/service/user/sendMessage/sendMessage-FE/main.js",
     ),
   );
+  // Render main.ejs with userId and groupId as variables
+  // res.render('main', { userId, groupId });
 });
 
 staticRoutes.get("/:userId/:groupId/sendMessage", async (req, res) => {

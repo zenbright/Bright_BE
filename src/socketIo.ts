@@ -20,11 +20,6 @@ export const initSocketIo = (server: any) => {
 
       console.log("userId:", userId, "groupId:", groupId);
 
-      // socket.on("join", (groupId) => {
-      //   console.log("groupId: " + groupId);
-      //   socket.join(groupId); // Join the room corresponding to the group
-      // });
-
       socket.on("message", (data) => {
         console.log("received message:", data); // data: name, message, dateTime
         console.log("sender:", socket.id);
@@ -32,7 +27,8 @@ export const initSocketIo = (server: any) => {
         // const userId = socket.id;
         sendMessageService(groupId, userId, data);
 
-        io.to(groupId).emit("message", data); // Send to all users in the group0
+        io.emit("message", data); // Send to all users in the group0
+        socket.broadcast.emit('chat-message', data);
       });
 
       socket.on("disconnect", () => {
