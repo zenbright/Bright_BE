@@ -20,22 +20,15 @@ export const initSocketIo = (server: any) => {
       const groupId = referer.split("/")[4];
 
       // console.log("userId:", userId, "groupId:", groupId);
-      const room = `group-${groupId}`;
-      console.log("room:", room);
-
-      // Listen for joining a room
-      socket.on("join", () => {
-        socket.join(room);
-      });
+      // const room = `group-${groupId}`;
+      // console.log("room:", room);
 
       socket.on("message", (data) => {
         console.log("received message:", data); // data: name, message, dateTime
         // console.log("sender:", socket.id);
 
         // Broadcast the message to all users in the room
-        io.to(room).emit("group-message", { groupId, data });
-
-        sendMessageService(groupId, userId, data);
+        socket.broadcast.emit("group-message", {groupId, data});        sendMessageService(groupId, userId, data);
       });
 
       socket.on("disconnect", () => {

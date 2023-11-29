@@ -7,38 +7,38 @@ const messageContainer = document.getElementById("message-container");
 const nameInput = document.getElementById("name-input");
 const messageForm = document.getElementById("message-form");
 const messageInput = document.getElementById("message-input");
-
+let serverGroupId = "";
 // const messageTone = new Audio('/message-tone.mp3')
 
 // Function to fetch messages for a group
-// async function fetchMessages(userId, groupId) {
-//   console.log("Fetching messages");
-//   try {
-//     const group = await Group.findOne({groupId: groupId});
-//     const messageIds = group.messages;
-//     console.log("messages:", messageIds);
-//     // Render messages
-//     messageIds.forEach(async (msgId) => {
-//       const message = await Message.findOne({messageId: msgId});
-//       const isOwnMessage = message.fromId === userId;
-//       addMessageToUI(isOwnMessage, message);
-//     });
+async function fetchMessages(userId, groupId) {
+  console.log("Fetching messages");
+  try {
+    const group = await Group.findOne({ groupId: groupId });
+    const messageIds = group.messages;
+    console.log("messages:", messageIds);
+    // Render messages
+    messageIds.forEach(async (msgId) => {
+      const message = await Message.findOne({ messageId: msgId });
+      const isOwnMessage = message.fromId === userId;
+      addMessageToUI(isOwnMessage, message);
+    });
 
-//     // Scroll to the bottom
-//     scrollToBottom();
-//   } catch (error) {
-//     console.error('Error fetching messages:', error);
-//   }
-// }
+    // Scroll to the bottom
+    scrollToBottom();
+  } catch (error) {
+    console.error("Error fetching messages:", error);
+  }
+}
 
 // When the DOM is loaded, fetch messages for the user and group
 document.addEventListener("DOMContentLoaded", () => {
   console.log("DOM content loaded");
-  const userId = window.location.pathname.split("/")[1]; // Assumes userId is the first part of the path
-  const groupId = window.location.pathname.split("/")[2];
+  const userId = window.location.pathname.split("/")[1];
+  serverGroupId = window.location.pathname.split("/")[2];
   console.log("userId:", userId);
-  console.log("groupId: " + groupId);
-  // fetchMessages(userId, groupId);
+  console.log("groupId: " + serverGroupId);
+  // fetchMessages(userId, serverGroupId);
 });
 
 // When the user wants to send a message
@@ -68,12 +68,12 @@ function sendMessage() {
 
 // Broadcast the message to other users in the same group
 socket.on("group-message", ({ groupId, data }) => {
-  // Assuming data contains 'groupId'
-  const currentGroupId = "..."; // TODO: Get the current user's groupId or have it stored somewhere
-
-  // if (groupId === currentGroupId) {
-  addMessageToUI(false, data);
-  // }
+  console.log("serverGroupId: ", serverGroupId);
+  if (groupId === serverGroupId) {
+    addMessageToUI(false, data);
+  } else {
+    console.log("Different group");
+  }
 });
 
 // Function to add a message to the UI
