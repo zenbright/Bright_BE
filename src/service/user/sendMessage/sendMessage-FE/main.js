@@ -91,12 +91,12 @@ function addMessageToUI(isOwnMessage, data) {
   let element = ``;
   if (data.timestamp) {
     let timestampString = getFormattedTimestamp(data.timestamp);
-
+    // TODO: change fromId to local userName
     element = `
     <li class="${isOwnMessage ? "message-right" : "message-left"}">
         <p class="message">
           ${data.text}
-          <span>${data.name} ● ${timestampString}</span>
+          <span>${data.fromId} ● ${timestampString}</span>
         </p>
       </li>
       `;
@@ -120,7 +120,7 @@ function addMessageToUI(isOwnMessage, data) {
 }
 
 function getFormattedTimestamp(timestamp) {
-  // 2023-12-01T08:24:35.749Z -> 2023-12-01 08:24:35
+  // Example: 2023-12-01T08:24:35.749Z -> 2023-12-01 08:24:35
   const [datePart, timePart] = timestamp.split("T");
   const timeWithoutMilliseconds = timePart.split(".")[0];
   const formattedString = `${datePart} ${timeWithoutMilliseconds}`;
