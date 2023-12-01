@@ -3,6 +3,7 @@ import path from "path";
 import userCredentials from "./models/userCredentials";
 import Group from "./models/group";
 import Message from "./models/message";
+import { deleteMessageService } from "./service/user/deleteMessage/deleteMessage.service";
 
 const staticRoutes = express.Router();
 const __dirname = path.resolve();
@@ -55,6 +56,17 @@ staticRoutes.get("/getMessages/:msgId", async (req, res) => {
     const msgId = req.params.msgId;
     const message = await Message.findOne({ messageId: msgId });
     res.json(message);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+staticRoutes.get("/deleteMessage/:groupId/:msgId", async (req, res) => {
+  try {
+    const groupId = req.params.groupId;
+    const msgId = req.params.msgId;
+    await deleteMessageService({ groupId, msgId }, res);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });

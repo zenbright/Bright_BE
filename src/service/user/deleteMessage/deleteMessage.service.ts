@@ -1,23 +1,27 @@
 import Group from "../../../models/group";
+import Message from "../../../models/message";
 import { ERROR_CODE, SUCCESS_MESSAGE } from "../../utils/constants";
 
-export async function deleteMessageService(req: any, res: any, next: any) {
+export async function deleteMessageService(
+  params: { groupId: string; msgId: string },
+  res: any,
+) {
   try {
-    const { groupId, messageId } = req.body;
+    const { groupId, msgId } = params;
 
+    console.log(groupId, msgId);
     const existingGroup = await Group.findOne({ groupId: groupId });
 
     if (!existingGroup) {
-      return res
-        .status(404)
-        .json({ error: "GROUP_" + ERROR_CODE.NOT_FOUND_ERROR });
+      return res.status(404).json({ error: ERROR_CODE.NOT_FOUND_ERROR });
     }
 
-    await removeMessageFromGroup(existingGroup, messageId, res);
+    await removeMessageFromGroup(existingGroup, msgId, res);
+    // await Message.deleteOne({ messageId: msgId });
 
     return res.status(200).json({ message: SUCCESS_MESSAGE });
   } catch (error) {
-    next(error);
+    console.log(error);
   }
 }
 
@@ -26,15 +30,15 @@ async function removeMessageFromGroup(
   messageId: string,
   res: any,
 ) {
-  const messageIndex = existingGroup.messages.indexOf(messageId);
+  // existingGroup.messages = existingGroup.messages.filter(
+  //   (message: string) => message !== messageId,
+  // );
 
-  if (messageIndex !== -1) {
-    existingGroup.messages.splice(messageIndex, 1);
-  } else {
-    return res
-      .status(404)
-      .json({ error: "Message_" + ERROR_CODE.NOT_FOUND_ERROR });
-  }
+  // await existingGroup.save();
+
+  console.log("Successfully deleted message");
+  return res.status(404).json({ error: ERROR_CODE.NOT_FOUND_ERROR });
+  // }
 
   return existingGroup;
 }

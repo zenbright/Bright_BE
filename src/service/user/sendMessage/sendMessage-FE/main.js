@@ -81,35 +81,44 @@ socket.on("group-message", ({ groupId, data }) => {
 function addMessageToUI(isOwnMessage, data) {
   clearFeedback();
   let element = ``;
+  console.log(
+    "data.messageId: ",
+    data.messageId,
+    "data.groupId: ",
+    data.groupId,
+  );
+  const delMsgBtn = `<button class="delMsg_btn" message-id="${data.messageId}" group-id="${data.groupId}">Del</button>`;
   if (data.timestamp) {
     let timestampString = getFormattedTimestamp(data.timestamp);
     // TODO: change fromId to local userName
     element = `
-    <li class="${isOwnMessage ? "message-right" : "message-left"}">
+      <div id="message-${data.messageId}" class="${isOwnMessage ? "message-right" : "message-left"}">
         <p class="message">
           ${data.text}
           <span>${data.fromId} ● ${timestampString}</span>
         </p>
-      </li>
-      `;
+        ${delMsgBtn}
+      </div>`;
   } else {
     const dateObject = new Date(data.dateTime);
     const formattedString = dateObject.toISOString();
     let timestampString = getFormattedTimestamp(formattedString);
 
     element = `
-      <li class="${isOwnMessage ? "message-right" : "message-left"}">
-          <p class="message">
-            ${data.message}
-            <span>${data.name} ● ${timestampString}</span>
-          </p>
-        </li>
-        `;
+      <div id="message-${data.messageId}" class="${isOwnMessage ? "message-right" : "message-left"}">
+        <p class="message">
+          ${data.message}
+          <span>${data.name} ● ${timestampString}</span>
+        </p>
+        ${delMsgBtn}
+      </div>`;
   }
 
   messageContainer.innerHTML += element;
+
   scrollToBottom();
 }
+
 
 function getFormattedTimestamp(timestamp) {
   // Example: 2023-12-01T08:24:35.749Z -> 2023-12-01 08:24:35
@@ -123,6 +132,29 @@ function getFormattedTimestamp(timestamp) {
 // Function to scroll to the bottom of the message container
 function scrollToBottom() {
   messageContainer.scrollTo(0, messageContainer.scrollHeight);
+}
+
+// Event listener for the "Del" button
+messageContainer.addEventListener("click", (e) => {
+  if (e.target.classList.contains("delMsg_btn")) {
+    const groupId = e.target.getAttribute("group-id");
+    const messageId = e.target.getAttribute("message-id");
+    console.log("groupId: " + groupId + " messageId: " + messageId);
+    deleteMessage(groupId, messageId);
+  }
+});
+
+// Function to delete a message
+async function deleteMessage(groupId, messageId) {
+  await fetch(`/deleteMessage/${groupId}/${messageId}`);
+
+  // Remove the message container element from the UI
+  const messageContainerElement = document.getElementById(
+    `message-${messageId}`,
+  );
+  if (messageContainerElement) {
+    messageContainerElement.remove();
+  }
 }
 
 // Event listeners for typing feedback
