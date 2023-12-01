@@ -24,6 +24,7 @@ async function fetchMessages(userId, groupId) {
     for (const msgId of messageIds) {
       const messageResponse = await fetch(`/getMessages/${msgId}`);
       const message = await messageResponse.json();
+      console.log("message:", message);
       const isOwnMessage = message.fromId === userId;
       addMessageToUI(isOwnMessage, message);
     }
@@ -91,8 +92,8 @@ function addMessageToUI(isOwnMessage, data) {
   const element = `
       <li class="${isOwnMessage ? "message-right" : "message-left"}">
           <p class="message">
-            ${data.message}
-            <span>${data.name} ● ${moment(data.dateTime).fromNow()}</span>
+            ${data.text}
+            <span>${data.name} ● ${data.timestamp.toString()}</span>
           </p>
         </li>
         `;
