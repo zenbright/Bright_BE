@@ -36,7 +36,6 @@ async function fetchMessages(userId, groupId) {
   }
 }
 
-
 // When the DOM is loaded, fetch messages for the user and group
 document.addEventListener("DOMContentLoaded", () => {
   const userId = window.location.pathname.split("/")[1];
@@ -89,17 +88,44 @@ socket.on("group-message", ({ groupId, data }) => {
 // Function to add a message to the UI
 function addMessageToUI(isOwnMessage, data) {
   clearFeedback();
-  const element = `
+  let element = ``;
+  if (data.timestamp) {
+    let timestampString = getFormattedTimestamp(data.timestamp);
+
+    element = `
+    <li class="${isOwnMessage ? "message-right" : "message-left"}">
+        <p class="message">
+          ${data.text}
+          <span>${data.name} ● ${timestampString}</span>
+        </p>
+      </li>
+      `;
+  } else {
+    const dateObject = new Date(data.dateTime);
+    const formattedString = dateObject.toISOString();
+    let timestampString = getFormattedTimestamp(formattedString);
+
+    element = `
       <li class="${isOwnMessage ? "message-right" : "message-left"}">
           <p class="message">
-            ${data.text}
-            <span>${data.name} ● ${data.timestamp.toString()}</span>
+            ${data.message}
+            <span>${data.name} ● ${timestampString}</span>
           </p>
         </li>
         `;
+  }
 
   messageContainer.innerHTML += element;
   scrollToBottom();
+}
+
+function getFormattedTimestamp(timestamp) {
+  // 2023-12-01T08:24:35.749Z -> 2023-12-01 08:24:35
+  const [datePart, timePart] = timestamp.split("T");
+  const timeWithoutMilliseconds = timePart.split(".")[0];
+  const formattedString = `${datePart} ${timeWithoutMilliseconds}`;
+
+  return formattedString;
 }
 
 // Function to scroll to the bottom of the message container
