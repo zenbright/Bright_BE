@@ -1,7 +1,6 @@
 // Initialize Socket.IO
 socket = io();
-// const Group = require("../../../../models/group");
-// const Message = require("../../../../models/message");
+
 // DOM elements
 const clientsTotal = document.getElementById("client-total");
 const messageContainer = document.getElementById("message-container");
@@ -15,15 +14,19 @@ let serverGroupId = "";
 async function fetchMessages(userId, groupId) {
   console.log("Fetching messages");
   try {
-    const group = await Group.findOne({ groupId: groupId });
+    const groupResponse = await fetch(`/getGroup/${groupId}`);
+    const group = await groupResponse.json();
+
     const messageIds = group.messages;
     console.log("messages:", messageIds);
+
     // Render messages
-    messageIds.forEach(async (msgId) => {
-      const message = await Message.findOne({ messageId: msgId });
+    for (const msgId of messageIds) {
+      const messageResponse = await fetch(`/getMessages/${msgId}`);
+      const message = await messageResponse.json();
       const isOwnMessage = message.fromId === userId;
       addMessageToUI(isOwnMessage, message);
-    });
+    }
 
     // Scroll to the bottom
     scrollToBottom();
@@ -32,14 +35,14 @@ async function fetchMessages(userId, groupId) {
   }
 }
 
+
 // When the DOM is loaded, fetch messages for the user and group
 document.addEventListener("DOMContentLoaded", () => {
-  console.log("DOM content loaded");
   const userId = window.location.pathname.split("/")[1];
   serverGroupId = window.location.pathname.split("/")[2];
   console.log("userId:", userId);
   console.log("groupId: " + serverGroupId);
-  // fetchMessages(userId, serverGroupId);
+  fetchMessages(userId, serverGroupId);
 });
 
 // When the user wants to send a message
