@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const messageSchema = new mongoose.Schema({
-  messageId: { // sdfgfds
+  messageId: {
     type: mongoose.Schema.Types.ObjectId,
     default: new mongoose.Types.ObjectId(),
   },

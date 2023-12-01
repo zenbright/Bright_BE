@@ -40,30 +40,17 @@ export const initSocketIo = (server: any) => {
 
 function increaseClientCount(groupId: string, socketId: string, io: Server) {
   if (!socketsConnected.has(groupId)) {
-    // If the groupId is not in the Map, add it with a new Set
     socketsConnected.set(groupId, new Set());
   }
-
-  // Add the socketId to the Set associated with the groupId
   socketsConnected.get(groupId).add(socketId);
-
-  // Get the size of the Set for the groupId
   const socketsConnectedSize = socketsConnected.get(groupId).size;
-
-  // Emit the updated count to all clients
   io.emit("clients-total", { groupId, socketsConnectedSize });
 }
 
 function decreaseClientCount(groupId: string, socketId: string, io: Server) {
-  // Check if the groupId exists in the Map
   if (socketsConnected.has(groupId)) {
-    // Remove the socketId from the Set associated with the groupId
     socketsConnected.get(groupId).delete(socketId);
-
-    // Get the size of the Set for the groupId
     const socketsConnectedSize = socketsConnected.get(groupId).size;
-
-    // Emit the updated count to all clients
     io.emit("clients-total", { groupId, socketsConnectedSize });
   }
 }

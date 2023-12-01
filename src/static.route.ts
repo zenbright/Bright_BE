@@ -1,4 +1,3 @@
-// route
 import express from "express";
 import path from "path";
 import userCredentials from "./models/userCredentials";
@@ -24,9 +23,6 @@ staticRoutes.get("/:userId/:groupId/sendMessage.css", (req, res) => {
 });
 
 staticRoutes.get("/:userId/:groupId/main.js", (req, res) => {
-  const userId = req.params.userId;
-  const groupId = req.params.groupId;
-
   res.sendFile(
     path.join(__dirname, "src/service/user/sendMessage/sendMessage-FE/main.js"),
   );

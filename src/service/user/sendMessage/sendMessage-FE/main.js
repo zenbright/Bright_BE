@@ -8,23 +8,18 @@ const nameInput = document.getElementById("name-input");
 const messageForm = document.getElementById("message-form");
 const messageInput = document.getElementById("message-input");
 let serverGroupId = "";
-// const messageTone = new Audio('/message-tone.mp3')
 
 // Function to fetch messages for a group
 async function fetchMessages(userId, groupId) {
-  console.log("Fetching messages");
   try {
     const groupResponse = await fetch(`/getGroup/${groupId}`);
     const group = await groupResponse.json();
-
     const messageIds = group.messages;
-    console.log("messages:", messageIds);
 
     // Render messages
     for (const msgId of messageIds) {
       const messageResponse = await fetch(`/getMessages/${msgId}`);
       const message = await messageResponse.json();
-      console.log("message:", message);
       const isOwnMessage = message.fromId === userId;
       addMessageToUI(isOwnMessage, message);
     }
@@ -40,8 +35,6 @@ async function fetchMessages(userId, groupId) {
 document.addEventListener("DOMContentLoaded", () => {
   const userId = window.location.pathname.split("/")[1];
   serverGroupId = window.location.pathname.split("/")[2];
-  console.log("userId:", userId);
-  console.log("groupId: " + serverGroupId);
   fetchMessages(userId, serverGroupId);
 });
 
@@ -53,7 +46,7 @@ messageForm.addEventListener("submit", (e) => {
 
 // Update total number of clients
 socket.on("clients-total", ({ groupId, socketsConnectedSize }) => {
-  console.log("groupId: ", groupId, " serverGroupId: ", serverGroupId);
+  // console.log("groupId: ", groupId, " serverGroupId: ", serverGroupId);
   if (groupId == serverGroupId) {
     clientsTotal.innerText = `Total Clients: ${socketsConnectedSize}`;
   } else {
@@ -64,7 +57,6 @@ socket.on("clients-total", ({ groupId, socketsConnectedSize }) => {
 // Function to send a message
 function sendMessage() {
   if (messageInput.value === "") return;
-  // console.log(messageInput.value)
   const data = {
     name: nameInput.value,
     message: messageInput.value,
@@ -77,7 +69,7 @@ function sendMessage() {
 
 // Broadcast the message to other users in the same group
 socket.on("group-message", ({ groupId, data }) => {
-  console.log("serverGroupId: ", serverGroupId);
+  // console.log("serverGroupId: ", serverGroupId);
   if (groupId === serverGroupId) {
     addMessageToUI(false, data);
   } else {
