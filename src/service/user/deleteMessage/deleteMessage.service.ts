@@ -17,7 +17,7 @@ export async function deleteMessageService(
     }
 
     await removeMessageFromGroup(existingGroup, msgId, res);
-    // await Message.deleteOne({ messageId: msgId });
+    await Message.deleteOne({ messageId: msgId });
 
     return res.status(200).json({ message: SUCCESS_MESSAGE });
   } catch (error) {
@@ -30,15 +30,10 @@ async function removeMessageFromGroup(
   messageId: string,
   res: any,
 ) {
-  // existingGroup.messages = existingGroup.messages.filter(
-  //   (message: string) => message !== messageId,
-  // );
+  // existingGroup.messages = existingGroup.messages.filter((msgId: string) => msgId !== messageId);
 
   // await existingGroup.save();
-
+  
   console.log("Successfully deleted message");
-  return res.status(404).json({ error: ERROR_CODE.NOT_FOUND_ERROR });
-  // }
-
-  return existingGroup;
+  return res.status(200).json({ message: "Successfully deleted message" });
 }

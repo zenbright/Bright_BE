@@ -92,7 +92,7 @@ function addMessageToUI(isOwnMessage, data) {
     let timestampString = getFormattedTimestamp(data.timestamp);
     // TODO: change fromId to local userName
     element = `
-      <div id="message-${data.messageId}" class="${isOwnMessage ? "message-right" : "message-left"}">
+      <div id="message-${data.fromId}" class="${isOwnMessage ? "message-right" : "message-left"}">
         <p class="message">
           ${data.text}
           <span>${data.fromId} ● ${timestampString}</span>
