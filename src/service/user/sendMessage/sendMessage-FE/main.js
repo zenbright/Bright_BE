@@ -54,7 +54,6 @@ messageForm.addEventListener("submit", (e) => {
 
 // Update total number of clients
 socket.on("clients-total", ({ groupId, socketsConnectedSize }) => {
-  // console.log("groupId: ", groupId, " serverGroupId: ", serverGroupId);
   if (groupId == serverGroupId) {
     clientsTotal.innerText = `Total Clients: ${socketsConnectedSize}`;
   } else {
@@ -65,11 +64,13 @@ socket.on("clients-total", ({ groupId, socketsConnectedSize }) => {
 // Function to send a message
 function sendMessage() {
   if (messageInput.value === "") return;
+
   const data = {
     name: nameInput.value,
     message: messageInput.value,
     dateTime: new Date(),
   };
+
   // Sending a message with a callback
   socket.emit("message", data, (result) => {
     addMessageToUI(true, result);
@@ -133,7 +134,6 @@ messageContainer.addEventListener("click", (e) => {
   if (e.target.classList.contains("delMsg_btn")) {
     const groupId = e.target.getAttribute("group-id");
     const messageId = e.target.getAttribute("message-id");
-    console.log("groupId: " + groupId + " messageId: " + messageId);
     deleteMessage(groupId, messageId);
   }
 });
@@ -151,24 +151,28 @@ async function deleteMessage(groupId, messageId) {
 
 // Event listeners for typing feedback
 messageInput.addEventListener("focus", (e) => {
-  socket.emit("feedback", {
+  // console.log("feedback focus");
+  socket.emit("typing-feedback", {
     feedback: `✍️ ${nameInput.value} is typing a message`,
   });
 });
 
 messageInput.addEventListener("keypress", (e) => {
-  socket.emit("feedback", {
+  // console.log("feedback keypress");
+  socket.emit("typing-feedback", {
     feedback: `✍️ ${nameInput.value} is typing a message`,
   });
 });
+
 messageInput.addEventListener("blur", (e) => {
-  socket.emit("feedback", {
+  // console.log("feedback blur");
+  socket.emit("typing-feedback", {
     feedback: "",
   });
 });
 
 // Receive typing feedback
-socket.on("feedback", (data) => {
+socket.on("typing-feedback", (data) => {
   clearFeedback();
   const element = `
         <li class="message-feedback">
