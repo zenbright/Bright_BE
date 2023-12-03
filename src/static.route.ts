@@ -3,7 +3,7 @@ import path from "path";
 import userCredentials from "./models/userCredentials";
 import Group from "./models/group";
 import Message from "./models/message";
-import { deleteMessageService } from "./service/user/deleteMessage/deleteMessage.service";
+import { deleteMessageService } from "./service/user/message/deleteMessage/deleteMessage.service";
 
 const staticRoutes = express.Router();
 const __dirname = path.resolve();
@@ -18,14 +18,14 @@ staticRoutes.get("/:userId/:groupId/sendMessage.css", (req, res) => {
   res.sendFile(
     path.join(
       __dirname,
-      "src/service/user/sendMessage/sendMessage-FE/sendMessage.css",
+      "src/service/user/message/sendMessage/sendMessage-FE/sendMessage.css",
     ),
   );
 });
 
 staticRoutes.get("/:userId/:groupId/main.js", (req, res) => {
   res.sendFile(
-    path.join(__dirname, "src/service/user/sendMessage/sendMessage-FE/main.js"),
+    path.join(__dirname, "src/service/user/message/sendMessage/sendMessage-FE/main.js"),
   );
 });
 
@@ -35,7 +35,7 @@ staticRoutes.get("/:userId/:groupId/sendMessage", async (req, res) => {
   res.sendFile(
     path.join(
       __dirname,
-      "src/service/user/sendMessage/sendMessage-FE/sendMessage.html",
+      "src/service/user/message/sendMessage/sendMessage-FE/sendMessage.html",
     ),
   );
 });

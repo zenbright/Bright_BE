@@ -1,6 +1,6 @@
-import userCredentials from "../../../models/userCredentials";
-import Group from "../../../models/group";
-import { ERROR_CODE, SUCCESS_MESSAGE } from "../../utils/constants";
+import userCredentials from "../../../../models/userCredentials";
+import Group from "../../../../models/group";
+import { ERROR_CODE, SUCCESS_MESSAGE } from "../../../utils/constants";
 
 export async function leaveGroupService(req: any, res: any, next: any) {
   try {

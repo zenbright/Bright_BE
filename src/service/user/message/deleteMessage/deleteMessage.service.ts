@@ -1,6 +1,6 @@
-import Group from "../../../models/group";
-import Message from "../../../models/message";
-import { ERROR_CODE, SUCCESS_MESSAGE } from "../../utils/constants";
+import Group from "../../../../models/group";
+import Message from "../../../../models/message";
+import { ERROR_CODE, SUCCESS_MESSAGE } from "../../../utils/constants";
 
 export async function deleteMessageService(
   params: { groupId: string; msgId: string },

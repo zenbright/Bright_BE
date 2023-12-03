@@ -4,11 +4,11 @@ import BrightAuthRoute from "./service/authentication/bright/brightAuth.route";
 import UserSearchRoute from "./service/user/searchUser/searchUser.route";
 import UserPasswordChangeRoute from "./service/user/passwordChange/passwordChange.route";
 import UserAccountDeleteRoute from "./service/user/deleteAccount/deleteAccount.route";
-import CreateGroupRoute from "./service/user/createGroup/createGroup.route";
-import LeaveGroupRoute from "./service/user/leaveGroup/leaveGroup.route";
-import DeleteGroupRoute from "./service/user/deleteGroup/deleteGroup.route";
-import JoinGroupRoute from "./service/user/joinGroup/joinGroup.route";
-import DeleteMessageRoute from "./service/user/deleteMessage/deleteMessage.route";
+import CreateGroupRoute from "./service/user/group/createGroup/createGroup.route";
+import LeaveGroupRoute from "./service/user/group/leaveGroup/leaveGroup.route";
+import DeleteGroupRoute from "./service/user/group/deleteGroup/deleteGroup.route";
+import JoinGroupRoute from "./service/user/group/joinGroup/joinGroup.route";
+import DeleteMessageRoute from "./service/user/message/deleteMessage/deleteMessage.route";
 // import SendMessageRoute from "./service/user/sendMessage/sendMessage.route";
 
 const router = Router();

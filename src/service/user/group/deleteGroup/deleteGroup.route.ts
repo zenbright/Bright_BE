@@ -1,7 +1,7 @@
 import { Router } from "express";
 import * as deleteGroupController from "./deleteGroup.controller";
-import * as IPSpamChecker from "../../middleware/api.limiter";
-import * as APIValidator from "../../middleware/api.validator";
+import * as IPSpamChecker from "../../../middleware/api.limiter";
+import * as APIValidator from "../../../middleware/api.validator";
 
 const router = Router();
 

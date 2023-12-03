@@ -1,6 +1,6 @@
-import Message from "../../../models/message";
-import Group from "../../../models/group";
-import { ERROR_CODE, SUCCESS_MESSAGE } from "../../utils/constants";
+import Message from "../../../../models/message";
+import Group from "../../../../models/group";
+import { ERROR_CODE, SUCCESS_MESSAGE } from "../../../utils/constants";
 import mongoose from "mongoose";
 
 export async function sendMessageService(

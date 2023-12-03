@@ -1,6 +1,6 @@
-import Group from "../../../models/group";
-import userCredentials from "../../../models/userCredentials";
-import { ERROR_CODE, SUCCESS_MESSAGE } from "../../utils/constants";
+import Group from "../../../../models/group";
+import userCredentials from "../../../../models/userCredentials";
+import { ERROR_CODE, SUCCESS_MESSAGE } from "../../../utils/constants";
 
 // Join an existing group
 export async function joinGroupService(req: any, res: any, next: any) {

@@ -1,5 +1,5 @@
-import Group from "../../../models/group";
-import { ERROR_CODE, SUCCESS_MESSAGE } from "../../utils/constants";
+import Group from "../../../../models/group";
+import { ERROR_CODE, SUCCESS_MESSAGE } from "../../../utils/constants";
 
 export async function deleteGroupService(req: any, res: any, next: any) {
   try {
