@@ -1,5 +1,5 @@
 import Group from "../../../../models/group";
-import { ERROR_CODE, SUCCESS_MESSAGE } from "../../../utils/constants";
+import { RESPONSE_CODE } from "../../../utils/constants";
 
 export async function deleteGroupService(req: any, res: any, next: any) {
   try {
@@ -10,11 +10,11 @@ export async function deleteGroupService(req: any, res: any, next: any) {
     });
 
     if (!group) {
-      return res.status(404).json({ error: ERROR_CODE.NOT_FOUND_ERROR });
+      return res.status(404).json({ error: RESPONSE_CODE.NOT_FOUND_ERROR });
     }
 
     await Group.deleteOne({ groupId: groupId });
-    return res.status(200).json({ message: SUCCESS_MESSAGE });
+    return res.status(200).json({ message: RESPONSE_CODE.SUCCESS });
   } catch (error) {
     next(error);
   }

@@ -1,6 +1,6 @@
 import Group from "../../../../models/group";
-import userCredentials from "../../../../models/userCredentials";
-import { ERROR_CODE, SUCCESS_MESSAGE } from "../../../utils/constants";
+import userCredentials from "../../../../models/userCredentialsModel";
+import { RESPONSE_CODE } from "../../../utils/constants";
 
 // Join an existing group
 export async function joinGroupService(req: any, res: any, next: any) {
@@ -12,7 +12,7 @@ export async function joinGroupService(req: any, res: any, next: any) {
     });
 
     if (!group) {
-      return res.status(404).json({ error: ERROR_CODE.NOT_FOUND_ERROR });
+      return res.status(404).json({ error: RESPONSE_CODE.NOT_FOUND_ERROR });
     }
 
     const userCred = await userCredentials.findOne({
@@ -20,7 +20,7 @@ export async function joinGroupService(req: any, res: any, next: any) {
     });
 
     if (!userCred) {
-      return res.status(404).json({ error: ERROR_CODE.USER_NOT_FOUND });
+      return res.status(404).json({ error: RESPONSE_CODE.USER_NOT_FOUND });
     }
 
     // Check if the userCred is already in the group
@@ -33,7 +33,7 @@ export async function joinGroupService(req: any, res: any, next: any) {
 
     // Save the modified group document
     await group.save();
-    return res.status(200).json({ message: SUCCESS_MESSAGE });
+    return res.status(200).json({ message: RESPONSE_CODE.SUCCESS });
   } catch (error) {
     next(error);
   }

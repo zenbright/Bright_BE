@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
-import userCredentials from "../../../../models/userCredentials";
+import userCredentials from "../../../../models/userCredentialsModel";
 import Group from "../../../../models/group";
-import { ERROR_CODE, SUCCESS_MESSAGE } from "../../../utils/constants";
+import { RESPONSE_CODE } from "../../../utils/constants";
 
 export async function createGroupService(req: any, res: any, next: any) {
   try {
@@ -12,17 +12,19 @@ export async function createGroupService(req: any, res: any, next: any) {
     });
 
     if (!userCred) {
-      return res.status(404).json({ error: ERROR_CODE.USER_NOT_FOUND });
+      return res.status(404).json({ error: RESPONSE_CODE.USER_NOT_FOUND });
     } else {
       // check if every invited user exists
-      const invitedUserPromises = invitedUsers.map(async (invitedUser: String) => {
-        const invitedUserCred = await userCredentials.findOne({
-          userId: invitedUser,
-        });
-        if (!invitedUserCred) {
-          throw new Error(ERROR_CODE.USER_NOT_FOUND);
-        }
-      });
+      const invitedUserPromises = invitedUsers.map(
+        async (invitedUser: String) => {
+          const invitedUserCred = await userCredentials.findOne({
+            userId: invitedUser,
+          });
+          if (!invitedUserCred) {
+            throw new Error(RESPONSE_CODE.USER_NOT_FOUND);
+          }
+        },
+      );
 
       await Promise.all(invitedUserPromises);
 
@@ -34,7 +36,9 @@ export async function createGroupService(req: any, res: any, next: any) {
 
       if (existingGroup) {
         console.log("existingGroup: " + existingGroup.groupId);
-        return res.status(400).json({ message: "ERROR_CODE.GROUP_ALREADY_EXISTS" });
+        return res
+          .status(400)
+          .json({ message: "ERROR_CODE.GROUP_ALREADY_EXISTS" });
       }
 
       // If the group doesn't exist, create a new one
@@ -45,11 +49,9 @@ export async function createGroupService(req: any, res: any, next: any) {
 
       console.log("newGroup: " + newGroup.groupId);
       await newGroup.save();
-      return res.status(200).json({ message: SUCCESS_MESSAGE });
+      return res.status(200).json({ message: RESPONSE_CODE.SUCCESS });
     }
   } catch (error) {
     next(error);
   }
 }
-
-

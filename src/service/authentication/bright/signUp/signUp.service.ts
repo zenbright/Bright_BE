@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
-import userCredentials from "../../../../models/userCredentials";
-import userInfo from "../../../../models/userInfo";
-import { ERROR_CODE, PROVIDER, SUCCESS_MESSAGE } from "../../../utils/constants";
+import userCredentials from "../../../../models/userCredentialsModel";
+import userInfo from "../../../../models/userInfoModel";
+import { RESPONSE_CODE, PROVIDER } from "../../../utils/constants";
 import { passwordValidator } from "../../../utils/validator";
 
 export async function signUpBrigthAccount(req: any, res: any, next: any) {
@@ -9,19 +9,20 @@ export async function signUpBrigthAccount(req: any, res: any, next: any) {
     const userData = req.body;
 
     if (!userData) {
-      return res.status(400).json({ error: ERROR_CODE.NOT_FOUND_ERROR });
+      return res.status(404).json({ error: RESPONSE_CODE.NOT_FOUND_ERROR });
     } else {
       const existingUser = await userCredentials.findOne({
         account: userData.account,
         provider: PROVIDER.BRIGHT
       });
 
+      // User already exists
       if (existingUser) {
-        return res.status(400).json({ message: ERROR_CODE.NOT_FOUND_ERROR });
+        return res.status(400).json({ message: RESPONSE_CODE.NOT_ALLOWED });
       }
 
       if (!passwordValidator(userData.password)) {
-        return res.status(400).json({ message: ERROR_CODE.NOT_ALLOWED });
+        return res.status(400).json({ message: RESPONSE_CODE.NOT_ALLOWED });
       }
     }
 
@@ -51,7 +52,7 @@ export async function signUpBrigthAccount(req: any, res: any, next: any) {
     newCredential.userId = newUserInfo._id;
 
     await Promise.all([newUserInfo.save(), newCredential.save()]);
-    return res.status(200).json({ message: SUCCESS_MESSAGE });
+    return res.status(200).json({ message: RESPONSE_CODE.SUCCESS });
   } catch (error) {
     next(error);
   }

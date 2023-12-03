@@ -1,6 +1,6 @@
 import express from "express";
 import path from "path";
-import userCredentials from "./models/userCredentials";
+import userCredentials from "./models/userCredentialsModel";
 import Group from "./models/group";
 import Message from "./models/message";
 import { deleteMessageService } from "./service/user/message/deleteMessage/deleteMessage.service";

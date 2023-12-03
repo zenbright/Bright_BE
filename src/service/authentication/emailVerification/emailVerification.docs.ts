@@ -1,8 +1,8 @@
 /**
  * @swagger
- * /utils/user/searchUser:
+ * /auth/verifyEmail:
  *   post:
- *      summary: Search User 
+ *      summary: Email Verification
  *      tags:
  *       - Authentication
  *      parameters:
@@ -11,22 +11,23 @@
  *         required: true
  *         properties:
  *         example: {
- *           "searchPhrase": "Quo",
+ *           "userId": "123456",
+ *           "email": "0617@gmail.com",
  *         }
  *      responses:
  *       200:
- *         description: Search User success
+ *         description: Email Verification success
  *         schema:
  *           type: object
  *           example: {
  *             success: true,
- *             payload: "Quoc Doan, Quoc Huu, ...",
+ *             payload: "Access token",
  *           }
  *       400:
- *          description: Invalid Search Phrase
+ *          description: When the email is invalid
  *          schema:
  *           type: string
- *           example: "No search"
+ *           example: "INVALID EMAIL ADDRESS"
  *       404:
  *          description: When the user doesn't exist
  *          schema:

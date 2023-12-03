@@ -1,6 +1,6 @@
 import Group from "../../../../models/group";
 import Message from "../../../../models/message";
-import { ERROR_CODE, SUCCESS_MESSAGE } from "../../../utils/constants";
+import { RESPONSE_CODE } from "../../../utils/constants";
 
 export async function deleteMessageService(
   params: { groupId: string; msgId: string },
@@ -13,13 +13,13 @@ export async function deleteMessageService(
     const existingGroup = await Group.findOne({ groupId: groupId });
 
     if (!existingGroup) {
-      return res.status(404).json({ error: ERROR_CODE.NOT_FOUND_ERROR });
+      return res.status(404).json({ error: RESPONSE_CODE.NOT_FOUND_ERROR });
     }
 
     await removeMessageFromGroup(existingGroup, msgId, res);
     await Message.deleteOne({ messageId: msgId });
 
-    return res.status(200).json({ message: SUCCESS_MESSAGE });
+    return res.status(200).json({ message: RESPONSE_CODE.SUCCESS });
   } catch (error) {
     console.log(error);
   }

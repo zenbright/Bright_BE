@@ -1,9 +1,9 @@
 import axios from 'axios';
-import userCredentials from '../../../models/userCredentials';
-import userInfo from '../../../models/userInfo';
+import userCredentials from '../../../models/userCredentialsModel';
+import userInfo from '../../../models/userInfoModel';
 import mongoose from 'mongoose';
 import * as Formatter from '../../utils/formatter';
-import { CAUTION, ERROR_CODE, EXTERNAL_URL, PROVIDER } from '../../utils/constants';
+import { CAUTION, RESPONSE_CODE, EXTERNAL_URL, PROVIDER } from '../../utils/constants';
 
 export async function loginWithGitHub(req: any, res: any, next: any) {
     try {
@@ -29,7 +29,7 @@ export async function loginWithGitHub(req: any, res: any, next: any) {
         const userData = userResponse.data;
 
         if (!userData) {
-            return res.status(400).json({ error: ERROR_CODE.NOT_FOUND_ERROR });
+            return res.status(404).json({ error: RESPONSE_CODE.NOT_FOUND_ERROR });
         }
 
         // Check if user already exists in database

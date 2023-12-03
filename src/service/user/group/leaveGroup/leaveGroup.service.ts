@@ -1,6 +1,6 @@
-import userCredentials from "../../../../models/userCredentials";
+import userCredentials from "../../../../models/userCredentialsModel";
 import Group from "../../../../models/group";
-import { ERROR_CODE, SUCCESS_MESSAGE } from "../../../utils/constants";
+import { RESPONSE_CODE } from "../../../utils/constants";
 
 export async function leaveGroupService(req: any, res: any, next: any) {
   try {
@@ -9,7 +9,7 @@ export async function leaveGroupService(req: any, res: any, next: any) {
     const userCred = await userCredentials.findOne({ userId: userCredId });
 
     if (!userCred) {
-      return res.status(404).json({ error: ERROR_CODE.USER_NOT_FOUND });
+      return res.status(404).json({ error: RESPONSE_CODE.USER_NOT_FOUND });
     }
 
     const existingGroup = await Group.findOne({ groupId: groupId });
@@ -17,7 +17,7 @@ export async function leaveGroupService(req: any, res: any, next: any) {
     if (!existingGroup) {
       return res
         .status(404)
-        .json({ error: "GROUP_" + ERROR_CODE.NOT_FOUND_ERROR });
+        .json({ error: "GROUP_" + RESPONSE_CODE.NOT_FOUND_ERROR });
     }
 
     const modifiedGroup = await removeUserFromGroup(existingGroup, userCredId);
@@ -28,7 +28,7 @@ export async function leaveGroupService(req: any, res: any, next: any) {
       await existingGroup.save();
     }
 
-    return res.status(200).json({ message: SUCCESS_MESSAGE });
+    return res.status(200).json({ message: RESPONSE_CODE.SUCCESS });
   } catch (error) {
     next(error);
   }

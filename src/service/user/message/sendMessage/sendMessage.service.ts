@@ -1,6 +1,6 @@
 import Message from "../../../../models/message";
 import Group from "../../../../models/group";
-import { ERROR_CODE, SUCCESS_MESSAGE } from "../../../utils/constants";
+import { RESPONSE_CODE} from "../../../utils/constants";
 import mongoose from "mongoose";
 
 export async function sendMessageService(
@@ -36,11 +36,11 @@ export async function sendMessageService(
       group.messages.set(newMsgId, "");
       await group.save();
     } else {
-      return { error: "GROUP_" + ERROR_CODE.NOT_FOUND_ERROR };
+      return { error: "GROUP_" + RESPONSE_CODE.NOT_FOUND_ERROR };
     }
 
     console.log("SUCCESS");
-    return { message: SUCCESS_MESSAGE, newMessage: newMessage};
+    return { message: RESPONSE_CODE.SUCCESS, newMessage: newMessage};
   } catch (error) {
     // TODO: Handle error
     console.error(error);
