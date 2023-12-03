@@ -12,11 +12,11 @@ const groupSchema = new mongoose.Schema({
       required: true,
     },
   ],
-  messages: [
-    {
-      type: String,
-    },
-  ],
+  messages: {
+    type: Map,
+    of: String,
+    default: new Map(), 
+  },
 });
 
 export default mongoose.model("Group", groupSchema);

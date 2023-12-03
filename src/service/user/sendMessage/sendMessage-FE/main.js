@@ -14,17 +14,25 @@ async function fetchMessages(userId, groupId) {
   try {
     const groupResponse = await fetch(`/getGroup/${groupId}`);
     const group = await groupResponse.json();
-    const messageIds = group.messages;
+    const messagesMap = group.messages;
+    console.log("messagesMap type: " + typeof messagesMap);
+    // Check if messagesMap is an object (not a Map)
+    if (typeof messagesMap === "object" && messagesMap !== null) {
 
-    // Render messages
-    for (const msgId of messageIds) {
-      const messageResponse = await fetch(`/getMessages/${msgId}`);
-      const message = await messageResponse.json();
-      const isOwnMessage = message.fromId === userId;
-      addMessageToUI(isOwnMessage, message);
+      const mapFromObject = new Map(Object.entries(messagesMap));
+      const messageIds = Array.from(mapFromObject.keys());
+      console.log("messageIds: ", messageIds);
+
+      for (const msgId of messageIds) {
+        const messageResponse = await fetch(`/getMessages/${msgId}`);
+        const message = await messageResponse.json();
+        const isOwnMessage = message.fromId === userId;
+        addMessageToUI(isOwnMessage, message);
+      }
+    } else {
+      console.error("messagesMap is not a Map");
     }
 
-    // Scroll to the bottom
     scrollToBottom();
   } catch (error) {
     console.error("Error fetching messages:", error);
@@ -71,10 +79,10 @@ function sendMessage() {
 }
 
 // Broadcast the message to other users in the same group
-socket.on("group-message", ({ groupId, data }) => {
+socket.on("group-message", ({ groupId, formattedMsg }) => {
   // console.log("serverGroupId: ", serverGroupId);
   if (groupId === serverGroupId) {
-    addMessageToUI(false, data);
+    addMessageToUI(false, formattedMsg);
   } else {
     console.log("Different group");
   }
@@ -85,12 +93,6 @@ function addMessageToUI(isOwnMessage, data) {
   clearFeedback();
 
   let element = ``;
-  console.log(
-    "data.messageId: ",
-    data.messageId,
-    "data.groupId: ",
-    data.groupId,
-  );
 
   const delMsgBtn = `<button class="delMsg_btn" message-id="${data.messageId}" group-id="${data.groupId}">Del</button>`;
 
@@ -144,6 +146,7 @@ async function deleteMessage(groupId, messageId) {
   const messageContainerElement = document.getElementById(
     `message-${messageId}`,
   );
+
   if (messageContainerElement) {
     messageContainerElement.remove();
   }
