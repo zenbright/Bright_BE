@@ -31,7 +31,7 @@ export const ROUTE_ENDPOINT = {
     BASE_URL_V1: '/bright-backend/api',
     PING: '/ping',
 };
-export const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017';
+export const MONGO_URI = process.env.MONGO_URI || 'mongodb://0.0.0.0:27017';
 export const DB_NAME = process.env.DB_NAME || 'bright';
 
 export const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID as string;

@@ -21,7 +21,7 @@ const userCredentialSchema = new mongoose.Schema({
     provider: {
         type: String,
         enum: ["github", "google", "bright"],
-        default: "github",
+        default: "bright",
     },
 }, {
     timestamps: true,

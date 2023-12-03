@@ -3,14 +3,15 @@ import userCredentials from '../../../models/userCredentials';
 import userInfo from '../../../models/userInfo';
 import mongoose from 'mongoose';
 import * as Formatter from '../../utils/formatter';
+import { CAUTION, ERROR_CODE, EXTERNAL_URL, PROVIDER } from '../../utils/constants';
 
-export async function loginWithGitHub(req: any, res: any) {
+export async function loginWithGitHub(req: any, res: any, next: any) {
     try {
         const { code } = req.body;
         const { GITHUB_ID, GITHUB_SECRET } = process.env;
 
         // Get user access token
-        const tokenResponse = await axios.post('https://github.com/login/oauth/access_token', null, {
+        const tokenResponse = await axios.post(EXTERNAL_URL.GITHUB_OAUTH_GET_ACCESSTOKEN, null, {
             params: { client_id: GITHUB_ID, client_secret: GITHUB_SECRET, code },
             headers: { accept: 'application/json' },
         });
@@ -18,7 +19,7 @@ export async function loginWithGitHub(req: any, res: any) {
         const access_token = tokenResponse.data.access_token;
 
         // Fetch user data using access token
-        const userResponse = await axios.get('https://api.github.com/user', {
+        const userResponse = await axios.get(EXTERNAL_URL.GITHUB_OAUTH_GET_USERDATA, {
             headers: {
                 Authorization: `token ${access_token}`,
             },
@@ -28,7 +29,7 @@ export async function loginWithGitHub(req: any, res: any) {
         const userData = userResponse.data
 
         if (!userData) {
-            return res.status(400).json({ error: 'Invalid Access Token!' });
+            return res.status(400).json({ error: ERROR_CODE.NOT_FOUND_ERROR });
         }
 
         // Check if user already exists in database
@@ -56,15 +57,16 @@ export async function loginWithGitHub(req: any, res: any) {
         // Create new credential
         const newCredential = new userCredentials({
             account: userData.login,
-            password: userData.login,
+            password: CAUTION.DO_NOT_USE,
             userId: newUserInfo._id,
-            provider: 'github',
+            provider: PROVIDER.GITHUB,
         });
+
+        newUserInfo.userCredentialId = newCredential._id;
 
         await Promise.all([newUserInfo.save(), newCredential.save()]);
         return res.json(userData);
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Internal Server Error' });
+        next(error);
     }
 }
