@@ -4,6 +4,7 @@ const messageSchema = new mongoose.Schema({
   messageId: {
     type: mongoose.Schema.Types.ObjectId,
     default: new mongoose.Types.ObjectId(),
+    unique: true,
   },
   groupId: {
     type: String,
@@ -26,10 +27,6 @@ const messageSchema = new mongoose.Schema({
   timestamp: {
     type: Date,
     default: Date.now(),
-  },
-  order: {
-    type: Number,
-    required: true,
   },
 });
 

@@ -99,7 +99,7 @@ function addMessageToUI(isOwnMessage, data) {
   let timestampString = getFormattedTimestamp(data.timestamp);
   // TODO: change fromId to local userName
   element = `
-      <div id="message-${data.fromId}" class="${
+      <div id="message-${data.messageId}" class="${
         isOwnMessage ? "message-right" : "message-left"
       }">
         <p class="message">
@@ -142,10 +142,7 @@ messageContainer.addEventListener("click", (e) => {
 async function deleteMessage(groupId, messageId) {
   await fetch(`/deleteMessage/${groupId}/${messageId}`);
 
-  // Remove the message container element from the UI
-  const messageContainerElement = document.getElementById(
-    `message-${messageId}`,
-  );
+  const messageContainerElement = document.getElementById(`message-${messageId}`);
 
   if (messageContainerElement) {
     messageContainerElement.remove();

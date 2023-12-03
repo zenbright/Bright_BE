@@ -20,16 +20,12 @@ export const initSocketIo = (server: any) => {
 
       increaseClientCount(groupId, socket.id, io);
 
-      console.log("userId:", userId, "groupId:", groupId);
-
       socket.on("message", async (data, callback) => {
-        console.log("received message:", data);
 
         try {
           // Process the message and obtain a result
           const sendMsgRes = await sendMessageService(groupId, userId, data);
           const formattedMsg = sendMsgRes?.newMessage;
-          console.log("formattedMsg:", formattedMsg);
 
           // Broadcast the message to all users in the room
           socket.broadcast.emit("group-message", { groupId, formattedMsg });

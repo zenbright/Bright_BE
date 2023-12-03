@@ -1,6 +1,7 @@
 import Message from "../../../models/message";
 import Group from "../../../models/group";
 import { ERROR_CODE, SUCCESS_MESSAGE } from "../../utils/constants";
+import mongoose from "mongoose";
 
 export async function sendMessageService(
   groupId: String,
@@ -18,11 +19,11 @@ export async function sendMessageService(
     */
 
     const newMessage = new Message({
+      messageId: new mongoose.Types.ObjectId(),
       groupId: groupId,
       fromId: userId,
       text: message,
       multimedia: "", // TODO: multimedia
-      order: 0, // TODO: make the order dynamic
     });
 
     console.log("newMessage: ", newMessage);
