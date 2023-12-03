@@ -39,7 +39,7 @@ export async function sendMessageService(
     }
 
     console.log("SUCCESS");
-    return { message: SUCCESS_MESSAGE };
+    return { message: SUCCESS_MESSAGE, newMessage: newMessage};
   } catch (error) {
     // TODO: Handle error
     console.error(error);

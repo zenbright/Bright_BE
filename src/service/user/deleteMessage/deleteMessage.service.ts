@@ -30,9 +30,9 @@ async function removeMessageFromGroup(
   messageId: string,
   res: any,
 ) {
-  // existingGroup.messages = existingGroup.messages.filter((msgId: string) => msgId !== messageId);
+  existingGroup.messages = existingGroup.messages.filter((msgId: string) => msgId !== messageId);
 
-  // await existingGroup.save();
+  await existingGroup.save();
   
   console.log("Successfully deleted message");
   return res.status(200).json({ message: "Successfully deleted message" });

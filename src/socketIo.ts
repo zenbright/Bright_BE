@@ -22,13 +22,26 @@ export const initSocketIo = (server: any) => {
 
       console.log("userId:", userId, "groupId:", groupId);
 
-      socket.on("message", (data) => {
-        console.log("received message:", data); // data: name, message, dateTime
-        // console.log("sender:", socket.id);
+      socket.on("message", async (data, callback) => {
+        console.log("received message:", data);
 
-        // Broadcast the message to all users in the room
-        socket.broadcast.emit("group-message", { groupId, data });
-        sendMessageService(groupId, userId, data);
+        try {
+          // Process the message and obtain a result
+          const sendMsgRes = await sendMessageService(groupId, userId, data);
+          const formattedMsg = sendMsgRes?.newMessage;
+
+          // Broadcast the message to all users in the room
+          socket.broadcast.emit("group-message", { groupId, formattedMsg });
+
+          // Use the callback to send the result back to the client
+          callback(formattedMsg);
+        } catch (error) {
+          // Handle errors here
+          console.error("Error processing message:", error);
+          callback({
+            error: "An error occurred while processing the message.",
+          });
+        }
       });
 
       socket.on("disconnect", () => {

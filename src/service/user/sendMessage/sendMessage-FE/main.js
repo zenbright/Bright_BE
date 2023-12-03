@@ -62,8 +62,11 @@ function sendMessage() {
     message: messageInput.value,
     dateTime: new Date(),
   };
-  socket.emit("message", data);
-  addMessageToUI(true, data);
+  // Sending a message with a callback
+  socket.emit("message", data, (result) => {
+    addMessageToUI(true, result);
+  });
+
   messageInput.value = "";
 }
 
@@ -80,6 +83,7 @@ socket.on("group-message", ({ groupId, data }) => {
 // Function to add a message to the UI
 function addMessageToUI(isOwnMessage, data) {
   clearFeedback();
+
   let element = ``;
   console.log(
     "data.messageId: ",
@@ -87,38 +91,26 @@ function addMessageToUI(isOwnMessage, data) {
     "data.groupId: ",
     data.groupId,
   );
+
   const delMsgBtn = `<button class="delMsg_btn" message-id="${data.messageId}" group-id="${data.groupId}">Del</button>`;
-  if (data.timestamp) {
-    let timestampString = getFormattedTimestamp(data.timestamp);
-    // TODO: change fromId to local userName
-    element = `
-      <div id="message-${data.fromId}" class="${isOwnMessage ? "message-right" : "message-left"}">
+
+  let timestampString = getFormattedTimestamp(data.timestamp);
+  // TODO: change fromId to local userName
+  element = `
+      <div id="message-${data.fromId}" class="${
+        isOwnMessage ? "message-right" : "message-left"
+      }">
         <p class="message">
           ${data.text}
           <span>${data.fromId} ● ${timestampString}</span>
         </p>
         ${delMsgBtn}
       </div>`;
-  } else {
-    const dateObject = new Date(data.dateTime);
-    const formattedString = dateObject.toISOString();
-    let timestampString = getFormattedTimestamp(formattedString);
-
-    element = `
-      <div id="message-${data.messageId}" class="${isOwnMessage ? "message-right" : "message-left"}">
-        <p class="message">
-          ${data.message}
-          <span>${data.name} ● ${timestampString}</span>
-        </p>
-        ${delMsgBtn}
-      </div>`;
-  }
 
   messageContainer.innerHTML += element;
 
   scrollToBottom();
 }
-
 
 function getFormattedTimestamp(timestamp) {
   // Example: 2023-12-01T08:24:35.749Z -> 2023-12-01 08:24:35
