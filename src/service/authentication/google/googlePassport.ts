@@ -38,7 +38,7 @@ passport.use('google',
           userCred.refreshToken = refreshToken;
           await userCred.save();
           console.log(accessToken);
-          return done(null, userCred);
+          return done(null, profile);
         } else {
           const newUserInfo = new userInfo({
             fullname: profile.name?.familyName + ' ' + profile.name?.givenName,
@@ -64,7 +64,7 @@ passport.use('google',
           });
           console.log(accessToken);
           await newCredential.save()
-          return done(null, [newUserInfo, newCredential]);
+          return done(null, profile);
         }
       } catch (error) {
         console.error(error); // Log the error
