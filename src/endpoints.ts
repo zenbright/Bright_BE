@@ -10,6 +10,7 @@ import UserPasswordChangeRoute from "./service/user/changePassword/changePasswor
 import UserAccountDeleteRoute from "./service/user/deleteAccount/deleteAccount.route";
 import CreateProjectRoute from "./service/projectManagement/project/createProject/createProject.route";
 import UpdateProjectRoute from "./service/projectManagement/project/updateProject/updateProject.route";
+import DeleteProjectRoute from "./service/projectManagement/project/deleteProject/deleteProject.route";
 
 const router = Router();
 
@@ -28,6 +29,10 @@ router.use("/utils/user", [
   UserProfileImageRoute,
 ]);
 
-router.use("/projectManagement", [CreateProjectRoute, UpdateProjectRoute]);
+router.use("/projectManagement", [
+  CreateProjectRoute,
+  UpdateProjectRoute,
+  DeleteProjectRoute,
+]);
 
 export default router;

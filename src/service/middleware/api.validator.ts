@@ -74,7 +74,7 @@ export const createProjectValidator = [
   validatorErrorHandler,
 ];
 
-export const updateProjectValidator = [
+export const projectValidator = [
   body("projectId")
     .isString()
     .notEmpty()

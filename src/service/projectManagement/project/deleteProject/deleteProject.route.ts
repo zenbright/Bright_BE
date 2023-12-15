@@ -1,15 +1,15 @@
 import { Router } from "express";
-import * as updateProjectController from "./updateProject.controller";
+import * as deleteProjectController from "./deleteProject.controller";
 import * as IPSpamChecker from "../../../middleware/api.limiter";
 import * as APIValidator from "../../../middleware/api.validator";
 
 const router = Router();
 
-router.put(
-  "/updateProject",
+router.post(
+  "/deleteProject",
   IPSpamChecker.checkIpSpamServer("/projectManagement"), 
   APIValidator.projectValidator,
-  updateProjectController.updateProjectController,
+  deleteProjectController.deleteProjectController,
 );
 
 export default router;
