@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /utils/user/createProject:
+ * /projectManagement/createProject:
  *   post:
  *     summary: Create a new Project 
  *     tags:
@@ -13,7 +13,7 @@
  *         example: {
  *           "name": "Design APIs",
  *           "description": "Don't forget docs, route, controller, service structure.",
- *           "groupId": "sdfgfse",
+ *           "groupId": "656c3048eabd6d1ac3d767ad",
  *         }
  *     responses:
  *       200:

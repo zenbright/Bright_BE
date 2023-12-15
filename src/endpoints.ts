@@ -8,15 +8,17 @@ import UserProfileImageRoute from "./service/user/crudProfileImage/manageImage.r
 import UserSearchRoute from "./service/user/searchUser/searchUser.route";
 import UserPasswordChangeRoute from "./service/user/changePassword/changePassword.route";
 import UserAccountDeleteRoute from "./service/user/deleteAccount/deleteAccount.route";
+import CreateProjectRoute from "./service/projectManagement/project/createProject/createProject.route";
 
 const router = Router();
 
 router.use("/auth", [
-  GitAuthRoute, 
-  BrightAuthRoute, 
+  GitAuthRoute,
+  BrightAuthRoute,
   SendOTPRoute,
   VerifyOTPRoute,
-  EmailVerificationRoute,]);
+  EmailVerificationRoute,
+]);
 
 router.use("/utils/user", [
   UserSearchRoute,
@@ -24,5 +26,7 @@ router.use("/utils/user", [
   UserAccountDeleteRoute,
   UserProfileImageRoute,
 ]);
+
+router.use("/projectManagement", [CreateProjectRoute]);
 
 export default router;

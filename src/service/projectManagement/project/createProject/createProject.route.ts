@@ -7,7 +7,7 @@ const router = Router();
 
 router.post(
   "/createProject",
-  IPSpamChecker.checkIpSpamServer("/project-management"), 
+  IPSpamChecker.checkIpSpamServer("/projectManagement"), 
   APIValidator.createProjectValidator,
   createProjectController.createProjectController,
 );
