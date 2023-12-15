@@ -66,3 +66,10 @@ export const OTPVerificationValidator = [
   body("OTP").isString().notEmpty().withMessage("Missing OTP Field."),
   validatorErrorHandler,
 ];
+
+export const createProjectValidator = [
+  body("name").isString().notEmpty().withMessage("Missing name Field."),
+  body("description").isString().withMessage("Description is not a string."),
+  body("groupId").isString().notEmpty().withMessage("Missing groupId Field."),
+  validatorErrorHandler,
+];
