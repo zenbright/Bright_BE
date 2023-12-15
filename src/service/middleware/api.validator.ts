@@ -73,3 +73,11 @@ export const createProjectValidator = [
   body("groupId").isString().notEmpty().withMessage("Missing groupId Field."),
   validatorErrorHandler,
 ];
+
+export const updateProjectValidator = [
+  body("projectId")
+    .isString()
+    .notEmpty()
+    .withMessage("Missing projectId Field."),
+  validatorErrorHandler,
+];
