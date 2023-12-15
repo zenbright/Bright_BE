@@ -9,6 +9,11 @@ const taskSchema = new mongoose.Schema(
     description: {
       type: String,
     },
+    status: {
+        type: String,
+        enum: ["Incompleted", "On-going", "Completed"],
+        default: "Incompleted",
+    },
     checklist: [
       // store id of checklist items
       {
