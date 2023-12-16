@@ -95,7 +95,7 @@ export const createTaskValidator = [
   validatorErrorHandler,
 ];
 
-export const updateTaskValidator = [
+export const taskValidator = [
   body("taskId").isString().notEmpty().withMessage("Missing taskId Field."),
   validatorErrorHandler,
 ];

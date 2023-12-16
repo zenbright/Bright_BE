@@ -13,6 +13,7 @@ import UpdateProjectRoute from "./service/projectManagement/project/updateProjec
 import DeleteProjectRoute from "./service/projectManagement/project/deleteProject/deleteProject.route";
 import CreateTaskRoute from "./service/projectManagement/task/createTask/createTask.route";
 import UpdateTaskRoute from "./service/projectManagement/task/updateTask/updateTask.route";
+import DeleteTaskRoute from "./service/projectManagement/task/deleteTask/deleteTask.route";
 
 const router = Router();
 
@@ -37,6 +38,7 @@ router.use("/projectManagement", [
   DeleteProjectRoute,
   CreateTaskRoute,
   UpdateTaskRoute,
+  DeleteTaskRoute,
 ]);
 
 export default router;
