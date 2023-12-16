@@ -99,3 +99,9 @@ export const taskValidator = [
   body("taskId").isString().notEmpty().withMessage("Missing taskId Field."),
   validatorErrorHandler,
 ];
+
+export const createChecklistItemValidator = [
+  body("taskId").isString().notEmpty().withMessage("Missing taskId Field."),
+  body("name").isString().notEmpty().withMessage("Missing name Field."),
+  validatorErrorHandler,
+];
