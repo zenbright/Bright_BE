@@ -16,6 +16,7 @@ import UpdateTaskRoute from "./service/projectManagement/task/updateTask/updateT
 import DeleteTaskRoute from "./service/projectManagement/task/deleteTask/deleteTask.route";
 import CreateChecklistItemRoute from "./service/projectManagement/checklistItem/createChecklistItem/createChecklistItem.route";
 import UpdateChecklistItemRoute from "./service/projectManagement/checklistItem/updateChecklistItem/updateChecklistItem.route";
+import DeleteChecklistItemRoute from "./service/projectManagement/checklistItem/deleteChecklistItem/deleteChecklistItem.route";
 
 const router = Router();
 
@@ -43,6 +44,7 @@ router.use("/projectManagement", [
   DeleteTaskRoute,
   CreateChecklistItemRoute,
   UpdateChecklistItemRoute,
+  DeleteChecklistItemRoute
 ]);
 
 export default router;

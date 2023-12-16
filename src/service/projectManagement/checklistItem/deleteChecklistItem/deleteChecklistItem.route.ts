@@ -1,15 +1,15 @@
 import { Router } from "express";
-import * as updateChecklistItemController from "./updateChecklistItem.controller";
+import * as deleteChecklistItemController from "./deleteChecklistItem.controller";
 import * as IPSpamChecker from "../../../middleware/api.limiter";
 import * as APIValidator from "../../../middleware/api.validator";
 
 const router = Router();
 
-router.put(
-  "/updateChecklistItem",
+router.post(
+  "/deleteChecklistItem",
   IPSpamChecker.checkIpSpamServer("/ProjectManagement"), 
-  APIValidator.updateChecklistItemValidator,
-  updateChecklistItemController.updateChecklistItemController,
+  APIValidator.deleteChecklistItemValidator,
+  deleteChecklistItemController.deleteChecklistItemController,
 );
 
 export default router;

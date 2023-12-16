@@ -112,3 +112,9 @@ export const updateChecklistItemValidator = [
   body("completed").isString().notEmpty().withMessage("Missing completed Field."),
   validatorErrorHandler,
 ];
+
+export const deleteChecklistItemValidator = [
+  body("taskId").isString().notEmpty().withMessage("Missing taskId Field."),
+  body("itemId").isString().notEmpty().withMessage("Missing itemId Field."),
+  validatorErrorHandler,
+];

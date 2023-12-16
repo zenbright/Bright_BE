@@ -1,8 +1,8 @@
 /**
  * @swagger
- * /projectManagement/updateChecklistItem:
- *   put:
- *     summary: Update a new ChecklistItem 
+ * /projectManagement/deleteChecklistItem:
+ *   post:
+ *     summary: Delete a new ChecklistItem 
  *     tags:
  *       - Project Management
  *     parameters:
@@ -11,18 +11,17 @@
  *         required: true
  *         properties:
  *         example: {
+ *           "taskId": "657d5632444b2fa800911be5",
  *           "itemId": "657d6badf601c86b8d2c1df7",
- *           "name": "DO THIS!",
- *           "completed": "true",
  *         }
  *     responses:
  *       200:
- *         description: Update a new ChecklistItem success
+ *         description: Delete a new ChecklistItem success
  *         schema:
  *           type: object
  *           example:
  *             success: true
- *             payload: "Updated Successfully"
+ *             payload: "Deleted Successfully"
  *       404:
  *         description: Task not found
  *         schema:
