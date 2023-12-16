@@ -11,6 +11,7 @@ import UserAccountDeleteRoute from "./service/user/deleteAccount/deleteAccount.r
 import CreateProjectRoute from "./service/projectManagement/project/createProject/createProject.route";
 import UpdateProjectRoute from "./service/projectManagement/project/updateProject/updateProject.route";
 import DeleteProjectRoute from "./service/projectManagement/project/deleteProject/deleteProject.route";
+import CreateTaskRoute from "./service/projectManagement/task/createTask/createTask.route";
 
 const router = Router();
 
@@ -33,6 +34,7 @@ router.use("/projectManagement", [
   CreateProjectRoute,
   UpdateProjectRoute,
   DeleteProjectRoute,
+  CreateTaskRoute,
 ]);
 
 export default router;

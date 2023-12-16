@@ -81,3 +81,16 @@ export const projectValidator = [
     .withMessage("Missing projectId Field."),
   validatorErrorHandler,
 ];
+
+export const createTaskValidator = [
+  body("projectId")
+    .isString()
+    .notEmpty()
+    .withMessage("Missing projectId Field."),
+  body("name").isString().notEmpty().withMessage("Missing name Field."),
+  body("belongedMonth")
+    .isString()
+    .notEmpty()
+    .withMessage("Missing belongedMonth Field."),
+  validatorErrorHandler,
+];

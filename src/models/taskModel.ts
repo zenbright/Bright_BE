@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 
 const taskSchema = new mongoose.Schema(
   {
+    projectId: {
+      type: String,
+      required: true,
+    },
     name: {
       type: String,
       required: true,
@@ -30,7 +34,7 @@ const taskSchema = new mongoose.Schema(
       type: Date,
     },
     belongedMonth: {
-        type: String, //TODO: validate the fomat of month-year
+        type: String, // e.g. Jan-2024
         required: true,
     }
   },
