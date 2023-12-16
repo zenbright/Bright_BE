@@ -94,3 +94,8 @@ export const createTaskValidator = [
     .withMessage("Missing belongedMonth Field."),
   validatorErrorHandler,
 ];
+
+export const updateTaskValidator = [
+  body("taskId").isString().notEmpty().withMessage("Missing taskId Field."),
+  validatorErrorHandler,
+];
