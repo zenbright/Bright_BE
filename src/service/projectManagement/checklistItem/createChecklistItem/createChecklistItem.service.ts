@@ -21,7 +21,7 @@ export async function createChecklistItemService(req: any, res: any, next: any) 
 
     task.checklist.push(checklistItem._id.toString());
     await task.save();
-    console.log("task: " + task);
+
     return res.status(200).json({ message: RESPONSE_CODE.SUCCESS });
   } catch (error) {
     next(error);

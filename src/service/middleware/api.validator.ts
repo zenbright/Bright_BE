@@ -105,3 +105,10 @@ export const createChecklistItemValidator = [
   body("name").isString().notEmpty().withMessage("Missing name Field."),
   validatorErrorHandler,
 ];
+
+export const updateChecklistItemValidator = [
+  body("itemId").isString().notEmpty().withMessage("Missing itemId Field."),
+  body("name").isString().notEmpty().withMessage("Missing name Field."),
+  body("completed").isString().notEmpty().withMessage("Missing completed Field."),
+  validatorErrorHandler,
+];
