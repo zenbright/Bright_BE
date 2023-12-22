@@ -1,6 +1,7 @@
 import Group from "../../../../models/groupModel";
+import Project from "../../../../models/projectModel";
 import { RESPONSE_CODE } from "../../../utils/constants";
-import { notificationService } from "../../sendNotification/createdProjectNotification/notification.service";
+import { notificationService } from "../../sendNotification/newProjectNotification/notification.service";
 
 export async function createProjectService(req: any, res: any, next: any) {
   try {
@@ -14,21 +15,21 @@ export async function createProjectService(req: any, res: any, next: any) {
       return res.status(404).json({ error: RESPONSE_CODE.NOT_FOUND_ERROR });
     }
 
-    const project = {
+    const project = new Project({
       name: name,
       description: description,
       groupId: groupId,
-    };
+    });
+
+    await project.save();
 
     const notificationResult = await notificationService({
       body: { project: project },
     });
 
     if (notificationResult.success) {
-      // Send the success response for project creation
       return res.status(200).json({ message: RESPONSE_CODE.SUCCESS });
     } else {
-      // Handle error and send an appropriate response
       return res
         .status(notificationResult.status)
         .json(notificationResult.error);

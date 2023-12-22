@@ -1,8 +1,8 @@
 import Group from "../../../../models/groupModel";
 import Project from "../../../../models/projectModel";
-
 import Task from "../../../../models/taskModel";
 import { RESPONSE_CODE } from "../../../utils/constants";
+import { notificationService } from "../../sendNotification/newTaskNotification/notification.service";
 
 export async function createTaskService(req: any, res: any, next: any) {
   try {
@@ -48,7 +48,18 @@ export async function createTaskService(req: any, res: any, next: any) {
     });
 
     await task.save();
-    return res.status(200).json({ message: RESPONSE_CODE.SUCCESS });
+
+    const notificationResult = await notificationService({
+      body: { task: task, project: project },
+    });
+
+    if (notificationResult.success) {
+      return res.status(200).json({ message: RESPONSE_CODE.SUCCESS });
+    } else {
+      return res
+        .status(notificationResult.status)
+        .json(notificationResult.error);
+    }
   } catch (error) {
     next(error);
   }

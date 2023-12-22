@@ -62,21 +62,43 @@ export function generateEmailContent(email: string | undefined, project: any) {
   }
 
   const emailContent = `
-    <p>Dear User,</p>
+  <html>
+    <head>
+      <style>
+        body {
+          font-family: 'Arial', sans-serif;
+          margin: 20px;
+        }
 
-    <p>
-      A new project, <strong>${project.name}</strong>, has been created.
-      <br>
-      Project Description: ${project.description || "No description available"}
-    </p>
+        p {
+          margin-bottom: 10px;
+        }
 
-    <p>
-      Thank you for being part of this project.
-    </p>
+        strong {
+          color: #007bff;
+        }
+      </style>
+    </head>
+    <body>
+      <p>Dear User,</p>
 
-    <p>Best regards,</p>
-    <p>Bright</p>
-  `;
+      <p>
+        A new project, <strong>${project.name}</strong>, has been created.
+      </p>
+
+      <p>
+        <strong>Project Description:</strong> ${project.description || "No description available"}
+      </p>
+
+      <p>
+        Thank you for being part of this project.
+      </p>
+
+      <p>Best regards,</p>
+      <p>Bright</p>
+    </body>
+  </html>
+`;
 
   return {
     from: AUTH_EMAIL,
