@@ -15,6 +15,9 @@ import { ROUTE_ENDPOINT } from "./config";
 import endpoint from "./endpoints";
 import path from "path";
 import errorResponseHandler from "./service/utils/errorResponseHandler";
+import cron from "node-cron";
+import { checkDelayedTaskService } from "./service/projectManagement/sendNotification/delayedTaskNotification/checkDelayedTask";
+import { remindTaskService } from "./service/projectManagement/sendNotification/taskReminderNotification/remindTask";
 
 const __dirname = path.resolve();
 
@@ -120,6 +123,13 @@ mongoose.connect(MONGO_URI).then(async (data) => {
     logger.error('Please make sure Mongodb is installed and running!');
     process.exit(1);
   });
+
+// Schedule an hourly job when the application starts
+cron.schedule("0 * * * *", async () => {
+  // Run the batch job every hour
+  await remindTaskService();
+  await checkDelayedTaskService();
+});
 
 app.listen(PORT_SERVER, () => {
   // ? Logging restart service
