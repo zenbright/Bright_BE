@@ -12,11 +12,12 @@ import UserAccountDeleteRoute from "./service/user/deleteAccount/deleteAccount.r
 const router = Router();
 
 router.use("/auth", [
-  GitAuthRoute, 
-  BrightAuthRoute, 
+  GitAuthRoute,
+  BrightAuthRoute,
   SendOTPRoute,
   VerifyOTPRoute,
-  EmailVerificationRoute,]);
+  EmailVerificationRoute,
+]);
 
 router.use("/utils/user", [
   UserSearchRoute,
