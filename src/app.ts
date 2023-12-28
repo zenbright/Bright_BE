@@ -13,10 +13,7 @@ import swaggerJSDoc from "./swagger";
 import swaggerUI from "swagger-ui-express";
 import { ROUTE_ENDPOINT } from "./config";
 import endpoint from "./endpoints";
-import path from "path";
 import errorResponseHandler from "./service/utils/errorResponseHandler";
-
-const __dirname = path.resolve();
 
 dotenv.config();
 
@@ -33,7 +30,7 @@ import {
 
 const app = express();
 
-// Set up logging middleware
+// Logging
 if (["development", "local", "production"].includes(NODE_ENV)) {
   const morganStream = (statusCode: any) => (req: any, res: any) =>
     !req.originalUrl.includes("api-docs") && res.statusCode >= statusCode;
@@ -58,13 +55,13 @@ if (["development", "local", "production"].includes(NODE_ENV)) {
   );
 }
 
-// Connect to Redis
+// Connect Redis
 redisClient.connect();
 
 // Enable CORS
 app.use(cors(CORS_OPTIONS));
 
-// Get access to user IP address
+// Reverse Proxy
 app.enable('trust proxy');
 
 // Swagger APIs Docs
@@ -80,10 +77,12 @@ if (["production", "development", "local"].includes(NODE_ENV)) {
   );
 }
 
+// API settings
 app.use(compression());
 app.use(bodyParser.json({ limit: "20mb" }));
 app.use(bodyParser.urlencoded({ limit: "20mb", extended: false }));
 
+// Server test
 app.get(`${ROUTE_ENDPOINT.BASE_URL_V1}${ROUTE_ENDPOINT.PING}`, (req, res) => {
   res.json({
     success: true,
@@ -91,6 +90,7 @@ app.get(`${ROUTE_ENDPOINT.BASE_URL_V1}${ROUTE_ENDPOINT.PING}`, (req, res) => {
   });
 });
 
+// Sever route
 app.use(ROUTE_ENDPOINT.BASE_URL_V1, endpoint);
 
 // Handle Response
@@ -104,13 +104,7 @@ app.use((req, res: any, next) => {
   next();
 });
 
-app.get("/", (req, res) => {
-  res.sendFile(
-    path.join(__dirname, "src/service/authentication/github/index.html"),
-  );
-});
-
-// MongoDB Connection
+// Connect MongoDB
 mongoose.set('strictQuery', false);
 mongoose.connect(MONGO_URI).then(async (data) => {
   logger.info(`Mongodb connected ${MONGO_URI} : ${DB_NAME}`);
@@ -121,13 +115,13 @@ mongoose.connect(MONGO_URI).then(async (data) => {
     process.exit(1);
   });
 
+// Server Listener
 app.listen(PORT_SERVER, () => {
-  // ? Logging restart service
   logger.info(`Server is running on port ${PORT_SERVER}`);
   console.log(`Server is running on port ${PORT_SERVER}`);
 });
 
-// Handle Errors
+// Errors Handler
 app.use(errorResponseHandler);
 
 export default app;
