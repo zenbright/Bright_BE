@@ -20,6 +20,7 @@ export const MORGAN_FORMAT: string =
   ':remote-addr - :remote-user [:date[iso]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent" - :response-time ms';
 
 export const DEFAULT_LANGUAGE = process.env.DEFAULT_LANGUAGE;
+
 export const PASSWORD_API_DOCS: string =
   process.env.PASSWORD_API_DOCS || "admin";
 export const USERNAME_API_DOCS: string =

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import * as manageImageController from "./manageImage.controller";
+import * as ManageUserProfileImageController from "./manageImage.controller";
 import { IPSpamChecker, APIValidator } from "../../..";
 import multer from "multer";
 
@@ -13,6 +13,6 @@ router.post("/profileImage/:action",
   ]),
   IPSpamChecker.checkIpSpamServer("/userProfileImage"),
   APIValidator.userProfileImageValidator,
-  manageImageController.userProfileImageController
+  ManageUserProfileImageController.userProfileImageController
 )
 export default router;
