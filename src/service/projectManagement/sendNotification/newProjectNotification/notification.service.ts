@@ -1,8 +1,8 @@
 import userInfo from "../../../../models/userInfoModel";
 import Group from "../../../../models/groupModel";
 import { RESPONSE_CODE } from "../../../utils/constants";
-import { AUTH_EMAIL } from "../../../../config";
 import { sendNotificationService } from "../sendNotification.service";
+import { generateEmailContent } from "./generateEmailContent";
 
 export async function notificationService(req: any) {
   try {
@@ -53,57 +53,4 @@ export async function notificationService(req: any) {
       error: RESPONSE_CODE.INTERNAL_SERVER_ERROR,
     };
   }
-}
-
-export function generateEmailContent(email: string | undefined, project: any) {
-  if (!email) {
-    console.error("Email address is missing for user");
-    return null;
-  }
-
-  const emailContent = `
-  <html>
-    <head>
-      <style>
-        body {
-          font-family: 'Arial', sans-serif;
-          margin: 20px;
-        }
-
-        p {
-          margin-bottom: 10px;
-        }
-
-        strong {
-          color: #007bff;
-        }
-      </style>
-    </head>
-    <body>
-      <p>Dear User,</p>
-
-      <p>
-        A new project, <strong>${project.name}</strong>, has been created.
-      </p>
-
-      <p>
-        <strong>Project Description:</strong> ${project.description || "No description available"}
-      </p>
-
-      <p>
-        Thank you for being part of this project.
-      </p>
-
-      <p>Best regards,</p>
-      <p>Bright</p>
-    </body>
-  </html>
-`;
-
-  return {
-    from: AUTH_EMAIL,
-    to: email,
-    subject: "New Project Notification",
-    html: emailContent,
-  };
 }
