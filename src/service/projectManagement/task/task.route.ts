@@ -28,7 +28,7 @@ router.put(
   updateTaskController.updateTaskController,
 );
 
-router.post(
+router.delete(
   "/task/delete",
   IPSpamChecker.checkIpSpamServer("/project-management"),
   APIValidator.taskValidator,

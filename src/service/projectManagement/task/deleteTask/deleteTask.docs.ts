@@ -1,7 +1,7 @@
 /**
  * @swagger
  * /project-management/task/delete:
- *   post:
+ *   delete:
  *     summary: Delete Task
  *     tags:
  *       - Project Management

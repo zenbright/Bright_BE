@@ -28,7 +28,7 @@ router.put(
   updateProjectController.updateProjectController,
 );
 
-router.post(
+router.delete(
   "/project/delete",
   IPSpamChecker.checkIpSpamServer("/projectManagement"),
   APIValidator.projectValidator,

@@ -27,7 +27,7 @@ router.put(
   updateChecklistItemController.updateChecklistItemController,
 );
 
-router.post(
+router.delete(
   "/checklistitem/delete",
   IPSpamChecker.checkIpSpamServer("/project-management"),
   APIValidator.deleteChecklistItemValidator,
