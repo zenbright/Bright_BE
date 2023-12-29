@@ -10,9 +10,7 @@ import UserPasswordChangeRoute from "./service/user/changePassword/changePasswor
 import UserAccountDeleteRoute from "./service/user/deleteAccount/deleteAccount.route";
 import ProjectRoute from "./service/projectManagement/project/project.route";
 import TaskRoute from "./service/projectManagement/task/task.route";
-import CreateChecklistItemRoute from "./service/projectManagement/checklistItem/createChecklistItem/createChecklistItem.route";
-import UpdateChecklistItemRoute from "./service/projectManagement/checklistItem/updateChecklistItem/updateChecklistItem.route";
-import DeleteChecklistItemRoute from "./service/projectManagement/checklistItem/deleteChecklistItem/deleteChecklistItem.route";
+import ChecklistItemRoute from "./service/projectManagement/checklistItem/checklistItem.route";
 
 const router = Router();
 
@@ -31,12 +29,6 @@ router.use("/utils/user", [
   UserProfileImageRoute,
 ]);
 
-router.use("/projectManagement", [
-  ProjectRoute,
-  TaskRoute,
-  CreateChecklistItemRoute,
-  UpdateChecklistItemRoute,
-  DeleteChecklistItemRoute,
-]);
+router.use("/projectManagement", [ProjectRoute, TaskRoute, ChecklistItemRoute]);
 
 export default router;
