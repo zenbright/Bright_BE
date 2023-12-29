@@ -8,9 +8,7 @@ import UserProfileImageRoute from "./service/user/crudProfileImage/manageImage.r
 import UserSearchRoute from "./service/user/searchUser/searchUser.route";
 import UserPasswordChangeRoute from "./service/user/changePassword/changePassword.route";
 import UserAccountDeleteRoute from "./service/user/deleteAccount/deleteAccount.route";
-import CreateProjectRoute from "./service/projectManagement/project/createProject/createProject.route";
-import UpdateProjectRoute from "./service/projectManagement/project/updateProject/updateProject.route";
-import DeleteProjectRoute from "./service/projectManagement/project/deleteProject/deleteProject.route";
+import ProjectRoute from "./service/projectManagement/project/project.route";
 import CreateTaskRoute from "./service/projectManagement/task/createTask/createTask.route";
 import UpdateTaskRoute from "./service/projectManagement/task/updateTask/updateTask.route";
 import DeleteTaskRoute from "./service/projectManagement/task/deleteTask/deleteTask.route";
@@ -36,15 +34,13 @@ router.use("/utils/user", [
 ]);
 
 router.use("/projectManagement", [
-  CreateProjectRoute,
-  UpdateProjectRoute,
-  DeleteProjectRoute,
+  ProjectRoute,
   CreateTaskRoute,
   UpdateTaskRoute,
   DeleteTaskRoute,
   CreateChecklistItemRoute,
   UpdateChecklistItemRoute,
-  DeleteChecklistItemRoute
+  DeleteChecklistItemRoute,
 ]);
 
 export default router;
