@@ -27,7 +27,7 @@ export const MORGAN_FORMAT: string =
 
 // Swagger
 export const USERNAME_API_DOCS: string = process.env.USERNAME_API_DOCS || "admin";
-export const PASSWORD_API_DOCS: string = process.env.PASSWORD_API_DOCS || "brightadmin";
+export const PASSWORD_API_DOCS: string = process.env.PASSWORD_API_DOCS || "admin";
 export const API_DOCS_HOST: string = process.env.API_DOCS_HOST || "localhost:4000";
 export const BRIGHT_URL: string = process.env.BRIGHT_URL || "http://localhost:4000";
 
