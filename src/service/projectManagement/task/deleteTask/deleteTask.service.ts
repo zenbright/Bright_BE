@@ -1,4 +1,4 @@
-import Task from "../../../../models/taskModel";
+import Task from "../../../../models/projectTaskModel";
 import { RESPONSE_CODE } from "../../../utils/constants";
 
 export async function deleteTaskService(req: any, res: any, next: any) {

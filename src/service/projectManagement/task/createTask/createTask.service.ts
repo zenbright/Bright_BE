@@ -1,6 +1,6 @@
 import Group from "../../../../models/groupModel";
-import Project from "../../../../models/projectModel";
-import Task from "../../../../models/taskModel";
+import Project from "../../../../models/groupProjectModel";
+import Task from "../../../../models/projectTaskModel";
 import { RESPONSE_CODE } from "../../../utils/constants";
 import { notificationService } from "../../sendNotification/newTaskNotification/notification.service";
 

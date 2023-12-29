@@ -1,4 +1,4 @@
-import Task from "../../../../models/taskModel";
+import Task from "../../../../models/projectTaskModel";
 import { taskReminderNotificationService } from "./notification.service";
 
 // Service to remind about upcoming tasks within the next 24 hours

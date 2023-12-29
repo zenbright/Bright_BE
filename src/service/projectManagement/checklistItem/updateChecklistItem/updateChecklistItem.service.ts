@@ -1,4 +1,4 @@
-import ChecklistItem from "../../../../models/checklistItemModel";
+import ChecklistItem from "../../../../models/taskChecklistItemModel";
 import { RESPONSE_CODE } from "../../../utils/constants";
 
 export async function updateChecklistItemService(

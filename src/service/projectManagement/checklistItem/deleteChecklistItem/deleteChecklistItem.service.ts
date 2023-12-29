@@ -1,5 +1,5 @@
-import ChecklistItem from "../../../../models/checklistItemModel";
-import Task from "../../../../models/taskModel";
+import ChecklistItem from "../../../../models/taskChecklistItemModel";
+import Task from "../../../../models/projectTaskModel";
 import { RESPONSE_CODE } from "../../../utils/constants";
 
 export async function deleteChecklistItemService(

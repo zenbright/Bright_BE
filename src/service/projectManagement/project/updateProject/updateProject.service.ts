@@ -1,4 +1,4 @@
-import Project from "../../../../models/projectModel";
+import Project from "../../../../models/groupProjectModel";
 import { RESPONSE_CODE } from "../../../utils/constants";
 
 export async function updateProjectService(req: any, res: any, next: any) {

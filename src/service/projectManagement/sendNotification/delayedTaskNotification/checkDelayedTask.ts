@@ -1,4 +1,4 @@
-import Task from "../../../../models/taskModel";
+import Task from "../../../../models/projectTaskModel";
 import { checkDelayedTaskNotificationService } from "./notification.service";
 
 export const checkDelayedTaskService = async () => {

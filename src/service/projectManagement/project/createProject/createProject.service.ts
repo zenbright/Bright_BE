@@ -1,5 +1,5 @@
 import Group from "../../../../models/groupModel";
-import Project from "../../../../models/projectModel";
+import Project from "../../../../models/groupProjectModel";
 import { RESPONSE_CODE } from "../../../utils/constants";
 import { notificationService } from "../../sendNotification/newProjectNotification/notification.service";
 

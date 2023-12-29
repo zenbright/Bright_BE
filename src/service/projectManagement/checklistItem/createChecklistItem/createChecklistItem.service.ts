@@ -1,5 +1,5 @@
-import Task from "../../../../models/taskModel";
-import ChecklistItem from "../../../../models/checklistItemModel";
+import Task from "../../../../models/projectTaskModel";
+import ChecklistItem from "../../../../models/taskChecklistItemModel";
 import { RESPONSE_CODE } from "../../../utils/constants";
 
 export async function createChecklistItemService(req: any, res: any, next: any) {
