@@ -12,7 +12,7 @@ export const remindTaskService = async () => {
     // Retrieve tasks with due dates within the next 24 hours and are not completed
     const tasks = await Task.find({
       dueDate: { $gte: new Date(), $lt: upcomingHour },
-      status: { $in: ["Incompleted", "On-going"] },
+      status: { $in: ["Pending", "On-going"] },
     });
   
     for (const task of tasks) {

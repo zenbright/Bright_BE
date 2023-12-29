@@ -15,8 +15,8 @@ const taskSchema = new mongoose.Schema(
     },
     status: {
         type: String,
-        enum: ["Incompleted", "On-going", "Completed"],
-        default: "Incompleted",
+        enum: ["Pending", "On-going", "Completed"],
+        default: "Pending",
     },
     checklist: [
       // store id of checklist items
