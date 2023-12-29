@@ -58,6 +58,14 @@ if (["development", "local", "production"].includes(NODE_ENV)) {
 // Connect Redis
 redisClient.connect();
 
+// Handle Response
+app.use((req, res: any, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.RH = new ResponseHandler(res);
+  next();
+});
+
 // Enable CORS
 app.use(cors(CORS_OPTIONS));
 
