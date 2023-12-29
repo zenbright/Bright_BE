@@ -2,6 +2,7 @@ import { Router } from "express";
 import * as IPSpamChecker from "../../middleware/api.limiter";
 import * as APIValidator from "../../middleware/api.validator";
 import * as createProjectController from "./createProject/createProject.controller";
+import * as readProjectController from "./readProject/readProject.controller";
 import * as updateProjectController from "./updateProject/updateProject.controller";
 import * as deleteProjectController from "./deleteProject/deleteProject.controller";
 
@@ -12,6 +13,12 @@ router.post(
   IPSpamChecker.checkIpSpamServer("/project-management"),
   APIValidator.createProjectValidator,
   createProjectController.createProjectController,
+);
+
+router.get(
+  "/project/read",
+  IPSpamChecker.checkIpSpamServer("/project-management"),
+  readProjectController.readProjectController,
 );
 
 router.put(
