@@ -9,9 +9,7 @@ import UserSearchRoute from "./service/user/searchUser/searchUser.route";
 import UserPasswordChangeRoute from "./service/user/changePassword/changePassword.route";
 import UserAccountDeleteRoute from "./service/user/deleteAccount/deleteAccount.route";
 import ProjectRoute from "./service/projectManagement/project/project.route";
-import CreateTaskRoute from "./service/projectManagement/task/createTask/createTask.route";
-import UpdateTaskRoute from "./service/projectManagement/task/updateTask/updateTask.route";
-import DeleteTaskRoute from "./service/projectManagement/task/deleteTask/deleteTask.route";
+import TaskRoute from "./service/projectManagement/task/task.route";
 import CreateChecklistItemRoute from "./service/projectManagement/checklistItem/createChecklistItem/createChecklistItem.route";
 import UpdateChecklistItemRoute from "./service/projectManagement/checklistItem/updateChecklistItem/updateChecklistItem.route";
 import DeleteChecklistItemRoute from "./service/projectManagement/checklistItem/deleteChecklistItem/deleteChecklistItem.route";
@@ -35,9 +33,7 @@ router.use("/utils/user", [
 
 router.use("/projectManagement", [
   ProjectRoute,
-  CreateTaskRoute,
-  UpdateTaskRoute,
-  DeleteTaskRoute,
+  TaskRoute,
   CreateChecklistItemRoute,
   UpdateChecklistItemRoute,
   DeleteChecklistItemRoute,
