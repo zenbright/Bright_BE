@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
 import * as Formatter from '../../utils/formatter';
 import { CAUTION, RESPONSE_CODE, EXTERNAL_URL, PROVIDER } from '../../utils/constants';
 
-export async function loginWithGitHub(req: any, res: any, next: any) {
+export async function loginWithGitHubService(req: any, res: any, next: any) {
     try {
         const { code } = req.body;
         const { GITHUB_ID, GITHUB_SECRET } = process.env;
