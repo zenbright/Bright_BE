@@ -8,22 +8,22 @@ import * as deleteTaskController from "./deleteTask/deleteTask.controller";
 const router = Router();
 
 router.post(
-  "/createTask",
-  IPSpamChecker.checkIpSpamServer("/TaskManagement"),
+  "/task/create",
+  IPSpamChecker.checkIpSpamServer("/project-management"),
   APIValidator.createTaskValidator,
   createTaskController.createTaskController,
 );
 
 router.put(
-  "/updateTask",
-  IPSpamChecker.checkIpSpamServer("/projectManagement"),
+  "/task/update",
+  IPSpamChecker.checkIpSpamServer("/project-management"),
   APIValidator.taskValidator,
   updateTaskController.updateTaskController,
 );
 
 router.post(
-  "/deleteTask",
-  IPSpamChecker.checkIpSpamServer("/projectManagement"),
+  "/task/delete",
+  IPSpamChecker.checkIpSpamServer("/project-management"),
   APIValidator.taskValidator,
   deleteTaskController.deleteTaskController,
 );

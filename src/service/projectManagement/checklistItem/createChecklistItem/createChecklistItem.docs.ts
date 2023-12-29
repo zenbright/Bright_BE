@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /projectManagement/createChecklistItem:
+ * /project-management/checklistitem/create:
  *   post:
  *     summary: Create a new ChecklistItem 
  *     tags:

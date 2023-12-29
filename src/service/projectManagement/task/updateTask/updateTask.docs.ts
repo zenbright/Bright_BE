@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /projectManagement/updateTask:
+ * /project-management/task/update:
  *   put:
  *     summary: Update a new Task 
  *     tags:

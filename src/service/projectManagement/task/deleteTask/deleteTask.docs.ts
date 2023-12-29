@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /projectManagement/deleteTask:
+ * /project-management/task/delete:
  *   post:
  *     summary: Delete Task
  *     tags:

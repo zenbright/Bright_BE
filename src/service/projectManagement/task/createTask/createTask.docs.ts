@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /projectManagement/createTask:
+ * /project-management/task/create:
  *   post:
  *     summary: Create a new Task 
  *     tags:

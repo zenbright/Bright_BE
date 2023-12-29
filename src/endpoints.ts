@@ -29,6 +29,6 @@ router.use("/utils/user", [
   UserProfileImageRoute,
 ]);
 
-router.use("/projectManagement", [ProjectRoute, TaskRoute, ChecklistItemRoute]);
+router.use("/project-management", [ProjectRoute, TaskRoute, ChecklistItemRoute]);
 
 export default router;

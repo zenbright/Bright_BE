@@ -8,21 +8,21 @@ import * as deleteProjectController from "./deleteProject/deleteProject.controll
 const router = Router();
 
 router.post(
-  "/createProject",
-  IPSpamChecker.checkIpSpamServer("/projectManagement"),
+  "/project/create",
+  IPSpamChecker.checkIpSpamServer("/project-management"),
   APIValidator.createProjectValidator,
   createProjectController.createProjectController,
 );
 
 router.put(
-  "/updateProject",
-  IPSpamChecker.checkIpSpamServer("/projectManagement"),
+  "/project/update",
+  IPSpamChecker.checkIpSpamServer("/project-management"),
   APIValidator.projectValidator,
   updateProjectController.updateProjectController,
 );
 
 router.post(
-  "/deleteProject",
+  "/project/delete",
   IPSpamChecker.checkIpSpamServer("/projectManagement"),
   APIValidator.projectValidator,
   deleteProjectController.deleteProjectController,

@@ -8,22 +8,22 @@ import * as deleteChecklistItemController from "./deleteChecklistItem/deleteChec
 const router = Router();
 
 router.post(
-  "/createChecklistItem",
-  IPSpamChecker.checkIpSpamServer("/ProjectManagement"),
+  "/checklistitem/create",
+  IPSpamChecker.checkIpSpamServer("/project-management"),
   APIValidator.createChecklistItemValidator,
   createChecklistItemController.createChecklistItemController,
 );
 
 router.put(
-  "/updateChecklistItem",
-  IPSpamChecker.checkIpSpamServer("/ProjectManagement"),
+  "/checklistitem/update",
+  IPSpamChecker.checkIpSpamServer("/project-management"),
   APIValidator.updateChecklistItemValidator,
   updateChecklistItemController.updateChecklistItemController,
 );
 
 router.post(
-  "/deleteChecklistItem",
-  IPSpamChecker.checkIpSpamServer("/ProjectManagement"),
+  "/checklistitem/delete",
+  IPSpamChecker.checkIpSpamServer("/project-management"),
   APIValidator.deleteChecklistItemValidator,
   deleteChecklistItemController.deleteChecklistItemController,
 );

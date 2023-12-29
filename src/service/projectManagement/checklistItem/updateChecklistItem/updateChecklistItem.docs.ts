@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /projectManagement/updateChecklistItem:
+ * /project-management/checklistitem/update:
  *   put:
  *     summary: Update a new ChecklistItem 
  *     tags:

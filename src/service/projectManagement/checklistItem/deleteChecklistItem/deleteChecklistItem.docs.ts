@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /projectManagement/deleteChecklistItem:
+ * /project-management/checklistitem/delete:
  *   post:
  *     summary: Delete a new ChecklistItem 
  *     tags:
