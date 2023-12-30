@@ -8,7 +8,7 @@ const router = Router();
 router.post('/git',
     IPSpamChecker.checkIpSpamServer('/auth/git'), // Check IP spam
     APIValidator.loginWithGitHubValidator, // Validate request body
-    gitAuthController.loginWithGitHub, // Handle request
+    gitAuthController.loginWithGitHubController, // Handle request
 );
 
 export default router;

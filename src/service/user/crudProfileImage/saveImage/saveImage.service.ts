@@ -2,7 +2,7 @@ import userInformation from "../../../../models/userInfoModel";
 import { RESPONSE_CODE, ALLOWED_FILE_EXTENSIONS } from "../../../utils/constants";
 import path from "path";
 
-export async function saveImageService(req: any, res: any, next: any) {
+export async function saveUserProfileImageService(req: any, res: any, next: any) {
   try {
     const { userId } = req.body;
     const { imageFile } = req.files;
