@@ -43,5 +43,6 @@ export const userSearchValidator = [
 ];
 
 export const loginWithGoogleValidator = [
-    body('code')
+  body("code").isString().notEmpty().withMessage("Invalid Google Auth Code."),
+  validatorErrorHandler,
 ]

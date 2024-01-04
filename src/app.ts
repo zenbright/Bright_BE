@@ -1,13 +1,13 @@
 import dotenv from "dotenv";
 import express from "express";
-import session from "express-session";
+import session from "express-session"
 import cors from "cors";
 import compression from "compression";
 import bodyParser from "body-parser";
 import morgan from "morgan";
 import basicAuth from "express-basic-auth";
-import logger from './logger';
-import mongoose from 'mongoose';
+import logger from "./logger";
+import mongoose from "mongoose";
 import redisClient from "./service/utils/redisConfig";
 import ResponseHandler from "./service/utils/responseHandler";
 import swaggerJSDoc from "./swagger";
@@ -19,7 +19,7 @@ import errorResponseHandler from "./service/utils/errorResponseHandler";
 import router from "./endpoints";
 
 import passport from "passport";
-import('./service/authentication/google/googlePassport')
+import("./service/authentication/google/googleAuth.service");
 
 const __dirname = path.resolve();
 
@@ -33,7 +33,7 @@ import {
   NODE_ENV,
   PORT_SERVER,
   MONGO_URI,
-  DB_NAME
+  DB_NAME,
 } from "./config";
 
 const app = express();
@@ -70,7 +70,7 @@ redisClient.connect();
 app.use(cors(CORS_OPTIONS));
 
 // Get access to user IP address
-app.enable('trust proxy');
+app.enable("trust proxy");
 
 // Swagger APIs Docs
 if (["production", "development", "local"].includes(NODE_ENV)) {
@@ -89,12 +89,19 @@ app.use(compression());
 app.use(bodyParser.json({ limit: "20mb" }));
 app.use(bodyParser.urlencoded({ limit: "20mb", extended: false }));
 
-app.use(session({
-    secret: 'my secret',
-    resave: false,
+// passport initialize
+app.use(
+  session({
+    secret: 'Bright',
+    resave: true,
     saveUninitialized: true,
-    cookie: {secure: false}
-}));
+    cookie: {
+      secure: false, // Set to true in production if using HTTPS
+      maxAge: 24 * 60 * 60 * 1000, // Session expiration duration (in milliseconds)
+    },
+  })
+);
+
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -119,7 +126,6 @@ app.use((req, res: any, next) => {
   next();
 });
 
-app.set("view engine", "ejs");
 app.get("/", (req, res) => {
   res.sendFile(
     path.join(__dirname, "src/service/authentication/github/index.html"),
@@ -127,13 +133,15 @@ app.get("/", (req, res) => {
 });
 
 // MongoDB Connection
-mongoose.set('strictQuery', false);
-mongoose.connect(MONGO_URI).then(async (data) => {
-  logger.info(`Mongodb connected ${MONGO_URI} : ${DB_NAME}`);
-})
+mongoose.set("strictQuery", false);
+mongoose
+  .connect(MONGO_URI)
+  .then(async (data) => {
+    logger.info(`Mongodb connected ${MONGO_URI} : ${DB_NAME}`);
+  })
   .catch((error) => {
     console.log(error);
-    logger.error('Please make sure Mongodb is installed and running!');
+    logger.error("Please make sure Mongodb is installed and running!");
     process.exit(1);
   });
 

@@ -5,6 +5,7 @@ const GoogleStrategy = passportGoogle.Strategy;
 import userCredentials from '../../../models/userCredentials';
 import userInfo from '../../../models/userInfo';
 import mongoose from "mongoose";
+import { CAUTION, PROVIDER } from '../../utils/constants';
 
 passport.serializeUser((user:any, done) => {
   done(null, user);
@@ -52,18 +53,20 @@ passport.use('google',
             profileImage: profile.photos && profile.photos[0] ? profile.photos[0].value : '',
             userCredentialId: new mongoose.Types.ObjectId(),
           });
-          await newUserInfo.save();
 
           const newCredential = new userCredentials({
             account: profile.id,
-            password: profile.id,
+            password: CAUTION.DO_NOT_USE,
             userId: newUserInfo._id,
             refreshToken: refreshToken,
             refreshTokenExpires: expireDate,
-            provider: 'google',
+            provider: PROVIDER.GOOGLE,
           });
+
+          newUserInfo.userCredentialId = newCredential._id;
+
           console.log(accessToken);
-          await newCredential.save()
+          await Promise.all([newUserInfo.save(), newCredential.save()]);
           return done(null, profile);
         }
       } catch (error) {

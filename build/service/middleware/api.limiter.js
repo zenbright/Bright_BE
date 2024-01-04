@@ -8,7 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import APIError from '../utils/APIError';
-import redisClient from '../redis/redisConfig';
+import redisClient from '../utils/redisConfig';
 import { ERROR_CODE } from '../utils/constants';
 // Get the user's IP
 const getIpUser = (req) => {
