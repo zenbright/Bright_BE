@@ -15,6 +15,8 @@ export const ERROR_CODE = {
 
 export const AUTH_ACTION = ['login', 'signup', 'refresh', 'logout']
 
+export const ROLE = ['Admin', 'Developer', 'User']
+
 export const CAUTION = {
     DO_NOT_USE: 'DO_NOT_USE',
 }

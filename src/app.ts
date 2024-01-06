@@ -18,6 +18,7 @@ import path from "path";
 import errorResponseHandler from "./service/utils/errorResponseHandler";
 import router from "./endpoints";
 import cookieParser from "cookie-parser";
+import { UserBasicInfo } from './models/userBasicInfo';
 
 import passport from "passport";
 import('./service/authentication/google/googlePassport')
@@ -85,12 +86,6 @@ if (["production", "development", "local"].includes(NODE_ENV)) {
     swaggerUI.setup(swaggerJSDoc),
   );
 }
-
-interface UserBasicInfo {
-  account: string;
-  role: string;
-}
-
 declare global {
   namespace Express {
     interface Request {
@@ -134,7 +129,6 @@ app.use((req, res: any, next) => {
   next();
 });
 
-app.set("view engine", "ejs");
 app.get("/", (req, res) => {
   res.sendFile(
     path.join(__dirname, "src/service/authentication/github/index.html"),

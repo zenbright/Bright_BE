@@ -1,11 +1,11 @@
 import { Router } from 'express';
 import * as getUser from './testUser'
-import { Request, Response, NextFunction } from 'express';
+import { ROLE } from '../utils/constants';
 import { verifyJWT, verifyRoles } from '../middleware/authMiddleware';
 
 const router = Router();
 
 router.use(verifyJWT);
-router.get('/', verifyRoles(['Admin', 'Developer', 'User']) ,getUser.getAllUser);
+router.get('/', verifyRoles(ROLE) ,getUser.getAllUser);
 
 export default router;
