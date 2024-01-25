@@ -1,5 +1,5 @@
-import Message from "../../../../models/message";
-import Group from "../../../../models/group";
+import Message from "../../../../models/groupMessageModel";
+import Group from "../../../../models/groupModel";
 import { RESPONSE_CODE} from "../../../utils/constants";
 import mongoose from "mongoose";
 

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import message from "./message";
+import message from "./groupMessageModel";
 
 const groupSchema = new mongoose.Schema({
   groupId: {

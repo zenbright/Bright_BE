@@ -1,8 +1,8 @@
 import express from "express";
 import path from "path";
 import userCredentials from "./models/userCredentialsModel";
-import Group from "./models/group";
-import Message from "./models/message";
+import Group from "./models/groupModel";
+import Message from "./models/groupMessageModel";
 import { deleteMessageService } from "./service/user/message/deleteMessage/deleteMessage.service";
 
 const staticRoutes = express.Router();

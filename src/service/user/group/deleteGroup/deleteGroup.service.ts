@@ -1,4 +1,4 @@
-import Group from "../../../../models/group";
+import Group from "../../../../models/groupModel";
 import { RESPONSE_CODE } from "../../../utils/constants";
 
 export async function deleteGroupService(req: any, res: any, next: any) {

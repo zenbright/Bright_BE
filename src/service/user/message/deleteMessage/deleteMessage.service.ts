@@ -1,5 +1,5 @@
-import Group from "../../../../models/group";
-import Message from "../../../../models/message";
+import Group from "../../../../models/groupModel";
+import Message from "../../../../models/groupMessageModel";
 import { RESPONSE_CODE } from "../../../utils/constants";
 
 export async function deleteMessageService(

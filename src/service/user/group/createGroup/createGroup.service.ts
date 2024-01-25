@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import userCredentials from "../../../../models/userCredentialsModel";
-import Group from "../../../../models/group";
+import Group from "../../../../models/groupModel";
 import { RESPONSE_CODE } from "../../../utils/constants";
 
 export async function createGroupService(req: any, res: any, next: any) {

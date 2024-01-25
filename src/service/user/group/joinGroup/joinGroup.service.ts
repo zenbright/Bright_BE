@@ -1,4 +1,4 @@
-import Group from "../../../../models/group";
+import Group from "../../../../models/groupModel";
 import userCredentials from "../../../../models/userCredentialsModel";
 import { RESPONSE_CODE } from "../../../utils/constants";
 
