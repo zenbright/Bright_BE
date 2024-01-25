@@ -7,6 +7,7 @@ import CreateGroupRoute from "./service/user/group/createGroup/createGroup.route
 import LeaveGroupRoute from "./service/user/group/leaveGroup/leaveGroup.route";
 import DeleteGroupRoute from "./service/user/group/deleteGroup/deleteGroup.route";
 import JoinGroupRoute from "./service/user/group/joinGroup/joinGroup.route";
+import GetMessageRoute from "./service/user/message/getMessage/getMessage.route";
 import DeleteMessageRoute from "./service/user/message/deleteMessage/deleteMessage.route";
 import SendOTPRoute from "./service/authentication/sendOTP/sendOTP.route";
 import VerifyOTPRoute from "./service/authentication/verifyOTP/verifyOTP.route";
@@ -37,6 +38,7 @@ router.use("/chat", [
   DeleteGroupRoute,
   JoinGroupRoute,
   DeleteMessageRoute,
+  GetMessageRoute
 ]);
 
 export default router;

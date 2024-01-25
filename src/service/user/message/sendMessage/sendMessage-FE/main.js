@@ -23,7 +23,10 @@ async function fetchMessages(userId, groupId) {
       console.log("messageIds: ", messageIds);
 
       for (const msgId of messageIds) {
-        const messageResponse = await fetch(`/getMessages/${msgId}`);
+        const messageResponse = await fetch(
+          `/bright-backend/api/chat/getMessage/${msgId}`,
+          { method: "GET" },
+        );
         const message = await messageResponse.json();
         const isOwnMessage = message.fromId === userId;
         addMessageToUI(isOwnMessage, message);
@@ -94,17 +97,16 @@ function addMessageToUI(isOwnMessage, data) {
 
   let element = ``;
 
-  const delMsgBtn = `<button class="delMsg_btn" message-id="${data.messageId}" group-id="${data.groupId}">Del</button>`;
-
-  let timestampString = getFormattedTimestamp(data.timestamp);
+  const delMsgBtn = `<button class="delMsg_btn" message-id="${data.message.messageId}" group-id="${data.message.groupId}">Del</button>`;
+  let timestampString = getFormattedTimestamp(data.message.timestamp);
   // TODO: change fromId to local userName
   element = `
-      <div id="message-${data.messageId}" class="${
+      <div id="message-${data.message.messageId}" class="${
         isOwnMessage ? "message-right" : "message-left"
       }">
         <p class="message">
-          ${data.text}
-          <span>${data.fromId} ● ${timestampString}</span>
+          ${data.message.text}
+          <span>${data.message.fromId} ● ${timestampString}</span>
         </p>
         ${delMsgBtn}
       </div>`;
@@ -140,9 +142,12 @@ messageContainer.addEventListener("click", (e) => {
 // Function to delete a message
 async function deleteMessage(groupId, msgId) {
   try {
-    const response = await fetch(`/bright-backend/api/chat/deleteMessage/${groupId}/${msgId}`, {
-      method: "DELETE",
-    });
+    const response = await fetch(
+      `/bright-backend/api/chat/deleteMessage/${groupId}/${msgId}`,
+      {
+        method: "DELETE",
+      },
+    );
 
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
@@ -154,10 +159,9 @@ async function deleteMessage(groupId, msgId) {
       messageContainerElement.remove();
     }
   } catch (error) {
-    console.error('Error deleting message:', error);
+    console.error("Error deleting message:", error);
   }
 }
-
 
 // Event listeners for typing feedback
 messageInput.addEventListener("focus", (e) => {

@@ -53,17 +53,6 @@ staticRoutes.get("/getGroup/:groupId", async (req, res) => {
   }
 });
 
-staticRoutes.get("/getMessages/:msgId", async (req, res) => {
-  try {
-    const msgId = req.params.msgId;
-    const message = await Message.findOne({ messageId: msgId });
-    res.json(message);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
-
 async function validateUserGroupId(req: any, res: any) {
   const { userId, groupId } = req.params;
   try {
