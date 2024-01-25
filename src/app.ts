@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
+import path from "path";
 import compression from "compression";
 import bodyParser from "body-parser";
 import morgan from "morgan";
@@ -12,11 +13,13 @@ import swaggerJSDoc from "./swagger";
 import swaggerUI from "swagger-ui-express";
 import { ROUTE_ENDPOINT } from "./config";
 import endpoint from "./endpoints";
-import path from "path";
 import errorResponseHandler from "./service/utils/errorResponseHandler";
 import connectToMongoDB from "./mongodb";
 import initSocketIo from "./socketIo";
 import staticRoutes from "./static.route";
+
+dotenv.config();
+
 import {
   MORGAN_FORMAT,
   CORS_OPTIONS,
@@ -26,13 +29,14 @@ import {
   PORT_SERVER,
 } from "./config";
 
+
 const __dirname = path.resolve();
 
 dotenv.config();
 
 const app = express();
 
-// Set up logging middleware
+// Logging
 if (["development", "local", "production"].includes(NODE_ENV)) {
   const morganStream = (statusCode: any) => (req: any, res: any) =>
     !req.originalUrl.includes("api-docs") && res.statusCode >= statusCode;
@@ -57,8 +61,16 @@ if (["development", "local", "production"].includes(NODE_ENV)) {
   );
 }
 
-// Connect to Redis
+// Connect Redis
 redisClient.connect();
+
+// Handle Response
+app.use((req, res: any, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.RH = new ResponseHandler(res);
+  next();
+});
 
 // Enable CORS
 app.use(cors(CORS_OPTIONS));
@@ -79,10 +91,12 @@ if (["production", "development", "local"].includes(NODE_ENV)) {
   );
 }
 
+// API settings
 app.use(compression());
 app.use(bodyParser.json({ limit: "20mb" }));
 app.use(bodyParser.urlencoded({ limit: "20mb", extended: false }));
 
+// Server test
 app.get(`${ROUTE_ENDPOINT.BASE_URL_V1}${ROUTE_ENDPOINT.PING}`, (req, res) => {
   res.json({
     success: true,
@@ -90,6 +104,7 @@ app.get(`${ROUTE_ENDPOINT.BASE_URL_V1}${ROUTE_ENDPOINT.PING}`, (req, res) => {
   });
 });
 
+// Sever route
 app.use(ROUTE_ENDPOINT.BASE_URL_V1, endpoint);
 
 // Handle Response

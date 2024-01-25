@@ -37,26 +37,6 @@
  *             success: true,
  *             payload: "SAVE/GET success",
  *           }
- *       403:
- *         description: When data cannot be processed
- *         schema:
- *           type: object
- *           properties:
- *             success:
- *               type: boolean
- *             errors:
- *               type: array
- *               items:
- *                 $ref: '#/definitions/ValidatorErrorItem'
- *           example: {
- *             success: false,
- *             errors: [
- *               {
- *                 msg: "Your account is not available, had been deleted, or deactivated",
- *                 param: 'accountNotAvailable',
- *               },
- *             ]
- *           }
  *       500:
  *         description: When the server encounters an exception
  *         schema:
