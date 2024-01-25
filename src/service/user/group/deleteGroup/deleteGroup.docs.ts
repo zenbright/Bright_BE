@@ -1,10 +1,10 @@
 /**
  * @swagger
- * /utils/user/deleteGroup:
+ * /chat/deleteGroup:
  *   post:
  *     summary: Delete group
  *     tags:
- *       - Authentication
+ *       - Real-time chat feature
  *     parameters:
  *       - name: body
  *         in: body

@@ -1,10 +1,10 @@
 /**
  * @swagger
- * /utils/user/createGroup:
+ * /chat/createGroup:
  *   post:
  *     summary: Create a new group 
  *     tags:
- *       - Authentication
+ *       - Real-time chat feature
  *     parameters:
  *       - name: body
  *         in: body

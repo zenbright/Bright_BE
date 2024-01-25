@@ -1,10 +1,10 @@
 /**
  * @swagger
- * /utils/user/leaveGroup:
+ * /chat/leaveGroup:
  *   put:
  *     summary: Leave a group
  *     tags:
- *       - Authentication
+ *       - Real-time chat feature
  *     parameters:
  *       - name: body
  *         in: body

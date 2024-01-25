@@ -28,12 +28,15 @@ router.use("/utils/user", [
   UserSearchRoute,
   UserPasswordChangeRoute,
   UserAccountDeleteRoute,
+  UserProfileImageRoute,
+]);
+
+router.use("/chat", [
   CreateGroupRoute,
   LeaveGroupRoute,
   DeleteGroupRoute,
   JoinGroupRoute,
   DeleteMessageRoute,
-  UserProfileImageRoute,
 ]);
 
 export default router;

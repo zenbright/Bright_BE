@@ -140,7 +140,7 @@ messageContainer.addEventListener("click", (e) => {
 // Function to delete a message
 async function deleteMessage(groupId, msgId) {
   try {
-    const response = await fetch(`/bright-backend/api/utils/user/deleteMessage/${groupId}/${msgId}`, {
+    const response = await fetch(`/bright-backend/api/chat/deleteMessage/${groupId}/${msgId}`, {
       method: "DELETE",
     });
 

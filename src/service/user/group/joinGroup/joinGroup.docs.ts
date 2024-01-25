@@ -1,10 +1,10 @@
 /**
  * @swagger
- * /utils/user/joinGroup:
+ * /chat/joinGroup:
  *   put:
  *     summary: Join group
  *     tags:
- *       - Authentication
+ *       - Real-time chat feature
  *     parameters:
  *       - name: body
  *         in: body

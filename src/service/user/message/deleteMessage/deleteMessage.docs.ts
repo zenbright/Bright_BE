@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /utils/user/deleteMessage/{groupId}/{msgId}:
+ * /chat/deleteMessage/{groupId}/{msgId}:
  *   delete:
  *     summary: Delete a message from a group
  *     tags:
