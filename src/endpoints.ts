@@ -4,6 +4,7 @@ import BrightAuthRoute from "./service/authentication/bright/brightAuth.route";
 import UserSearchRoute from "./service/user/searchUser/searchUser.route";
 import UserAccountDeleteRoute from "./service/user/deleteAccount/deleteAccount.route";
 import CreateGroupRoute from "./service/user/group/createGroup/createGroup.route";
+import GetGroupRoute from "./service/user/group/getGroup/getGroup.route";
 import LeaveGroupRoute from "./service/user/group/leaveGroup/leaveGroup.route";
 import DeleteGroupRoute from "./service/user/group/deleteGroup/deleteGroup.route";
 import JoinGroupRoute from "./service/user/group/joinGroup/joinGroup.route";
@@ -38,7 +39,8 @@ router.use("/chat", [
   DeleteGroupRoute,
   JoinGroupRoute,
   DeleteMessageRoute,
-  GetMessageRoute
+  GetMessageRoute,
+  GetGroupRoute
 ]);
 
 export default router;

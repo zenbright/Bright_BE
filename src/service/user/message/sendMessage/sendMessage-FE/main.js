@@ -12,8 +12,13 @@ let serverGroupId = "";
 // Function to fetch messages for a group
 async function fetchMessages(userId, groupId) {
   try {
-    const groupResponse = await fetch(`/getGroup/${groupId}`);
-    const group = await groupResponse.json();
+    const groupResponse = await fetch(
+      `/bright-backend/api/chat/getGroup/${groupId}`,
+      { method: "GET" },
+    );
+    const groupObject = await groupResponse.json();
+    const group = groupObject.group;
+
     const messagesMap = group.messages;
     console.log("messagesMap type: " + typeof messagesMap);
     // Check if messagesMap is an object (not a Map)
@@ -27,7 +32,10 @@ async function fetchMessages(userId, groupId) {
           `/bright-backend/api/chat/getMessage/${msgId}`,
           { method: "GET" },
         );
-        const message = await messageResponse.json();
+        const messageObject = await messageResponse.json();
+        console.log("messageObject: ", messageObject);
+        const message = messageObject.message;
+        console.log("message: ", message);
         const isOwnMessage = message.fromId === userId;
         addMessageToUI(isOwnMessage, message);
       }
@@ -97,16 +105,16 @@ function addMessageToUI(isOwnMessage, data) {
 
   let element = ``;
 
-  const delMsgBtn = `<button class="delMsg_btn" message-id="${data.message.messageId}" group-id="${data.message.groupId}">Del</button>`;
-  let timestampString = getFormattedTimestamp(data.message.timestamp);
+  const delMsgBtn = `<button class="delMsg_btn" message-id="${data.messageId}" group-id="${data.groupId}">Del</button>`;
+  let timestampString = getFormattedTimestamp(data.timestamp);
   // TODO: change fromId to local userName
   element = `
-      <div id="message-${data.message.messageId}" class="${
+      <div id="message-${data.messageId}" class="${
         isOwnMessage ? "message-right" : "message-left"
       }">
         <p class="message">
-          ${data.message.text}
-          <span>${data.message.fromId} ● ${timestampString}</span>
+          ${data.text}
+          <span>${data.fromId} ● ${timestampString}</span>
         </p>
         ${delMsgBtn}
       </div>`;

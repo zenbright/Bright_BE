@@ -42,17 +42,6 @@ staticRoutes.get("/:userId/:groupId/sendMessage", async (req, res) => {
   );
 });
 
-staticRoutes.get("/getGroup/:groupId", async (req, res) => {
-  try {
-    const groupId = req.params.groupId;
-    const group = await Group.findOne({ groupId: groupId });
-    res.json(group);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
-});
-
 async function validateUserGroupId(req: any, res: any) {
   const { userId, groupId } = req.params;
   try {

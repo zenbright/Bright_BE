@@ -1,31 +1,31 @@
 /**
  * @swagger
- * /chat/getMessage/{msgId}:
+ * /chat/getGroup/{groupId}:
  *   get:
- *     summary: Get a message from a group
+ *     summary: Get a group from a group
  *     tags:
  *       - Real-time chat feature
  *     parameters:
- *      - name: msgId
+ *      - name: groupId
  *        in: path
  *        required: true
  *        schema:
  *          type: string
  *        example: "65b20ed75905ffc41c65290f"
- *        description: The ID of the message to be gotten
+ *        description: The ID of the group to be gotten
  *     responses:
  *       200:
- *         description: Get a message from a group success
+ *         description: Get a group from a group success
  *         schema:
  *           type: object
  *           example:
  *             success: true
  *             payload: "Got Successfully"
  *       404:
- *         description: Message not found
+ *         description: Group not found
  *         schema:
  *           type: string
- *           example: "Message not found"
+ *           example: "Group not found"
  *       500:
  *         description: When a server exception occurs
  *         schema:
