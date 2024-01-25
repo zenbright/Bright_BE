@@ -2,7 +2,6 @@ import express from "express";
 import path from "path";
 import userCredentials from "./models/userCredentialsModel";
 import Group from "./models/groupModel";
-import Message from "./models/groupMessageModel";
 
 const staticRoutes = express.Router();
 const __dirname = path.resolve();

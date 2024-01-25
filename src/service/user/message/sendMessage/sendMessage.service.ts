@@ -1,6 +1,6 @@
 import Message from "../../../../models/groupMessageModel";
 import Group from "../../../../models/groupModel";
-import { RESPONSE_CODE} from "../../../utils/constants";
+import { RESPONSE_CODE } from "../../../utils/constants";
 import mongoose from "mongoose";
 
 export async function sendMessageService(
@@ -26,7 +26,6 @@ export async function sendMessageService(
       multimedia: "", // TODO: multimedia
     });
 
-    console.log("newMessage: ", newMessage);
     await newMessage.save();
 
     const newMsgId = newMessage.messageId.toString();
@@ -39,11 +38,8 @@ export async function sendMessageService(
       return { error: "GROUP_" + RESPONSE_CODE.NOT_FOUND_ERROR };
     }
 
-    console.log("SUCCESS");
-    return { message: RESPONSE_CODE.SUCCESS, newMessage: newMessage};
+    return { message: RESPONSE_CODE.SUCCESS, newMessage: newMessage };
   } catch (error) {
-    // TODO: Handle error
     console.error(error);
-    console.error("FAILED TO SAVE MESSAGE");
   }
 }
