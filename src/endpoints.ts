@@ -13,7 +13,6 @@ import VerifyOTPRoute from "./service/authentication/verifyOTP/verifyOTP.route";
 import EmailVerificationRoute from "./service/authentication/emailVerification/emailVerification.route";
 import UserProfileImageRoute from "./service/user/crudProfileImage/manageImage.route";
 import UserPasswordChangeRoute from "./service/user/changePassword/changePassword.route";
-// import SendMessageRoute from "./service/user/sendMessage/sendMessage.route";
 
 const router = Router();
 
@@ -35,7 +34,6 @@ router.use("/utils/user", [
   JoinGroupRoute,
   DeleteMessageRoute,
   UserProfileImageRoute,
-  // SendMessageRoute,
 ]);
 
 export default router;

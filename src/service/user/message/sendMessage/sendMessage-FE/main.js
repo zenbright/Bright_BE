@@ -18,7 +18,6 @@ async function fetchMessages(userId, groupId) {
     console.log("messagesMap type: " + typeof messagesMap);
     // Check if messagesMap is an object (not a Map)
     if (typeof messagesMap === "object" && messagesMap !== null) {
-
       const mapFromObject = new Map(Object.entries(messagesMap));
       const messageIds = Array.from(mapFromObject.keys());
       console.log("messageIds: ", messageIds);
@@ -139,15 +138,26 @@ messageContainer.addEventListener("click", (e) => {
 });
 
 // Function to delete a message
-async function deleteMessage(groupId, messageId) {
-  await fetch(`/deleteMessage/${groupId}/${messageId}`);
+async function deleteMessage(groupId, msgId) {
+  try {
+    const response = await fetch(`/bright-backend/api/utils/user/deleteMessage/${groupId}/${msgId}`, {
+      method: "DELETE",
+    });
 
-  const messageContainerElement = document.getElementById(`message-${messageId}`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
 
-  if (messageContainerElement) {
-    messageContainerElement.remove();
+    const messageContainerElement = document.getElementById(`message-${msgId}`);
+
+    if (messageContainerElement) {
+      messageContainerElement.remove();
+    }
+  } catch (error) {
+    console.error('Error deleting message:', error);
   }
 }
+
 
 // Event listeners for typing feedback
 messageInput.addEventListener("focus", (e) => {

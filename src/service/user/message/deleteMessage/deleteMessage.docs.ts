@@ -1,19 +1,26 @@
 /**
  * @swagger
- * /utils/user/deleteMessage:
- *   put:
+ * /utils/user/deleteMessage/{groupId}/{msgId}:
+ *   delete:
  *     summary: Delete a message from a group
  *     tags:
- *       - Authentication
+ *       - Real-time chat feature
  *     parameters:
- *       - name: body
- *         in: body
- *         required: true
- *         properties:
- *         example: {
- *            "groupId": "655481db98d3e616d89d755c",
- *            "messageId": "655481db98d3e616d89d755c",
- *         }
+ *      - name: groupId
+ *        in: path
+ *        required: true
+ *        schema:
+ *          type: string
+ *        example: "656c3048eabd6d1ac3d767ad"
+ *        description: The ID of the group
+ *
+ *      - name: msgId
+ *        in: path
+ *        required: true
+ *        schema:
+ *          type: string
+ *        example: "65b20ed75905ffc41c65290f"
+ *        description: The ID of the message to be deleted
  *     responses:
  *       200:
  *         description: Delete a message from a group success
@@ -32,4 +39,4 @@
  *         schema:
  *           type: string
  *           example: "Internal server error"
-*/
+ */

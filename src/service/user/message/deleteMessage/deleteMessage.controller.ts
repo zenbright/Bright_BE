@@ -1,5 +1,7 @@
 import * as DeleteMessageService from "./deleteMessage.service";
 
 export async function deleteMessageController(req: any, res: any) {
-  DeleteMessageService.deleteMessageService(req, res);
+  const groupId = req.params.groupId;
+  const msgId = req.params.msgId;
+  DeleteMessageService.deleteMessageService({ groupId, msgId }, res);
 }

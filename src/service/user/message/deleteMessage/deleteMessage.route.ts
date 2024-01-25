@@ -5,10 +5,10 @@ import * as APIValidator from "../../../middleware/api.validator";
 
 const router = Router();
 
-router.put(
-  "/deleteMessage",
+router.delete(
+  "/deleteMessage/:groupId/:msgId",
   IPSpamChecker.checkIpSpamServer("/utils/user"), // Check IP spam
-  APIValidator.deleteMessageValidator,
+  // APIValidator.deleteMessageValidator,
   deleteMessageController.deleteMessageController,
 );
 
