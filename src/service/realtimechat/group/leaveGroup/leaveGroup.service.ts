@@ -12,7 +12,7 @@ export async function leaveGroupService(req: any, res: any, next: any) {
       return res.status(404).json({ error: RESPONSE_CODE.USER_NOT_FOUND });
     }
 
-    const existingGroup = await Group.findOne({ groupId: groupId });
+    const existingGroup = await Group.findOne({ _id: groupId });
 
     if (!existingGroup) {
       return res
@@ -23,7 +23,7 @@ export async function leaveGroupService(req: any, res: any, next: any) {
     const modifiedGroup = await removeUserFromGroup(existingGroup, userCredId);
 
     if (modifiedGroup.users.length === 0) {
-      await Group.deleteOne({ groupId: groupId });
+      await Group.deleteOne({ _id: groupId });
     } else {
       await existingGroup.save();
     }

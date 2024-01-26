@@ -6,7 +6,7 @@ export async function getGroupService(params: { groupId: string }, res: any) {
     const { groupId } = params;
 
     console.log(groupId);
-    const group = await Group.findOne({ groupId: groupId });
+    const group = await Group.findOne({ _id: groupId });
 
     return res.status(200).json({
       status: RESPONSE_CODE.SUCCESS,

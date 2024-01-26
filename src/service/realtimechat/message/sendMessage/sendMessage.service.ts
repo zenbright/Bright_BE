@@ -19,7 +19,6 @@ export async function sendMessageService(
     */
 
     const newMessage = new Message({
-      messageId: new mongoose.Types.ObjectId(),
       groupId: groupId,
       fromId: userId,
       text: message,
@@ -30,8 +29,8 @@ export async function sendMessageService(
 
     await newMessage.save();
 
-    const newMsgId = newMessage.messageId.toString();
-    const group = await Group.findOne({ groupId: groupId });
+    const newMsgId = newMessage._id.toString();
+    const group = await Group.findOne({ _id: groupId });
 
     if (group) {
       group.messages.push(newMsgId);
@@ -40,7 +39,7 @@ export async function sendMessageService(
       return { error: "GROUP_" + RESPONSE_CODE.NOT_FOUND_ERROR };
     }
 
-    return { message: RESPONSE_CODE.SUCCESS, newMessage: newMessage };
+    return { status: RESPONSE_CODE.SUCCESS, newMessage: newMessage };
   } catch (error) {
     console.error(error);
   }

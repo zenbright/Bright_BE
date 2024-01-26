@@ -8,7 +8,7 @@ export async function joinGroupService(req: any, res: any, next: any) {
     const { userCredId, groupId } = req.body;
 
     const group = await Group.findOne({
-      groupId: groupId,
+      _id: groupId,
     });
 
     if (!group) {

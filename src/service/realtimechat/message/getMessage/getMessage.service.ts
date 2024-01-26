@@ -6,7 +6,7 @@ export async function getMessageService(params: { msgId: string }, res: any) {
     const { msgId } = params;
 
     console.log(msgId);
-    const message = await Message.findOne({ messageId: msgId });
+    const message = await Message.findOne({ _id: msgId });
 
     return res.status(200).json({
       status: RESPONSE_CODE.SUCCESS,

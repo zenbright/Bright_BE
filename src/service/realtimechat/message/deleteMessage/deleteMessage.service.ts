@@ -10,14 +10,14 @@ export async function deleteMessageService(
     const { groupId, msgId } = params;
 
     console.log(groupId, msgId);
-    const existingGroup = await Group.findOne({ groupId: groupId });
+    const existingGroup = await Group.findOne({ _id: groupId });
 
     if (!existingGroup) {
       return res.status(404).json({ error: RESPONSE_CODE.NOT_FOUND_ERROR });
     }
 
     await removeMessageFromGroup(existingGroup, msgId, res);
-    await Message.deleteOne({ messageId: msgId });
+    await Message.deleteOne({ _id: msgId });
 
     return res.status(200).json({ message: RESPONSE_CODE.SUCCESS });
   } catch (error) {

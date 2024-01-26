@@ -45,7 +45,7 @@ async function validateUserGroupId(req: any, res: any) {
   const { userId, groupId } = req.params;
   try {
     const user = await userCredentials.findOne({ userId: userId });
-    const group = await Group.findOne({ groupId: groupId });
+    const group = await Group.findOne({ _id: groupId });
 
     if (!user || !group) {
       return res.status(404).send("User or group not found");

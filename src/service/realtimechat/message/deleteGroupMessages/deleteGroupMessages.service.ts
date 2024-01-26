@@ -10,7 +10,7 @@ export async function deleteGroupMessagesService(
     const { groupId } = params;
 
     console.log(groupId);
-    const existingGroup = await Group.findOne({ groupId: groupId });
+    const existingGroup = await Group.findOne({ _id: groupId });
 
     if (!existingGroup) {
       return res.status(404).json({ error: RESPONSE_CODE.NOT_FOUND_ERROR });
@@ -20,7 +20,7 @@ export async function deleteGroupMessagesService(
     const messageIds = Array.from(existingGroup.messages);
 
     // Delete every message in the message database by its ID
-    await Message.deleteMany({ messageId: { $in: messageIds } });
+    await Message.deleteMany({ _id: { $in: messageIds } });
 
     // Empty the group's messages field
     existingGroup.messages = [];

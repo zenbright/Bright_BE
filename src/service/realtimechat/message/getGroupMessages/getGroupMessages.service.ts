@@ -16,7 +16,7 @@ export async function getGroupMessagesService(params: { groupId: string[] }, res
     const messageIds = group.messages;
     console.log("messageIds: ", messageIds);
     // Fetch messages using an array of message IDs
-    const messages = await Message.find({ messageId: { $in: messageIds } });
+    const messages = await Message.find({ _id: { $in: messageIds } });
 
     return res.status(200).json({
       status: RESPONSE_CODE.SUCCESS,
