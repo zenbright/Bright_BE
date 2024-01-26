@@ -21,14 +21,16 @@ const messageSchema = new mongoose.Schema({
   text: {
     type: String,
   },
-  multimedia: {
-    type: String, // Binary data of a file
-  },
+  multimedia: [
+    {
+      data: Buffer, // Use Buffer to store binary data
+      contentType: String, // Specify the type of multimedia content, e.g., "image/jpeg"
+    }
+  ],
   timestamp: {
     type: Date,
     default: Date.now(),
   },
 });
-
 
 export default mongoose.model("Message", messageSchema);

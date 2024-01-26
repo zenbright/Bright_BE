@@ -6,7 +6,9 @@ const clientsTotal = document.getElementById("client-total");
 const messageContainer = document.getElementById("message-container");
 const nameInput = document.getElementById("name-input");
 const messageForm = document.getElementById("message-form");
-const messageInput = document.getElementById("message-input");
+const textMessageInput = document.getElementById("text-message-input");
+const mediaMessageInput = document.getElementById("media-message-input");
+
 let serverGroupId = "";
 
 // Function to fetch messages for a group
@@ -33,8 +35,8 @@ async function fetchMessages(userId, groupId) {
           { method: "GET" },
         );
         const messageObject = await messageResponse.json();
-        console.log("messageObject: ", messageObject);
         const message = messageObject.message;
+
         console.log("message: ", message);
         const isOwnMessage = message.fromId === userId;
         addMessageToUI(isOwnMessage, message);
@@ -71,23 +73,64 @@ socket.on("clients-total", ({ groupId, socketsConnectedSize }) => {
   }
 });
 
-// Function to send a message
-function sendMessage() {
-  if (messageInput.value === "") return;
+// Function to convert multimedia content to base64
+function convertToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
 
-  const data = {
-    name: nameInput.value,
-    message: messageInput.value,
-    dateTime: new Date(),
-  };
+    reader.onload = function (event) {
+      const base64Data = event.target.result;
+      const contentType = file.type;
 
-  // Sending a message with a callback
-  socket.emit("message", data, (result) => {
-    addMessageToUI(true, result);
+      resolve({
+        data: base64Data,
+        contentType: contentType,
+      });
+    };
+
+    reader.onerror = function (error) {
+      reject(error);
+    };
+
+    reader.readAsDataURL(file);
   });
-
-  messageInput.value = "";
 }
+
+// Function to send a message
+async function sendMessage() {
+  if (textMessageInput.value === "" && mediaMessageInput.files.length === 0) return;
+
+  const textMessage = textMessageInput.value;
+
+  // Read and convert multimedia files to base64
+  const multimediaFiles = Array.from(mediaMessageInput.files);
+  const multimediaPromises = multimediaFiles.map(convertToBase64);
+
+  try {
+    const multimediaDataArray = await Promise.all(multimediaPromises);
+
+    // Now you can include both text and multimedia data in your data object
+    const dataToSend = {
+      name: nameInput.value,
+      message: textMessage,
+      multimedia: multimediaDataArray,
+      dateTime: new Date(),
+    };
+
+    // Sending a message with a callback
+    socket.emit("message", dataToSend, (result) => {
+      addMessageToUI(true, result);
+    });
+
+    // Clear input fields
+    textMessageInput.value = "";
+    mediaMessageInput.value = ""; // Clear the file input to allow selecting the same files again
+  } catch (error) {
+    console.error("Error converting to base64:", error);
+    // Handle the error as needed
+  }
+}
+
 
 // Broadcast the message to other users in the same group
 socket.on("group-message", ({ groupId, formattedMsg }) => {
@@ -107,12 +150,13 @@ function addMessageToUI(isOwnMessage, data) {
 
   const delMsgBtn = `<button class="delMsg_btn" message-id="${data.messageId}" group-id="${data.groupId}">Del</button>`;
   let timestampString = getFormattedTimestamp(data.timestamp);
-  // TODO: change fromId to local userName
+
   element = `
       <div id="message-${data.messageId}" class="${
         isOwnMessage ? "message-right" : "message-left"
       }">
         <p class="message">
+        ${data.multimedia}
           ${data.text}
           <span>${data.fromId} ● ${timestampString}</span>
         </p>
@@ -172,21 +216,21 @@ async function deleteMessage(groupId, msgId) {
 }
 
 // Event listeners for typing feedback
-messageInput.addEventListener("focus", (e) => {
+textMessageInput.addEventListener("focus", (e) => {
   // console.log("feedback focus");
   socket.emit("typing-feedback", {
     feedback: `✍️ ${nameInput.value} is typing a message`,
   });
 });
 
-messageInput.addEventListener("keypress", (e) => {
+textMessageInput.addEventListener("keypress", (e) => {
   // console.log("feedback keypress");
   socket.emit("typing-feedback", {
     feedback: `✍️ ${nameInput.value} is typing a message`,
   });
 });
 
-messageInput.addEventListener("blur", (e) => {
+textMessageInput.addEventListener("blur", (e) => {
   // console.log("feedback blur");
   socket.emit("typing-feedback", {
     feedback: "",

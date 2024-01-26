@@ -9,7 +9,7 @@ export async function sendMessageService(
   data: any,
 ) {
   try {
-    const { name, message, dateTime } = data;
+    const { name, message, multimedia, dateTime } = data;
     /*
     data: {
     name: 'anonymous',
@@ -23,8 +23,10 @@ export async function sendMessageService(
       groupId: groupId,
       fromId: userId,
       text: message,
-      multimedia: "", // TODO: multimedia
+      multimedia: multimedia,
     });
+
+    console.log("newMessage: ", newMessage);
 
     await newMessage.save();
 
