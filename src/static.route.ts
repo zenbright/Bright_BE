@@ -16,7 +16,7 @@ staticRoutes.get("/:userId/:groupId/sendMessage.css", (req, res) => {
   res.sendFile(
     path.join(
       __dirname,
-      "src/service/user/message/sendMessage/sendMessage-FE/sendMessage.css",
+      "src/service/realtimechat/message/sendMessage/sendMessage-FE/sendMessage.css",
     ),
   );
 });
@@ -25,7 +25,7 @@ staticRoutes.get("/:userId/:groupId/main.js", (req, res) => {
   res.sendFile(
     path.join(
       __dirname,
-      "src/service/user/message/sendMessage/sendMessage-FE/main.js",
+      "src/service/realtimechat/message/sendMessage/sendMessage-FE/main.js",
     ),
   );
 });
@@ -36,7 +36,7 @@ staticRoutes.get("/:userId/:groupId/sendMessage", async (req, res) => {
   res.sendFile(
     path.join(
       __dirname,
-      "src/service/user/message/sendMessage/sendMessage-FE/sendMessage.html",
+      "src/service/realtimechat/message/sendMessage/sendMessage-FE/sendMessage.html",
     ),
   );
 });

@@ -1,22 +1,28 @@
 import { Router } from "express";
+
+// authentication
 import GitAuthRoute from "./service/authentication/github/gitAuth.route";
 import BrightAuthRoute from "./service/authentication/bright/brightAuth.route";
-import UserSearchRoute from "./service/user/searchUser/searchUser.route";
-import UserAccountDeleteRoute from "./service/user/deleteAccount/deleteAccount.route";
-import CreateGroupRoute from "./service/user/group/createGroup/createGroup.route";
-import GetGroupRoute from "./service/user/group/getGroup/getGroup.route";
-import LeaveGroupRoute from "./service/user/group/leaveGroup/leaveGroup.route";
-import DeleteGroupRoute from "./service/user/group/deleteGroup/deleteGroup.route";
-import JoinGroupRoute from "./service/user/group/joinGroup/joinGroup.route";
-import GetMessageRoute from "./service/user/message/getMessage/getMessage.route";
-import GetGroupMessagesRoute from "./service/user/message/getGroupMessages/getGroupMessages.route";
-import DeleteMessageRoute from "./service/user/message/deleteMessage/deleteMessage.route";
-import DeleteGroupMessagesRoute from "./service/user/message/deleteGroupMessages/deleteGroupMessages.route";
 import SendOTPRoute from "./service/authentication/sendOTP/sendOTP.route";
 import VerifyOTPRoute from "./service/authentication/verifyOTP/verifyOTP.route";
 import EmailVerificationRoute from "./service/authentication/emailVerification/emailVerification.route";
+
+// user
+import UserSearchRoute from "./service/user/searchUser/searchUser.route";
+import UserAccountDeleteRoute from "./service/user/deleteAccount/deleteAccount.route";
 import UserProfileImageRoute from "./service/user/crudProfileImage/manageImage.route";
 import UserPasswordChangeRoute from "./service/user/changePassword/changePassword.route";
+
+// realtimechat
+import CreateGroupRoute from "./service/realtimechat/group/createGroup/createGroup.route";
+import GetGroupRoute from "./service/realtimechat/group/getGroup/getGroup.route";
+import LeaveGroupRoute from "./service/realtimechat/group/leaveGroup/leaveGroup.route";
+import DeleteGroupRoute from "./service/realtimechat/group/deleteGroup/deleteGroup.route";
+import JoinGroupRoute from "./service/realtimechat/group/joinGroup/joinGroup.route";
+import GetMessageRoute from "./service/realtimechat/message/getMessage/getMessage.route";
+import GetGroupMessagesRoute from "./service/realtimechat/message/getGroupMessages/getGroupMessages.route";
+import DeleteMessageRoute from "./service/realtimechat/message/deleteMessage/deleteMessage.route";
+import DeleteGroupMessagesRoute from "./service/realtimechat/message/deleteGroupMessages/deleteGroupMessages.route";
 
 const router = Router();
 

@@ -1,5 +1,5 @@
 import { Server, Socket } from "socket.io";
-import { sendMessageService } from "./service/user/message/sendMessage/sendMessage.service";
+import { sendMessageService } from "./service/realtimechat/message/sendMessage/sendMessage.service";
 
 const socketsConnected = new Map();
 
