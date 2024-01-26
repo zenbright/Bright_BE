@@ -34,7 +34,7 @@ export async function sendMessageService(
     const group = await Group.findOne({ groupId: groupId });
 
     if (group) {
-      group.messages.set(newMsgId, "");
+      group.messages.push(newMsgId);
       await group.save();
     } else {
       return { error: "GROUP_" + RESPONSE_CODE.NOT_FOUND_ERROR };

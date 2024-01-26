@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import message from "./groupMessageModel";
 
 const groupSchema = new mongoose.Schema({
   groupId: {
@@ -12,11 +11,11 @@ const groupSchema = new mongoose.Schema({
       required: true,
     },
   ],
-  messages: {
-    type: Map,
-    of: String,
-    default: new Map(), 
-  },
+  messages: [
+    {
+      type: String, // message IDs
+    },
+  ],
 });
 
 export default mongoose.model("Group", groupSchema);

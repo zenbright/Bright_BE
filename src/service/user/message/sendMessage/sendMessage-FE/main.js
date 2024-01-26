@@ -21,28 +21,18 @@ async function fetchMessages(userId, groupId) {
     const groupObject = await groupResponse.json();
     const group = groupObject.group;
 
-    const messagesMap = group.messages;
-    console.log("messagesMap type: " + typeof messagesMap);
-    // Check if messagesMap is an object (not a Map)
-    if (typeof messagesMap === "object" && messagesMap !== null) {
-      const mapFromObject = new Map(Object.entries(messagesMap));
-      const messageIds = Array.from(mapFromObject.keys());
-      console.log("messageIds: ", messageIds);
+    const messageResponse = await fetch(
+      `/bright-backend/api/chat/getGroupMessages/${group._id}`,
+      { method: "GET" },
+    );
+    const messageObject = await messageResponse.json();
+    const messages = messageObject.messages;
 
-      for (const msgId of messageIds) {
-        const messageResponse = await fetch(
-          `/bright-backend/api/chat/getMessage/${msgId}`,
-          { method: "GET" },
-        );
-        const messageObject = await messageResponse.json();
-        const message = messageObject.message;
-
-        console.log("message: ", message);
-        const isOwnMessage = message.fromId === userId;
-        addMessageToUI(isOwnMessage, message);
-      }
-    } else {
-      console.error("messagesMap is not a Map");
+    // Iterate over the messages array
+    for (const message of messages) {
+      // Perform actions for each message
+      const isOwnMessage = message.fromId === userId;
+      addMessageToUI(isOwnMessage, message);
     }
 
     scrollToBottom();
@@ -98,7 +88,8 @@ function convertToBase64(file) {
 
 // Function to send a message
 async function sendMessage() {
-  if (textMessageInput.value === "" && mediaMessageInput.files.length === 0) return;
+  if (textMessageInput.value === "" && mediaMessageInput.files.length === 0)
+    return;
 
   const textMessage = textMessageInput.value;
 
@@ -131,7 +122,6 @@ async function sendMessage() {
   }
 }
 
-
 // Broadcast the message to other users in the same group
 socket.on("group-message", ({ groupId, formattedMsg }) => {
   // console.log("serverGroupId: ", serverGroupId);
@@ -151,21 +141,67 @@ function addMessageToUI(isOwnMessage, data) {
   const delMsgBtn = `<button class="delMsg_btn" message-id="${data.messageId}" group-id="${data.groupId}">Del</button>`;
   let timestampString = getFormattedTimestamp(data.timestamp);
 
-  element = `
-      <div id="message-${data.messageId}" class="${
-        isOwnMessage ? "message-right" : "message-left"
-      }">
-        <p class="message">
-        ${data.multimedia}
-          ${data.text}
-          <span>${data.fromId} ● ${timestampString}</span>
-        </p>
-        ${delMsgBtn}
-      </div>`;
+  if (Array.isArray(data.multimedia) && data.multimedia.length > 0) {
+    const multimediaElements = data.multimedia.map((item, index) => {
+      if (item && item.contentType && item.data) {
+        // Convert the 'data' property to a data URI
+        const imageData =
+          item.data && typeof item.data === "string" ? item.data : "";
+        const dataURI = `data:${item.contentType};base64,${imageData}`;
+
+        // Get the file extension from the content type
+        const fileExtension = item.contentType.split("/")[1];
+
+        // Return the HTML for each multimedia item
+        return `<div class="multimedia-item" id="multimedia-${
+          data.messageId
+        }-${index}">
+                  <img src="${dataURI}" alt="Multimedia" class="multimedia-image">
+                  <a href="${dataURI}" download="filename_${index}.${fileExtension}">
+                    Download ${fileExtension.toUpperCase()}
+                  </a>
+                </div>`;
+      } else {
+        return ""; // Skip invalid multimedia items
+      }
+    });
+
+    // Join the multimedia elements into a single string
+    const multimediaHTML = multimediaElements.join("");
+    element = `
+    <div id="message-${data.messageId}" class="${
+      isOwnMessage ? "message-right" : "message-left"
+    }">
+      <p class="message">
+      ${multimediaHTML}
+      ${data.text}
+      <span>${data.fromId} ● ${timestampString}</span>
+      </p>
+      ${delMsgBtn}
+    </div>`;
+  } else {
+    // If multimedia is null or empty, display only text
+    element = `
+    <div id="message-${data.messageId}" class="${
+      isOwnMessage ? "message-right" : "message-left"
+    }">
+      <p class="message">
+      ${data.text}
+      <span>${data.fromId} ● ${timestampString}</span>
+      </p>
+      ${delMsgBtn}
+    </div>`;
+  }
 
   messageContainer.innerHTML += element;
 
   scrollToBottom();
+}
+
+// Function to generate a download link for a file
+function generateDownloadLink(file) {
+  const url = URL.createObjectURL(file);
+  return url;
 }
 
 function getFormattedTimestamp(timestamp) {
