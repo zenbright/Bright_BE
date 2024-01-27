@@ -8,7 +8,7 @@ export async function notificationService(req: any) {
   try {
     const { task, project } = req.body;
 
-    const group = await Group.findOne({ groupId: project.groupId });
+    const group = await Group.findOne({ _id: project.groupId });
 
     if (!group) {
       return {

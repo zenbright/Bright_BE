@@ -2,10 +2,6 @@ import mongoose from "mongoose";
 import message from "./groupMessageModel";
 
 const groupSchema = new mongoose.Schema({
-  groupId: {
-    type: String,
-    required: true,
-  },
   users: [
     {
       type: String,

@@ -8,7 +8,7 @@ export async function createProjectService(req: any, res: any, next: any) {
     const { name, description, groupId } = req.body;
 
     const group = await Group.findOne({
-      groupId: groupId,
+      _id: groupId,
     });
 
     if (!group) {
@@ -35,7 +35,6 @@ export async function createProjectService(req: any, res: any, next: any) {
         .json(notificationResult.error);
     }
   } catch (error) {
-    // Handle errors properly
     console.error(error);
     next(error);
   }

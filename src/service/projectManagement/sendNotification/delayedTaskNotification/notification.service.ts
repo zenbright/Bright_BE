@@ -17,7 +17,7 @@ export async function checkDelayedTaskNotificationService(req: any) {
         message: RESPONSE_CODE.NOT_FOUND_ERROR,
       };
     }
-    const group = await Group.findOne({ groupId: project.groupId });
+    const group = await Group.findOne({ _id: project.groupId });
 
     if (!group) {
       return {
