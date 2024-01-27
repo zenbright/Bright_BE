@@ -8,6 +8,7 @@ import UserProfileImageRoute from "./service/user/crudProfileImage/manageImage.r
 import UserSearchRoute from "./service/user/searchUser/searchUser.route";
 import UserPasswordChangeRoute from "./service/user/changePassword/changePassword.route";
 import UserAccountDeleteRoute from "./service/user/deleteAccount/deleteAccount.route";
+import PushNotificationRoute from "./service/user/pushNotification/pushNotification.route";
 
 const router = Router();
 
@@ -24,6 +25,7 @@ router.use("/utils/user", [
   UserPasswordChangeRoute,
   UserAccountDeleteRoute,
   UserProfileImageRoute,
+  PushNotificationRoute
 ]);
 
 export default router;
