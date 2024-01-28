@@ -1,5 +1,5 @@
-import { publishMessage } from './publisher';
-import { subscribeToQueue } from './subscriber';
+import { publishMessage } from './pub-sub/publisher';
+import { subscribeToQueue } from './pub-sub/subscriber';
 
 const pushNotificationQueue = 'push_notification_queue';
 

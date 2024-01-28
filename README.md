@@ -18,4 +18,5 @@ For more information and to understand why most TypeScript npm modules start wit
 
 1. **Redis**: If you don't have Redis installed, you can download and install it from the [official Redis website](https://redis.io/download/). You can start the Redis server using the following command: `redis-server`
 2. **MongoDB**: A mongoDB instance running is required.
-3. **Server**: You can start the back-end server with the following command: `npm start`
+3. **Docker**: If you don't have Docker installed, you can download and install it from the [official Docker website](https://www.docker.com/). You can start the Docker server using the following command: `docker compose up -d`
+4. **Server**: You can start the back-end server with the following command: `npm start`

@@ -1,5 +1,5 @@
-import { connectToRabbitMQ } from "../../../rabbitmqConnection";
-import { RESPONSE_CODE } from "../../utils/constants";
+import { connectToRabbitMQ } from "../../../../rabbitmqConnection";
+import { RESPONSE_CODE } from "../../../utils/constants";
 
 export async function publishMessage(
   message: string,

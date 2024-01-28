@@ -1,4 +1,4 @@
-import { connectToRabbitMQ } from '../../../rabbitmqConnection';
+import { connectToRabbitMQ } from '../../../../rabbitmqConnection';
 
 export async function subscribeToQueue(queueName: string, callback: (message: string) => void) {
   const { connection, channel } = await connectToRabbitMQ();
