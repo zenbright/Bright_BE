@@ -5,6 +5,7 @@ const pushNotificationQueue = 'push_notification_queue';
 
 export function sendPushNotification(deviceToken: string, message: string) {
   // Implement logic to send push notification to the device
+  // TODO: FMC
   console.log(`Sending push notification to ${deviceToken}: ${message}`);
 }
 
@@ -16,8 +17,13 @@ export async function setupPushNotificationSubscriber() {
 }
 
 export const pushNotificationPublisher = {
-  publish: async (deviceToken: string, message: string) => {
-    const fullMessage = `${deviceToken}:${message}`;
-    await publishMessage(fullMessage, pushNotificationQueue);
+  publish: async (queueName: string, message: string) => {
+    try {
+      const fullMessage = `${queueName}:${message}`;
+      await publishMessage(fullMessage, pushNotificationQueue);
+    } catch (error) {
+      console.error(error);
+      throw error; // Re-throw the error to handle it in the calling function
+    }
   },
 };

@@ -5,11 +5,11 @@ import * as APIValidator from "../../middleware/api.validator";
 
 const router = Router();
 
-router.get(
+router.post(
   "/push-notification",
   IPSpamChecker.checkIpSpamServer("/utils/user"), // Check IP spam
 //   APIValidator.userAccountDeleteValidator,
-  pushNotificationController.pushNotificationcontroller,
+  pushNotificationController.pushNotificationController,
 );
 
 export default router;
