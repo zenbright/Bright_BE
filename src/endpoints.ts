@@ -9,6 +9,7 @@ import UserSearchRoute from "./service/user/searchUser/searchUser.route";
 import UserPasswordChangeRoute from "./service/user/changePassword/changePassword.route";
 import UserAccountDeleteRoute from "./service/user/deleteAccount/deleteAccount.route";
 import PushNotificationRoute from "./service/user/pushNotification/pushNotification.route";
+import SubTestingRoute from "./service/user/pushNotification/sub-testing/sub.route";
 
 const router = Router();
 
@@ -25,7 +26,8 @@ router.use("/utils/user", [
   UserPasswordChangeRoute,
   UserAccountDeleteRoute,
   UserProfileImageRoute,
-  PushNotificationRoute
+  PushNotificationRoute,
+  SubTestingRoute
 ]);
 
 export default router;

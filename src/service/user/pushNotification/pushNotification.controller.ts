@@ -1,17 +1,21 @@
+// controller
+
 import { pushNotificationPublisher } from './pushNotification.service';
 
 export async function pushNotificationController(req: any, res: any, next: any) {
   try {
-    const queueName = req.body.queueName;
     const message = req.body.message;
+    const deviceToken = req.body.deviceToken; // Add this line
 
-    if (!queueName || !message) {
+    if (!message || !deviceToken) {
       return res.status(400).json({
-        message: 'Both queueName and message are required.',
+        message: 'queueName, message, and deviceToken are required.',
       });
     }
 
-    await pushNotificationPublisher.publish(queueName, message);
+    // Publish the message to RabbitMQ
+    await pushNotificationPublisher.publish(message, deviceToken);
+
     return res.status(200).json({
       message: 'Notification sent successfully.',
     });
@@ -22,4 +26,3 @@ export async function pushNotificationController(req: any, res: any, next: any) 
     });
   }
 }
-  

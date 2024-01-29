@@ -46,3 +46,15 @@ export const AUTH_EMAIL = process.env.AUTH_EMAIL || "bright.pmtools@gmail.com";
 export const AUTH_PASSWORD = process.env.AUTH_PASSWORD || "c k l r e z a d z n m f o q v p";
 export const GOOGLE_CLIENT_ID = "852626779740-jgr1dq6mh299pi4m24ag7t47dptct7kr.apps.googleusercontent.com";
 export const GOOGLE_CLIENT_SECRET = "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";
+export const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyAYQ3DSfJ04fkvS7inqU32iKB104i_MBFE",
+  authDomain: "bright-3e89b.firebaseapp.com",
+  projectId: "bright-3e89b",
+  storageBucket: "bright-3e89b.appspot.com",
+  messagingSenderId: "100057300574",
+  appId: "1:100057300574:web:69b7053d376c9a725c3ecf",
+  measurementId: "G-VKLC5EHNBS"
+};
+
+// RabbitMQ Queue Names
+export const PUSH_NOTIFICATION_QUEUE = 'push_notification_queue';

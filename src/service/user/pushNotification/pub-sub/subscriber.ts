@@ -1,13 +1,14 @@
 import { connectToRabbitMQ } from '../../../../rabbitmqConnection';
 
-export async function subscribeToQueue(queueName: string, callback: (message: string) => void) {
+export async function subscribeToQueue(queueName: string, callback: (deviceToken: string, message: string) => void) {
   const { connection, channel } = await connectToRabbitMQ();
 
-  await channel.assertQueue(queueName, { durable: false });
+  // await channel.assertQueue(queueName, { durable: false });
   channel.consume(queueName, (msg) => {
     if (msg) {
-      const message = msg.content.toString();
-      callback(message);
+      console.log("msg: " + msg);
+      const [deviceToken, pushMessage] = msg.content.toString().split(':');
+      callback(deviceToken, pushMessage);
     }
   }, { noAck: true });
 

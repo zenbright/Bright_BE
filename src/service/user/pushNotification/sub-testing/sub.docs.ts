@@ -1,19 +1,10 @@
 /**
  * @swagger
  * /utils/user/push-notification:
- *   post:
+ *   get:
  *     summary: Push Notification
  *     tags:
  *       - user
- *     parameters:
- *       - name: body
- *         in: body
- *         required: true
- *         properties:
- *         example: {
- *           "message": "Hello, this is a push notification!",
- *           "deviceToken": "device123",
- *         }
  *     responses:
  *       200:
  *         description: Push Notification success
