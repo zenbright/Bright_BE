@@ -1,57 +1,95 @@
-import { initializeApp } from "firebase/app";
-import { getMessaging, getToken } from "firebase/messaging";
-import { PUSH_NOTIFICATION_QUEUE, FIREBASE_CONFIG } from "../../../config";
+import admin from "firebase-admin";
+import { google } from "googleapis";
+import https from "https";
+import { GOOGLE_APPLICATION_CREDENTIALS, HOST, PATH, SCOPES } from "../../../config";
 
-// Initialize Firebase
-// const app = initializeApp(FIREBASE_CONFIG);
-// const messaging = getMessaging(app);
-// getToken(messaging, {
-//   vapidKey:
-//     "BNBE25IQ-JdSZOCB7RR-Sj3Kom65jCG-_ac4rMjxtMSpEAXs6Uu0UqCkuYS8CCao3F2-LbAfgcXYjGdJGT1_YpM",
-// })
-//   .then((currentToken) => {
-//     if (currentToken) {
-//       console.log("currentToken: ", currentToken);
-//     } else {
-//       console.log(
-//         "No registration token available. Request permission to generate one.",
-//       );
-//     }
-//   })
-//   .catch((err) => {
-//     console.log("An error occurred while retrieving token. ", err);
-//     // ...
-//   });
+admin.initializeApp({
+  credential: admin.credential.applicationDefault(),
+});
 
-// function requestPermission() {
-//   console.log("Requesting permission...");
-//   Notification.requestPermission().then((permission) => {
-//     if (permission === "granted") {
-//       console.log("Notification permission granted.");
-//     } else {
-//       console.log("Do not have permission!");
-//     }
-//   });
-// }
-
+function getAccessToken() {
+  return new Promise(function (resolve, reject) {
+    const jwtClient = new google.auth.JWT(
+      GOOGLE_APPLICATION_CREDENTIALS.client_email,
+      "",
+      GOOGLE_APPLICATION_CREDENTIALS.private_key,
+      SCOPES,
+      "",
+    );
+    jwtClient.authorize(function (err: any, tokens: any) {
+      if (err) {
+        reject(err);
+        return;
+      }
+      resolve(tokens.access_token);
+    });
+  });
+}
 
 export async function sendPushNotification(
   deviceToken: string,
-  message: string,
+  fcmMessage: any,
 ) {
-  try {
-    const notification = {
+  getAccessToken().then(function (accessToken) {
+    const options = {
+      hostname: HOST,
+      path: PATH,
+      method: "POST",
+      // [START use_access_token]
+      headers: {
+        Authorization: "Bearer " + accessToken,
+      },
+      // [END use_access_token]
+    };
+
+    const request = https.request(options, function (resp) {
+      resp.setEncoding("utf8");
+      resp.on("data", function (data) {
+        console.log("Message sent to Firebase for delivery, response:");
+        console.log(data);
+      });
+    });
+
+    request.on("error", function (err) {
+      console.log("Unable to send message to Firebase");
+      console.log(err);
+    });
+
+    request.write(JSON.stringify(fcmMessage));
+    request.end();
+  });
+}
+
+/**
+ * Construct a JSON object that will be used to customize
+ * the messages sent to iOS and Android devices.
+ */
+export function buildOverrideMessage(pushMessage: string) {
+  return {
+    message: {
+      topic: "news",
+      notification: {
+        title: "Breaking News",
+        body: pushMessage,
+      },
       data: {
-        title: "Your Notification Title",
-        options: {
-          body: message,
+        story_id: "story_12345",
+      },
+      android: {
+        notification: {
+          click_action: "android.intent.action.MAIN",
         },
       },
-      token: deviceToken,
-    };
-    // TODO: Use the FCM SDK to send notifications
-    console.log(`Sending push notification to ${deviceToken}: ${message}`);
-  } catch (error) {
-    console.error("Error sending FCM notification:", error);
-  }
+      apns: {
+        payload: {
+          aps: {
+            badge: 1,
+          },
+        },
+        headers: {
+          "apns-priority": "10",
+        },
+      },
+    },
+  };
 }

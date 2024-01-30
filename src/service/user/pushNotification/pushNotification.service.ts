@@ -1,14 +1,13 @@
 import { publishMessage } from "./pub-sub/publisher";
 import { subscribeToQueue } from "./pub-sub/subscriber";
 import { PUSH_NOTIFICATION_QUEUE } from "../../../config";
-import { sendPushNotification } from "./sendPushNotification.service";
+import { sendPushNotification, buildOverrideMessage } from "./sendPushNotification.service";
 
 export async function setupPushNotificationSubscriber() {
-  // requestPermission();
   await subscribeToQueue(
     PUSH_NOTIFICATION_QUEUE,
     (deviceToken, pushMessage) => {
-      sendPushNotification(deviceToken, pushMessage);
+      sendPushNotification(deviceToken, buildOverrideMessage(pushMessage));
     },
   );
 }
