@@ -67,7 +67,12 @@ app.use((req, res: any, next) => {
 });
 
 // Enable CORS
-app.use(cors(CORS_OPTIONS));
+app.use(cors({
+  origin: "*",
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  allowedHeaders:
+    "Origin,X-Requested-With,Content-Type,Accept,Authorization,Accept-Language",
+}));
 
 // Reverse Proxy
 app.enable('trust proxy');
