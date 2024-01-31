@@ -1,6 +1,6 @@
 import APIError from '../utils/APIError';
 import redisClient from '../utils/redisConfig';
-import { ERROR_CODE } from '../utils/constants';
+import { RESPONSE_CODE } from '../utils/constants';
 
 // Get the user's IP
 const getIpUser = (req: any) => {
@@ -26,16 +26,16 @@ export function checkIpSpamServer(endpoint = '') {
             }
 
             if (numRequest > RATE_LIMIT.requestsPerSecond) {
-                console.log('IP Spam detected:', { access: false, message: ERROR_CODE.RATELIMITED });
+                console.log('IP Spam detected:', { access: false, message: RESPONSE_CODE.RATELIMITED });
 
-                return next(new APIError(502, { access: false, message: ERROR_CODE.RATELIMITED }));
+                return next(new APIError(502, { access: false, message: RESPONSE_CODE.RATELIMITED }));
             }
 
             // Continue to the next middleware or route
             return next();
         } catch (error) {
             console.error('Error in IP spam checking middleware:', error);
-            return next(new APIError(502, { access: false, message: ERROR_CODE.RATELIMITED }));
+            return next(new APIError(502, { access: false, message: RESPONSE_CODE.INTERNAL_SERVER_ERROR }));
         }
     };
 }

@@ -1,4 +1,4 @@
-import { ERROR_CODE } from './constants';
+import { RESPONSE_CODE } from './constants';
 
 export default class APIError extends Error {
     statusCode: any;
@@ -18,12 +18,12 @@ export default class APIError extends Error {
 
 // Handle API errors
 export function handleErrorReponseAPI(error: any) {
-    const defaultError = [500, ERROR_CODE.INTERNAL_SERVER_ERROR];
+    const defaultError = [500, RESPONSE_CODE.INTERNAL_SERVER_ERROR];
 
     try {
         const resCode = error?.response?.status;
         const resData = error?.response?.data;
-        const resMessage = Array.isArray(resData?.errors) ? resData.errors[0]?.param : ERROR_CODE.INTERNAL_SERVER_ERROR;
+        const resMessage = Array.isArray(resData?.errors) ? resData.errors[0]?.param : RESPONSE_CODE.INTERNAL_SERVER_ERROR;
 
         return [resCode || defaultError[0], resMessage || defaultError[1]];
     } catch (error) {
