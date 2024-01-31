@@ -47,7 +47,7 @@ async function removeMessageFromGroup(
   await existingGroup.save();
 }
 
-async function deleteMultimediaFromBucket(multimedia: string[]) {
+export async function deleteMultimediaFromBucket(multimedia: string[]) {
   for (const eachMediaId of multimedia) {
     await deleteSingleMultimediaFromBucket(eachMediaId);
   }
