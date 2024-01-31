@@ -19,11 +19,13 @@ dotenv.config();
 
 import {
   MORGAN_FORMAT,
+  CORS_OPTIONS,
   USERNAME_API_DOCS,
   PASSWORD_API_DOCS,
   NODE_ENV,
   PORT_SERVER,
   MONGO_URI,
+  DB_NAME
 } from "./config";
 
 const app = express();
@@ -65,12 +67,7 @@ app.use((req, res: any, next) => {
 });
 
 // Enable CORS
-app.use(cors({
-  origin: "*",
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  allowedHeaders:
-    "Origin,X-Requested-With,Content-Type,Accept,Authorization,Accept-Language",
-}));
+app.use(cors(CORS_OPTIONS));
 
 // Reverse Proxy
 app.enable('trust proxy');
@@ -118,7 +115,7 @@ app.use((req, res: any, next) => {
 // Connect MongoDB
 mongoose.set('strictQuery', false);
 mongoose.connect(MONGO_URI).then(async (data) => {
-  logger.info(`Mongodb connected ${MONGO_URI} : bright`);
+  logger.info(`Mongodb connected ${MONGO_URI} : ${DB_NAME}`);
 })
   .catch((error) => {
     console.log(error);
