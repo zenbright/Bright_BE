@@ -19,13 +19,11 @@ dotenv.config();
 
 import {
   MORGAN_FORMAT,
-  CORS_OPTIONS,
   USERNAME_API_DOCS,
   PASSWORD_API_DOCS,
   NODE_ENV,
   PORT_SERVER,
   MONGO_URI,
-  DB_NAME
 } from "./config";
 
 const app = express();
@@ -120,7 +118,7 @@ app.use((req, res: any, next) => {
 // Connect MongoDB
 mongoose.set('strictQuery', false);
 mongoose.connect(MONGO_URI).then(async (data) => {
-  logger.info(`Mongodb connected ${MONGO_URI} : ${DB_NAME}`);
+  logger.info(`Mongodb connected ${MONGO_URI} : bright`);
 })
   .catch((error) => {
     console.log(error);
