@@ -18,8 +18,7 @@ const messageSchema = new mongoose.Schema({
   },
   multimedia: [
     {
-      data: Buffer, // Use Buffer to store binary data
-      contentType: String, // Specify the type of multimedia content, e.g., "image/jpeg"
+      type: String,
     }
   ],
   timestamp: {

@@ -2,6 +2,7 @@ import Message from "../../../../models/groupMessageModel";
 import Group from "../../../../models/groupModel";
 import { RESPONSE_CODE } from "../../../utils/constants";
 import mongoose from "mongoose";
+import { uploadMediaToBucket } from "./uploadMediaToBucket";
 
 export async function sendMessageService(
   groupId: String,
@@ -18,11 +19,22 @@ export async function sendMessageService(
     }
     */
 
+    const multimediaObjectIds = [];
+
+    for (const eachMedia of multimedia) {
+      const multimediaObjectId = new mongoose.Types.ObjectId();
+      const stringMultimediaObjectId = multimediaObjectId.toHexString();
+
+      await uploadMediaToBucket(stringMultimediaObjectId, eachMedia);
+
+      multimediaObjectIds.push(stringMultimediaObjectId);
+    }
+
     const newMessage = new Message({
       groupId: groupId,
       fromId: userId,
       text: message,
-      multimedia: multimedia,
+      multimedia: multimediaObjectIds,
     });
 
     console.log("newMessage: ", newMessage);
