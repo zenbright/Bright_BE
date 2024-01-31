@@ -68,15 +68,15 @@ function convertToBase64(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
 
-    reader.onload = function (event) {
-      const base64Data = event.target.result;
+    // reader.onload = function (event) {
+      // const base64Data = event.target.result;
       const contentType = file.type;
 
       resolve({
-        data: base64Data,
+        buffer: file,
         contentType: contentType,
       });
-    };
+    // };
 
     reader.onerror = function (error) {
       reject(error);

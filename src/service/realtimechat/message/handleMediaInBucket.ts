@@ -21,12 +21,15 @@ const client = new S3Client({
 export const uploadMediaToBucket = async (
   multimediaObjectId: string,
   multimedia: any,
+  contentType: string,
 ) => {
+  // console.log("multimedia: ", multimedia);
+  // console.log("contentType: ", contentType);
   const command = new PutObjectCommand({
     Bucket: AWS_S3_BUCKET_NAME,
     Key: multimediaObjectId,
-    Body: multimedia.data,
-    ContentType: multimedia.contentType,
+    Body: multimedia.buffer,
+    ContentType: contentType,
   });
 
   try {

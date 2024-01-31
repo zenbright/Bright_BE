@@ -25,7 +25,7 @@ export async function sendMessageService(
       const multimediaObjectId = new mongoose.Types.ObjectId();
       const stringMultimediaObjectId = multimediaObjectId.toHexString();
 
-      await uploadMediaToBucket(stringMultimediaObjectId, eachMedia);
+      await uploadMediaToBucket(stringMultimediaObjectId, eachMedia.buffer, eachMedia.contentType);
 
       multimediaObjectIds.push(stringMultimediaObjectId);
     }
