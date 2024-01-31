@@ -2,7 +2,7 @@ import Message from "../../../../models/groupMessageModel";
 import Group from "../../../../models/groupModel";
 import { RESPONSE_CODE } from "../../../utils/constants";
 import mongoose from "mongoose";
-import { uploadMediaToBucket } from "./uploadMediaToBucket";
+import { uploadMediaToBucket } from "../handleMediaInBucket";
 
 export async function sendMessageService(
   groupId: String,
