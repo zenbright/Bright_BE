@@ -71,6 +71,7 @@ export const FIREBASE_CONFIG = {
   appId: "1:100057300574:web:69b7053d376c9a725c3ecf",
   measurementId: "G-VKLC5EHNBS"
 };
+export const VAPIDKEY = "BNBE25IQ-JdSZOCB7RR-Sj3Kom65jCG-_ac4rMjxtMSpEAXs6Uu0UqCkuYS8CCao3F2-LbAfgcXYjGdJGT1_YpM"
 export const PROJECT_ID = "bright-3e89b";
 export const HOST = 'fcm.googleapis.com';
 export const PATH = '/v1/projects/' + PROJECT_ID + '/messages:send';

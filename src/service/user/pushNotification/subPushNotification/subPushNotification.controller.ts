@@ -1,4 +1,4 @@
-import { setupPushNotificationSubscriber } from "./../pushNotification.service";
+import { setupPushNotificationSubscriber } from "../pubPushNotification/pubPushNotification.service";
 
 export async function subController(
   req: any,

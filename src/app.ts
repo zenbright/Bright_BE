@@ -13,8 +13,11 @@ import swaggerJSDoc from "./swagger";
 import swaggerUI from "swagger-ui-express";
 import { ROUTE_ENDPOINT } from "./config";
 import endpoint from "./endpoints";
+import staticRoutes from "./static.route";
 import errorResponseHandler from "./service/utils/errorResponseHandler";
-import { setupPushNotificationSubscriber } from "./service/user/pushNotification/pushNotification.service";
+import { setupPushNotificationSubscriber } from "./service/user/pushNotification/pubPushNotification/pubPushNotification.service";
+import cookieParser from "cookie-parser";
+import path from "path";
 
 dotenv.config();
 
@@ -30,6 +33,8 @@ import {
 } from "./config";
 
 const app = express();
+
+app.use(cookieParser());
 
 // Logging
 if (["development", "local", "production"].includes(NODE_ENV)) {
@@ -115,6 +120,9 @@ app.use((req, res: any, next) => {
   res.RH = new ResponseHandler(res);
   next();
 });
+
+// Use the static routes module
+app.use("/", staticRoutes);
 
 // Connect MongoDB
 mongoose.set("strictQuery", false);

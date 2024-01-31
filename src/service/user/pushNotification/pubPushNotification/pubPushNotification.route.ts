@@ -1,15 +1,15 @@
 import { Router } from "express";
-import * as subController from "./sub.controller";
+import * as pushNotificationController from "./pubPushNotification.controller";
 import * as IPSpamChecker from "../../../middleware/api.limiter";
-// import * as APIValidator from "../../middleware/api.validator";
+import * as APIValidator from "../../../middleware/api.validator";
 
 const router = Router();
 
-router.get(
+router.post(
   "/push-notification",
   IPSpamChecker.checkIpSpamServer("/utils/user"), // Check IP spam
 //   APIValidator.userAccountDeleteValidator,
-  subController.subController,
+  pushNotificationController.pushNotificationController,
 );
 
 export default router;

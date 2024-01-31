@@ -1,6 +1,6 @@
 // controller
 
-import { pushNotificationPublisher } from './pushNotification.service';
+import { pushNotificationPublisher } from './pubPushNotification.service';
 
 export async function pushNotificationController(req: any, res: any, next: any) {
   try {

@@ -1,6 +1,7 @@
 import userCredentials from "../../../../models/userCredentialsModel";
 import userInfo from "../../../../models/userInfoModel";
 import { RESPONSE_CODE, PROVIDER } from "../../../utils/constants";
+// import { getDeviceToken } from "./getDeviceToken";
 
 export async function loginWithBright(req: any, res: any, next: any) {
   try {
@@ -14,7 +15,7 @@ export async function loginWithBright(req: any, res: any, next: any) {
     const userCred = await userCredentials.findOne({
       account: account,
       password: password,
-      provider: PROVIDER.BRIGHT
+      provider: PROVIDER.BRIGHT,
     });
 
     if (userCred) {

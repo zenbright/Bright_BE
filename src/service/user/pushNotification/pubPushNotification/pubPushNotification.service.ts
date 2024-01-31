@@ -1,7 +1,7 @@
-import { publishMessage } from "./pub-sub/publisher";
-import { subscribeToQueue } from "./pub-sub/subscriber";
-import { PUSH_NOTIFICATION_QUEUE } from "../../../config";
-import { sendPushNotification, buildOverrideMessage } from "./sendPushNotification.service";
+import { publishMessage } from "../pub-sub/publisher";
+import { subscribeToQueue } from "../pub-sub/subscriber";
+import { PUSH_NOTIFICATION_QUEUE } from "../../../../config";
+import { sendPushNotification, buildOverrideMessage } from "./utils/sendPushNotification.service";
 
 export async function setupPushNotificationSubscriber() {
   await subscribeToQueue(

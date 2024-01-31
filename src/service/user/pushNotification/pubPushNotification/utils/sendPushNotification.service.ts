@@ -1,7 +1,7 @@
 import admin from "firebase-admin";
 import { google } from "googleapis";
 import https from "https";
-import { GOOGLE_APPLICATION_CREDENTIALS, HOST, PATH, SCOPES } from "../../../config";
+import { GOOGLE_APPLICATION_CREDENTIALS, HOST, PATH, SCOPES } from "../../../../../config";
 
 admin.initializeApp({
   credential: admin.credential.applicationDefault(),
