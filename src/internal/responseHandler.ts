@@ -11,15 +11,13 @@ export class ResponseHandler {
     success(data: object) {
         if (!data) {
             return this.res.json({
-                success: true
+                 uccess: true
             })
         }
 
         return this.res.json({
-            success: true,
             payload: data
-        })
-    }
+        }) }
 
     error(data: any) {
         return this.res.json({
