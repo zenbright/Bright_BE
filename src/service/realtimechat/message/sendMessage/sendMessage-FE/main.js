@@ -138,7 +138,7 @@ function addMessageToUI(isOwnMessage, data) {
 
   let element = ``;
 
-  const delMsgBtn = `<button class="delMsg_btn" message-id="${data.messageId}" group-id="${data.groupId}">Del</button>`;
+  const delMsgBtn = `<button class="delMsg_btn" message-id="${data._id}" group-id="${data.groupId}">Del</button>`;
   let timestampString = getFormattedTimestamp(data.timestamp);
 
   if (Array.isArray(data.multimedia) && data.multimedia.length > 0) {
