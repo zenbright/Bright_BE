@@ -32,7 +32,7 @@ async function fetchMessages(userId, groupId) {
     for (const message of messages) {
       // Perform actions for each message
       const isOwnMessage = message.fromId === userId;
-      addMessageToUI(isOwnMessage, message);
+      addMessageToUI(isOwnMessage, message, messageObject.multimedia);
     }
 
     scrollToBottom();
@@ -64,19 +64,24 @@ socket.on("clients-total", ({ groupId, socketsConnectedSize }) => {
 });
 
 // Function to convert multimedia content to base64
-function convertToBase64(file) {
+function getFileInfoFromInput(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
 
-    // reader.onload = function (event) {
-      // const base64Data = event.target.result;
-      const contentType = file.type;
+    reader.onload = function (event) {
+      const buffer = event.target.result; // This will be a data URL for text-based files like HTML
 
-      resolve({
-        buffer: file,
+      const contentType = file.type;
+      const fileName = file.name;
+
+      const fileInfo = {
+        buffer: buffer,
         contentType: contentType,
-      });
-    // };
+        name: fileName,
+      };
+
+      resolve(fileInfo);
+    };
 
     reader.onerror = function (error) {
       reject(error);
@@ -95,7 +100,7 @@ async function sendMessage() {
 
   // Read and convert multimedia files to base64
   const multimediaFiles = Array.from(mediaMessageInput.files);
-  const multimediaPromises = multimediaFiles.map(convertToBase64);
+  const multimediaPromises = multimediaFiles.map(getFileInfoFromInput);
 
   try {
     const multimediaDataArray = await Promise.all(multimediaPromises);
@@ -110,7 +115,7 @@ async function sendMessage() {
 
     // Sending a message with a callback
     socket.emit("message", dataToSend, (result) => {
-      addMessageToUI(true, result);
+      addMessageToUI(true, result, multimediaDataArray);
     });
 
     // Clear input fields
@@ -126,14 +131,16 @@ async function sendMessage() {
 socket.on("group-message", ({ groupId, formattedMsg }) => {
   // console.log("serverGroupId: ", serverGroupId);
   if (groupId === serverGroupId) {
-    addMessageToUI(false, formattedMsg);
+    addMessageToUI(false, formattedMsg, []);
   } else {
     console.log("Different group");
   }
 });
 
 // Function to add a message to the UI
-function addMessageToUI(isOwnMessage, data) {
+function addMessageToUI(isOwnMessage, data, multimedia) {
+  console.log("data: ", data);
+  console.log("multimedia: ", multimedia);
   clearFeedback();
 
   let element = ``;
@@ -141,8 +148,8 @@ function addMessageToUI(isOwnMessage, data) {
   const delMsgBtn = `<button class="delMsg_btn" message-id="${data._id}" group-id="${data.groupId}">Del</button>`;
   let timestampString = getFormattedTimestamp(data.timestamp);
 
-  if (Array.isArray(data.multimedia) && data.multimedia.length > 0) {
-    const multimediaElements = data.multimedia.map((item, index) => {
+  if (Array.isArray(multimedia) && multimedia.length > 0) {
+    const multimediaElements = multimedia.map((item, index) => {
       if (item && item.contentType && item.data) {
         // Convert the 'data' property to a data URI
         const imageData =

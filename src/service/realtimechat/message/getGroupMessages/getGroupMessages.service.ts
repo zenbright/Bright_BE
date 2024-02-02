@@ -1,11 +1,15 @@
 import Group from "../../../../models/groupModel";
 import Message from "../../../../models/groupMessageModel";
 import { RESPONSE_CODE } from "../../../utils/constants";
+import { getMultimedia } from "../getMessage/getMessage.service";
 
-export async function getGroupMessagesService(params: { groupId: string[] }, res: any) {
+export async function getGroupMessagesService(
+  params: { groupId: string[] },
+  res: any,
+) {
   try {
     const { groupId } = params;
-    
+
     // Use findOne instead of find if you expect only one document
     const group = await Group.findOne({ _id: groupId });
 
@@ -18,9 +22,16 @@ export async function getGroupMessagesService(params: { groupId: string[] }, res
     // Fetch messages using an array of message IDs
     const messages = await Message.find({ _id: { $in: messageIds } });
 
+    const multimediaPromises = messages.map(async (message) => {
+      return await getMultimedia(message.multimedia);
+    });
+    
+    const allMultimedia = await Promise.all(multimediaPromises);
+
     return res.status(200).json({
       status: RESPONSE_CODE.SUCCESS,
       messages: messages,
+      multimedia: allMultimedia,
     });
   } catch (error) {
     console.log(error);

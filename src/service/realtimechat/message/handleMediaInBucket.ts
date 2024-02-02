@@ -2,6 +2,8 @@ import {
   PutObjectCommand,
   S3Client,
   DeleteObjectCommand,
+  GetObjectCommand,
+  HeadObjectCommand,
 } from "@aws-sdk/client-s3";
 import {
   AWS_S3_ACCESS_KEY_ID,
@@ -21,15 +23,17 @@ const client = new S3Client({
 export const uploadMediaToBucket = async (
   multimediaObjectId: string,
   multimedia: any,
-  contentType: string,
 ) => {
-  // console.log("multimedia: ", multimedia);
+  console.log("multimedia: ", multimedia);
   // console.log("contentType: ", contentType);
+  // Convert base64 string to Buffer
+  const buffer = Buffer.from(multimedia.buffer, "base64");
+
   const command = new PutObjectCommand({
     Bucket: AWS_S3_BUCKET_NAME,
     Key: multimediaObjectId,
-    Body: multimedia.buffer,
-    ContentType: contentType,
+    Body: buffer,
+    ContentType: multimedia.contentType,
   });
 
   try {
@@ -56,5 +60,26 @@ export const deleteSingleMultimediaFromBucket = async (
     console.log("Success. Object deleted.", data);
   } catch (err) {
     console.log("Error", err);
+  }
+};
+
+/*
+To actually render the media on the UI, 
+you'll need to use the retrieved media content (the Buffer or Uint8Array) 
+and appropriately render it based on its content type (e.g., display an image for 'image/png'). 
+You might use HTML tags like <img> for images or other appropriate methods depending on the media type.
+*/
+export const getMultimediaFromBucket = async (multimediaObjectId: string) => {
+  try {
+    const command = new HeadObjectCommand({
+      Bucket: AWS_S3_BUCKET_NAME,
+      Key: multimediaObjectId,
+    });
+    const metadata = await client.send(command);
+    console.log(`Metadata for ${multimediaObjectId}:`, metadata);
+    return metadata;
+  } catch (err) {
+    console.error(err);
+    return undefined;
   }
 };
