@@ -19,6 +19,12 @@
     "baseUrl": "" // Đường dẫn base cho các import
   },
   "include": [
-    "src/**/*"
+    "src/**/*.ts"
   ], // Các file dùng để defined global type cho dự án
+  "exclude": ["node_modules"],
+  "typeRoots": [
+    "./src/typing",
+    "./node_modules/@types"
+  ],
+  
 }
