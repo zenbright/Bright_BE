@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
 import express from "express";
+import session from "express-session";
 import cors from "cors";
 import compression from "compression";
 import bodyParser from "body-parser";
@@ -18,6 +19,11 @@ import errorResponseHandler from "./service/utils/errorResponseHandler";
 import { setupPushNotificationSubscriber } from "./service/user/pushNotification/pubPushNotification/pubPushNotification.service";
 import cookieParser from "cookie-parser";
 import path from "path";
+
+import passport from "passport";
+import("./service/authentication/google/googleAuth.service");
+
+import { UserBasicInfo } from './models/userBasicInfo';
 
 dotenv.config();
 
@@ -93,13 +99,38 @@ if (["production", "development", "local"].includes(NODE_ENV)) {
     swaggerUI.setup(swaggerJSDoc),
   );
 }
+declare global {
+  namespace Express {
+    interface Request {
+      User?: UserBasicInfo | null;
+    }
+  }
+}
+
+// cookie parser
+app.use(cookieParser());
 
 // API settings
 app.use(compression());
 app.use(bodyParser.json({ limit: "20mb" }));
 app.use(bodyParser.urlencoded({ limit: "20mb", extended: false }));
 
-// Server test
+// passport initialize
+app.use(
+  session({
+    secret: "Bright",
+    resave: true,
+    saveUninitialized: true,
+    cookie: {
+      secure: false, // Set to true in production if using HTTPS
+      maxAge: 24 * 60 * 60 * 1000, // Session expiration duration (in milliseconds)
+    },
+  }),
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.get(`${ROUTE_ENDPOINT.BASE_URL_V1}${ROUTE_ENDPOINT.PING}`, (req, res) => {
   res.json({
     success: true,

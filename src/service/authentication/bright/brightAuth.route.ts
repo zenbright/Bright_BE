@@ -11,4 +11,10 @@ router.post(
   brightAuthController.brightAuthentication,
 );
 
+router.get("/bright/:action",
+    IPSpamChecker.checkIpSpamServer("/auth/bright"),
+    APIValidator.loginWithBrightValidator,
+    brightAuthController.brightRefreshandLogout,
+);
+
 export default router;

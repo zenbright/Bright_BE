@@ -10,6 +10,7 @@ import UserPasswordChangeRoute from "./service/user/changePassword/changePasswor
 import UserAccountDeleteRoute from "./service/user/deleteAccount/deleteAccount.route";
 import PubPushNotificationRoute from "./service/user/pushNotification/pubPushNotification/pubPushNotification.route";
 import SubPushNotificationRoute from "./service/user/pushNotification/subPushNotification/subPushNotification.route";
+import GoogleAuthRoute from "./service/authentication/google/googleAuth.route";
 
 const router = Router();
 
@@ -19,6 +20,7 @@ router.use("/auth", [
   SendOTPRoute,
   VerifyOTPRoute,
   EmailVerificationRoute,
+  GoogleAuthRoute,
 ]);
 
 router.use("/utils/user", [

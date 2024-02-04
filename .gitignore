@@ -5,3 +5,6 @@ logs
 logs/
 ACCESSTOKEN.pem
 build
+views
+/**/*.html
+test

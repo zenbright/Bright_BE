@@ -80,3 +80,9 @@ export const SCOPES = [MESSAGING_SCOPE];
 
 // RabbitMQ Queue Names
 export const PUSH_NOTIFICATION_QUEUE = 'push_notification_queue';
+// export const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID as string;
+// export const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET as string;
+
+export const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET as string;
+export const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET as string;
+
