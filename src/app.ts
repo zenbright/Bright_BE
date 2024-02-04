@@ -14,7 +14,6 @@ import swaggerJSDoc from "./swagger";
 import swaggerUI from "swagger-ui-express";
 import { ROUTE_ENDPOINT } from "./config";
 import endpoint from "./endpoints";
-import staticRoutes from "./static.route";
 import errorResponseHandler from "./service/utils/errorResponseHandler";
 import { setupPushNotificationSubscriber } from "./service/user/pushNotification/pubPushNotification/pubPushNotification.service";
 import cookieParser from "cookie-parser";
@@ -151,9 +150,6 @@ app.use((req, res: any, next) => {
   res.RH = new ResponseHandler(res);
   next();
 });
-
-// Use the static routes module
-app.use("/", staticRoutes);
 
 // Connect MongoDB
 mongoose.set("strictQuery", false);

@@ -1,7 +1,6 @@
 import { Router } from "express";
 import * as brightAuthController from "./brightAuth.controller";
 import { IPSpamChecker, APIValidator } from "../../..";
-import { getDeviceToken } from "./login/getDeviceToken";
 const router = Router();
 
 router.post(

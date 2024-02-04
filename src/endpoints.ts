@@ -11,6 +11,7 @@ import UserAccountDeleteRoute from "./service/user/deleteAccount/deleteAccount.r
 import PubPushNotificationRoute from "./service/user/pushNotification/pubPushNotification/pubPushNotification.route";
 import SubPushNotificationRoute from "./service/user/pushNotification/subPushNotification/subPushNotification.route";
 import GoogleAuthRoute from "./service/authentication/google/googleAuth.route";
+import SaveDeviceToken from "./service/authentication/bright/saveDeviceToken/saveDeviceToken.route";
 
 const router = Router();
 
@@ -21,6 +22,7 @@ router.use("/auth", [
   VerifyOTPRoute,
   EmailVerificationRoute,
   GoogleAuthRoute,
+  SaveDeviceToken
 ]);
 
 router.use("/utils/user", [
