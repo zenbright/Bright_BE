@@ -1,12 +1,12 @@
-import userCredentials from "../../../../models/userCredentials";
-import { ERROR_CODE, SUCCESS_MESSAGE } from "../../../utils/constants";
+import userCredentials from "../../../../models/userCredentialsModel";
+import { RESPONSE_CODE } from "../../../utils/constants";
 import jwt from "jsonwebtoken";
 
 export async function logoutwithBright(req: any, res: any, next: any) {
   try {
     const cookies = req.cookies;
     if(!cookies?.jwt) return res.status(401).json({
-      message: ERROR_CODE.JWT_NOT_FOUND,
+      message: RESPONSE_CODE.JWT_NOT_FOUND,
     });
     const refreshToken = cookies.jwt;
 
@@ -23,7 +23,7 @@ export async function logoutwithBright(req: any, res: any, next: any) {
     console.log(result);
 
     res.clearCookie('jwt', { httpOnly: true, sameSite: 'None', secure: true });
-    res.status(200).json({ message: SUCCESS_MESSAGE });
+    res.status(200).json({ message: RESPONSE_CODE.SUCCESS });
 
   } catch (error) {
     next(error);

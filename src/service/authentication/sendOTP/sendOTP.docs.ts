@@ -1,8 +1,8 @@
 /**
  * @swagger
- * /utils/user/searchUser:
+ * /auth/sendOTP:
  *   post:
- *      summary: Search User 
+ *      summary: Send OTP
  *      tags:
  *       - Authentication
  *      parameters:
@@ -11,22 +11,23 @@
  *         required: true
  *         properties:
  *         example: {
- *           "searchPhrase": "Quo",
+ *           "userId": "abc",
+ *           "email": "0617@gmail.com",
  *         }
  *      responses:
  *       200:
- *         description: Search User success
+ *         description: Sent OTP successfully
  *         schema:
  *           type: object
  *           example: {
  *             success: true,
- *             payload: "Quoc Doan, Quoc Huu, ...",
+ *             payload: "Access token",
  *           }
- *       400:
- *          description: Invalid Search Phrase
+ *       403:
+ *          description: When the email is not verified
  *          schema:
  *           type: string
- *           example: "No search"
+ *           example: "EMAIL NOT VERIFIED"
  *       404:
  *          description: When the user doesn't exist
  *          schema:

@@ -2,9 +2,10 @@ import passport from "passport";
 import passportGoogle from "passport-google-oauth20";
 import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } from "../../../config"
 const GoogleStrategy = passportGoogle.Strategy;
-import userCredentials from '../../../models/userCredentials';
-import userInfo from '../../../models/userInfo';
+import userCredentials from '../../../models/userCredentialsModel';
+import userInfo from '../../../models/userInfoModel';
 import mongoose from "mongoose";
+import { CAUTION, PROVIDER } from '../../utils/constants';
 
 passport.serializeUser((user:any, done) => {
   done(null, user);
@@ -19,7 +20,7 @@ passport.use('google',
     {
       clientID: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
-      callbackURL: "http://127.0.0.1:4000/auth/google/redirect",
+      callbackURL: "http://127.0.0.1:4000/bright-backend/api/auth/google/redirect",
       userProfileURL: 'https://www.googleapis.com/oauth2/v3/userinfo',
       passReqToCallback: true,
     },
@@ -52,18 +53,20 @@ passport.use('google',
             profileImage: profile.photos && profile.photos[0] ? profile.photos[0].value : '',
             userCredentialId: new mongoose.Types.ObjectId(),
           });
-          await newUserInfo.save();
 
           const newCredential = new userCredentials({
             account: profile.id,
-            password: profile.id,
+            password: CAUTION.DO_NOT_USE,
             userId: newUserInfo._id,
             refreshToken: refreshToken,
             refreshTokenExpires: expireDate,
-            provider: 'google',
+            provider: PROVIDER.GOOGLE,
           });
+
+          newUserInfo.userCredentialId = newCredential._id;
+
           console.log(accessToken);
-          await newCredential.save()
+          await Promise.all([newUserInfo.save(), newCredential.save()]);
           return done(null, profile);
         }
       } catch (error) {

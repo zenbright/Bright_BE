@@ -1,6 +1,6 @@
-import userCredentials from "../../../../models/userCredentials";
-import userInfo from "../../../../models/userInfo";
-import { ERROR_CODE } from "../../../utils/constants";
+import userCredentials from "../../../../models/userCredentialsModel";
+import userInfo from "../../../../models/userInfoModel";
+import { RESPONSE_CODE } from "../../../utils/constants";
 import { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET  } from "../../../../config"
 import jwt from "jsonwebtoken";
 
@@ -8,7 +8,7 @@ export async function RefreshToken(req: any, res: any, next: any) {
   try {
     const cookies = req.cookies;
     if(!cookies?.jwt) return res.status(401).json({
-      message: ERROR_CODE.JWT_NOT_FOUND,
+      message: RESPONSE_CODE.JWT_NOT_FOUND,
     });
     const refreshToken = cookies.jwt;
 
@@ -35,7 +35,7 @@ export async function RefreshToken(req: any, res: any, next: any) {
       )
     } else {
       res.status(404).json({
-        message: ERROR_CODE.NOT_FOUND_ERROR,
+        message: RESPONSE_CODE.NOT_FOUND_ERROR,
       });
     }
   } catch (error) {

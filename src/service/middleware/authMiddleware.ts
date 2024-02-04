@@ -1,8 +1,8 @@
 import jwt, { VerifyErrors } from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
 import { ACCESS_TOKEN_SECRET } from "../../config"
-import { ERROR_CODE, SUCCESS_MESSAGE } from '../utils/constants';
-import User from '../../models/userCredentials'
+import { RESPONSE_CODE } from '../utils/constants';
+import User from '../../models/userCredentialsModel'
 
 interface User {
     account: string,
@@ -11,7 +11,7 @@ interface User {
 
 const verifyJWT = (req: Request, res: Response, next: NextFunction) => {
     const authHeader = req.headers.authorization;
-    if (!authHeader?.startsWith('Bearer ')) return res.status(401).json({ message: ERROR_CODE.TOKEN_NOT_FOUND});
+    if (!authHeader?.startsWith('Bearer ')) return res.status(401).json({ message: RESPONSE_CODE.TOKEN_NOT_FOUND});
     const token = authHeader.split(' ')[1];
     jwt.verify(
         token,
@@ -33,7 +33,7 @@ const verifyRoles = (roles: String[]) => {
 
         const User = req.User;
         if (!User || !User.role) {
-            return res.status(404).json({ message: ERROR_CODE.USER_NOT_FOUND });
+            return res.status(404).json({ message: RESPONSE_CODE.USER_NOT_FOUND });
         }
         
         if(User && !roles.includes(User.role)) {

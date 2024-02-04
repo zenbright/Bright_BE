@@ -1,6 +1,6 @@
-import userCredentials from "../../../../models/userCredentials";
-import userInfo from "../../../../models/userInfo";
-import { ERROR_CODE, PROVIDER } from "../../../utils/constants";
+import userCredentials from "../../../../models/userCredentialsModel";
+import userInfo from "../../../../models/userInfoModel";
+import { RESPONSE_CODE, PROVIDER } from "../../../utils/constants";
 import { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET  } from "../../../../config"
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs"
@@ -10,7 +10,7 @@ export async function loginWithBright(req: any, res: any, next: any) {
     const { account, password } = req.body;
 
     if (!account || !password) {
-      return res.status(404).json({ error: ERROR_CODE.NOT_FOUND_ERROR });
+      return res.status(400).json({ error: RESPONSE_CODE.NOT_FOUND_ERROR });
     }
 
     // Find user credentials
@@ -48,13 +48,13 @@ export async function loginWithBright(req: any, res: any, next: any) {
         res.cookie("jwt", refreshToken, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 })
         res.status(200).json(accessToken);
       } else {
-        res.status(404).json({
-          message: ERROR_CODE.USER_NOT_FOUND,
+        res.status(400).json({
+          message: RESPONSE_CODE.NOT_FOUND_ERROR,
         });
       }
     } else {
-      res.status(404).json({
-        message: ERROR_CODE.USER_NOT_FOUND,
+      res.status(400).json({
+        message: RESPONSE_CODE.NOT_FOUND_ERROR,
       });
     }
   } catch (error) {

@@ -1,4 +1,4 @@
-import userInfo from "../../models/userInfo";
+import userInfo from "../../models/userInfoModel";
 
 export async function getAllUser(req: any, res: any, next: any) {
     try {

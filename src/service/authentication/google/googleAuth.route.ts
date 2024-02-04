@@ -1,24 +1,54 @@
-import { Router } from 'express';
-import * as IPSpamChecker from '../../middleware/api.limiter';
-import * as APIValidator from '../../middleware/api.validator';
+import { Router, Request, Response } from "express";
+import { IPSpamChecker, APIValidator } from '../../..';
 import passport from "passport";
-import { access } from 'fs';
 
 const router = Router();
 
-router.get('/google',
-  IPSpamChecker.checkIpSpamServer('/auth/google'), // Check IP spam
-  //APIValidator.loginWithGitHubValidator, // Validate request body
-  passport.authenticate('google', {
-    scope: ['email', 'profile'],
-    prompt: 'select_account'
-  })
+router.get(
+  "/google",
+  IPSpamChecker.checkIpSpamServer("/auth/google"), // Check IP spam
+  passport.authenticate("google", {
+    scope: ["email", "profile"],
+    prompt: "select_account",
+  }),
 );
 
-router.get("/google/redirect", passport.authenticate("google"));
+router.get("/google/redirect", passport.authenticate("google", {
+  successRedirect: "/bright-backend/api/auth/success",
+  failureRedirect: "/bright-backend/api/auth/failed"
+}));
+
+router.get("/success", (req, res) => {
+  if(req.user) {
+    res.status(200).json({
+      success: true,
+      message: "successful",
+      user: req.user
+      // cookies: req.cookies
+    })
+  }
+});
+
+router.get("/failed", (req, res) => {
+  res.status(401).json({
+    success: false,
+    message: "failure",
+  });
+});
+
 // Logout route
-// router.get('/logout', (req, res) => {
-//   req.logout();
-// });
+router.get('/google/logout', (req, res) => {
+  req.logout({}, (err: any) => {
+    if (err) {
+      // Handle error if needed
+      console.error(err);
+      res.status(500).send('Error during logout');
+      return;
+    }
+
+    // Redirect upon successful logout
+    res.redirect('http://localhost:4000/');
+  });
+});
 
 export default router;
