@@ -1,7 +1,7 @@
 import userCredentials from "../../../../models/userCredentialsModel";
 import userInfo from "../../../../models/userInfoModel";
 import { RESPONSE_CODE, PROVIDER } from "../../../utils/constants";
-import { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET  } from "../../../../config"
+import { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } from "../../../../config"
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs"
 
@@ -16,7 +16,7 @@ export async function loginWithBright(req: any, res: any, next: any) {
     // Find user credentials
     const userCred = await userCredentials.findOne({
       account: account,
-      provider: PROVIDER.BRIGHT 
+      provider: PROVIDER.BRIGHT
     });
 
     const matchPassword = await bcrypt.compare(password, String(userCred?.password));
@@ -27,11 +27,11 @@ export async function loginWithBright(req: any, res: any, next: any) {
       if (userDataMongo) {
         const accessToken = jwt.sign(
           {
-              account: userCred?.account,
-              role: userCred?.role
+            account: userCred?.account,
+            role: userCred?.role
           },
           ACCESS_TOKEN_SECRET,
-          { expiresIn: '15m'}
+          { expiresIn: '15m' }
         );
 
         const refreshToken = jwt.sign(
@@ -39,7 +39,7 @@ export async function loginWithBright(req: any, res: any, next: any) {
             account: userCred?.account,
           },
           REFRESH_TOKEN_SECRET,
-          { expiresIn: '10d'}
+          { expiresIn: '10d' }
         );
         userCred.refreshToken = refreshToken;
         const result = await userCred.save();
