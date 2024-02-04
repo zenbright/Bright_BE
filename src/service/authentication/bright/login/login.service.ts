@@ -45,8 +45,8 @@ export async function loginWithBright(req: any, res: any, next: any) {
         const result = await userCred.save();
         console.log(result);
 
-        res.cookie("jwt", refreshToken, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 })
-        res.status(200).json(accessToken);
+        res.cookie("jwt", refreshToken, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 });
+        return res.RH.success({ accessToken: accessToken, userData: userDataMongo });
       } else {
         res.status(400).json({
           message: RESPONSE_CODE.NOT_FOUND_ERROR,
