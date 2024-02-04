@@ -1,6 +1,9 @@
 import userCredentials from "../../../../models/userCredentialsModel";
 import userInfo from "../../../../models/userInfoModel";
 import { RESPONSE_CODE, PROVIDER } from "../../../utils/constants";
+import { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET  } from "../../../../config"
+import jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs"
 
 export async function loginWithBright(req: any, res: any, next: any) {
   try {
@@ -13,15 +16,37 @@ export async function loginWithBright(req: any, res: any, next: any) {
     // Find user credentials
     const userCred = await userCredentials.findOne({
       account: account,
-      password: password,
-      provider: PROVIDER.BRIGHT
+      provider: PROVIDER.BRIGHT 
     });
 
-    if (userCred) {
+    const matchPassword = await bcrypt.compare(password, String(userCred?.password));
+
+    if (userCred && matchPassword) {
       const userDataMongo = await userInfo.findOne({ _id: userCred.userId });
 
       if (userDataMongo) {
-        return res.json(userDataMongo); // return user
+        const accessToken = jwt.sign(
+          {
+              account: userCred?.account,
+              role: userCred?.role
+          },
+          ACCESS_TOKEN_SECRET,
+          { expiresIn: '15m'}
+        );
+
+        const refreshToken = jwt.sign(
+          {
+            account: userCred?.account,
+          },
+          REFRESH_TOKEN_SECRET,
+          { expiresIn: '10d'}
+        );
+        userCred.refreshToken = refreshToken;
+        const result = await userCred.save();
+        console.log(result);
+
+        res.cookie("jwt", refreshToken, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 })
+        res.status(200).json(accessToken);
       } else {
         res.status(400).json({
           message: RESPONSE_CODE.NOT_FOUND_ERROR,

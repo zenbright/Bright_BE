@@ -15,9 +15,12 @@ import swaggerUI from "swagger-ui-express";
 import { ROUTE_ENDPOINT } from "./config";
 import endpoint from "./endpoints";
 import errorResponseHandler from "./service/utils/errorResponseHandler";
+import cookieParser from "cookie-parser";
 
 import passport from "passport";
 import("./service/authentication/google/googleAuth.service");
+
+import { UserBasicInfo } from './models/userBasicInfo';
 
 dotenv.config();
 
@@ -91,6 +94,16 @@ if (["production", "development", "local"].includes(NODE_ENV)) {
     swaggerUI.setup(swaggerJSDoc),
   );
 }
+declare global {
+  namespace Express {
+    interface Request {
+      User?: UserBasicInfo | null;
+    }
+  }
+}
+
+// cookie parser
+app.use(cookieParser());
 
 // API settings
 app.use(compression());

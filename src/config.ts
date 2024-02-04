@@ -46,3 +46,7 @@ export const AUTH_EMAIL = process.env.AUTH_EMAIL || "bright.pmtools@gmail.com";
 export const AUTH_PASSWORD = process.env.AUTH_PASSWORD || "c k l r e z a d z n m f o q v p";
 export const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID as string;
 export const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET as string;
+
+export const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET as string;
+export const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET as string;
+

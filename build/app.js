@@ -24,6 +24,7 @@ import swaggerUI from "swagger-ui-express";
 import { ROUTE_ENDPOINT } from "./config";
 import endpoint from "./endpoints";
 import errorResponseHandler from "./service/utils/errorResponseHandler";
+import cookieParser from "cookie-parser";
 import passport from "passport";
 import("./service/authentication/google/googleAuth.service");
 dotenv.config();
@@ -65,7 +66,7 @@ if (["production", "development", "local"].includes(NODE_ENV)) {
         challenge: true,
     }), swaggerUI.serve, swaggerUI.setup(swaggerJSDoc));
 }
-// API settings
+app.use(cookieParser());
 app.use(compression());
 app.use(bodyParser.json({ limit: "20mb" }));
 app.use(bodyParser.urlencoded({ limit: "20mb", extended: false }));
@@ -75,7 +76,7 @@ app.use(session({
     resave: true,
     saveUninitialized: true,
     cookie: {
-        secure: false, // Set to true in production if using HTTPS
+        secure: false,
         maxAge: 24 * 60 * 60 * 1000, // Session expiration duration (in milliseconds)
     },
 }));
@@ -113,6 +114,7 @@ app.listen(PORT_SERVER, () => {
     logger.info(`Server is running on port ${PORT_SERVER}`);
     console.log(`Server is running on port ${PORT_SERVER}`);
 });
-// Errors Handler
+app.use(router);
+// Handle Errors
 app.use(errorResponseHandler);
 export default app;
