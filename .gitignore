@@ -6,4 +6,4 @@ logs/
 ACCESSTOKEN.pem
 build
 views
-.html
+/**/*.html

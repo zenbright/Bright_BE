@@ -1,8 +1,8 @@
 /**
  * @swagger
- * /utils/user/searchUser:
+ * /auth/verifyOTP:
  *   post:
- *      summary: Search User 
+ *      summary: Verify OTP
  *      tags:
  *       - Authentication
  *      parameters:
@@ -11,27 +11,28 @@
  *         required: true
  *         properties:
  *         example: {
- *           "searchPhrase": "Quo",
+ *           "userCredId": "abc",
+ *           "userTypedOTP": "1234"
  *         }
  *      responses:
  *       200:
- *         description: Search User success
+ *         description: OTP verified successfully
  *         schema:
  *           type: object
  *           example: {
  *             success: true,
- *             payload: "Quoc Doan, Quoc Huu, ...",
+ *             payload: "Access token",
  *           }
  *       400:
- *          description: Invalid Search Phrase
+ *          description: When OTP is expired or invalid
  *          schema:
  *           type: string
- *           example: "No search"
+ *           example: "OTP EXPIRED OR INVALID"
  *       404:
- *          description: When the user doesn't exist
+ *          description: When user credential or OTP is not found
  *          schema:
  *           type: string
- *           example: "USER DOES NOT EXIST"
+ *           example: "USER CREDENTIAL OR OTP DOES NOT EXIST"
  *       500:
  *         description: When got server exception
  *         schema:

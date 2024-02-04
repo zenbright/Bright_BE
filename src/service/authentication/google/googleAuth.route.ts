@@ -14,8 +14,8 @@ router.get(
 );
 
 router.get("/google/redirect", passport.authenticate("google", {
-  successRedirect: "/auth/success",
-  failureRedirect: "/auth/failed"
+  successRedirect: "/bright-backend/api/auth/success",
+  failureRedirect: "/bright-backend/api/auth/failed"
 }));
 
 router.get("/success", (req, res) => {
@@ -47,7 +47,7 @@ router.get('/google/logout', (req, res) => {
     }
 
     // Redirect upon successful logout
-    res.redirect('http://localhost:4000');
+    res.redirect('http://localhost:4000/');
   });
 });
 

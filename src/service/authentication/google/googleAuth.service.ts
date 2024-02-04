@@ -2,8 +2,8 @@ import passport from "passport";
 import passportGoogle from "passport-google-oauth20";
 import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } from "../../../config"
 const GoogleStrategy = passportGoogle.Strategy;
-import userCredentials from '../../../models/userCredentials';
-import userInfo from '../../../models/userInfo';
+import userCredentials from '../../../models/userCredentialsModel';
+import userInfo from '../../../models/userInfoModel';
 import mongoose from "mongoose";
 import { CAUTION, PROVIDER } from '../../utils/constants';
 
@@ -20,7 +20,7 @@ passport.use('google',
     {
       clientID: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
-      callbackURL: "http://127.0.0.1:4000/auth/google/redirect",
+      callbackURL: "http://127.0.0.1:4000/bright-backend/api/auth/google/redirect",
       userProfileURL: 'https://www.googleapis.com/oauth2/v3/userinfo',
       passReqToCallback: true,
     },

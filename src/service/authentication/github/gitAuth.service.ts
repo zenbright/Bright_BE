@@ -1,35 +1,32 @@
 import axios from 'axios';
-import userCredentials from '../../../models/userCredentials';
-import userInfo from '../../../models/userInfo';
+import userCredentials from '../../../models/userCredentialsModel';
+import userInfo from '../../../models/userInfoModel';
 import mongoose from 'mongoose';
 import * as Formatter from '../../utils/formatter';
-import { CAUTION, ERROR_CODE, EXTERNAL_URL, PROVIDER } from '../../utils/constants';
+import { CAUTION, RESPONSE_CODE, EXTERNAL_URL, PROVIDER } from '../../utils/constants';
 
-export async function loginWithGitHub(req: any, res: any, next: any) {
+export async function loginWithGitHubService(req: any, res: any, next: any) {
     try {
         const { code } = req.body;
         const { GITHUB_ID, GITHUB_SECRET } = process.env;
 
         // Get user access token
-        const tokenResponse = await axios.post(EXTERNAL_URL.GITHUB_OAUTH_GET_ACCESSTOKEN, null, {
-            params: { client_id: GITHUB_ID, client_secret: GITHUB_SECRET, code },
-            headers: { accept: 'application/json' },
-        });
-
-        const access_token = tokenResponse.data.access_token;
+        const { data: { access_token } } = await axios.post(
+            EXTERNAL_URL.GITHUB_OAUTH_GET_ACCESSTOKEN,
+            null,
+            {
+                params: { client_id: GITHUB_ID, client_secret: GITHUB_SECRET, code },
+                headers: { accept: 'application/json' },
+            }
+        );
 
         // Fetch user data using access token
-        const userResponse = await axios.get(EXTERNAL_URL.GITHUB_OAUTH_GET_USERDATA, {
-            headers: {
-                Authorization: `token ${access_token}`,
-            },
+        const { data: userData } = await axios.get(EXTERNAL_URL.GITHUB_OAUTH_GET_USERDATA, {
+            headers: { Authorization: `token ${access_token}` },
         });
 
-        // get data from github
-        const userData = userResponse.data
-
         if (!userData) {
-            return res.status(400).json({ error: ERROR_CODE.NOT_FOUND_ERROR });
+            return res.RH.error({ status: 404, error: RESPONSE_CODE.USER_NOT_FOUND })
         }
 
         // Check if user already exists in database
@@ -38,7 +35,7 @@ export async function loginWithGitHub(req: any, res: any, next: any) {
         // If user cred found
         if (userCred) {
             const userDataMongo = await userInfo.findOne({ _id: userCred.userId });
-            return res.json(userDataMongo);
+            return res.RH.success(JSON.stringify(userDataMongo));
         }
 
         const newUserInfo = new userInfo({
@@ -65,7 +62,8 @@ export async function loginWithGitHub(req: any, res: any, next: any) {
         newUserInfo.userCredentialId = newCredential._id;
 
         await Promise.all([newUserInfo.save(), newCredential.save()]);
-        return res.json(userData);
+
+        return res.RH.success(JSON.stringify(newUserInfo));
     } catch (error) {
         next(error);
     }
