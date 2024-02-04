@@ -97,12 +97,11 @@ app.use((req, res, next) => {
     res.RH = new ResponseHandler(res);
     next();
 });
-app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "src/service/authentication/github/index.html"));
-});
-// MongoDB Connection
-mongoose.set('strictQuery', false);
-mongoose.connect(MONGO_URI).then((data) => __awaiter(void 0, void 0, void 0, function* () {
+// Connect MongoDB
+mongoose.set("strictQuery", false);
+mongoose
+    .connect(MONGO_URI)
+    .then((data) => __awaiter(void 0, void 0, void 0, function* () {
     logger.info(`Mongodb connected ${MONGO_URI} : ${DB_NAME}`);
 }))
     .catch((error) => {
