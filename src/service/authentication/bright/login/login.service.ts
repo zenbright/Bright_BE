@@ -31,7 +31,7 @@ export async function loginWithBright(req: any, res: any, next: any) {
               role: userCred?.role
           },
           ACCESS_TOKEN_SECRET,
-          { expiresIn: '15m'}
+          { expiresIn: '30s'}
         );
 
         const refreshToken = jwt.sign(
@@ -39,7 +39,7 @@ export async function loginWithBright(req: any, res: any, next: any) {
             account: userCred?.account,
           },
           REFRESH_TOKEN_SECRET,
-          { expiresIn: '10d'}
+          { expiresIn: '30d'}
         );
         userCred.refreshToken = refreshToken;
         const result = await userCred.save();

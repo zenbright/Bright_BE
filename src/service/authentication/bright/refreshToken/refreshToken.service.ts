@@ -27,7 +27,7 @@ export async function RefreshToken(req: any, res: any, next: any) {
                     "role": userCred?.role
                 },
                 ACCESS_TOKEN_SECRET,
-                { expiresIn: '15m'}
+                { expiresIn: '30s'}
             );
             const roles = userCred?.role;
             res.json({ roles, accessToken });
