@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Login with GitHub</title>
+</head>
+
+<body>
+    <h1>Login with GitHub</h1>
+    <button id="github-login-button">Login with GitHub</button>
+    <a href="/auth/google">Login with Google</a>
+
+    <script>
+        // Add an event listener to the button
+        document.getElementById('github-login-button').addEventListener('click', function () {
+            console.log('clicked');
+            window.location.href = `https://github.com/login/oauth/authorize?client_id=ce0a3e8be7b81c84ee8d`;
+        });
+    </script>
+</body>
+
+</html>

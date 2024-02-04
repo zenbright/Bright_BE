@@ -8,6 +8,7 @@ import UserProfileImageRoute from "./service/user/crudProfileImage/manageImage.r
 import UserSearchRoute from "./service/user/searchUser/searchUser.route";
 import UserPasswordChangeRoute from "./service/user/changePassword/changePassword.route";
 import UserAccountDeleteRoute from "./service/user/deleteAccount/deleteAccount.route";
+import GoogleAuthRoute from './service/authentication/google/googleAuth.route'
 
 const router = Router();
 
@@ -17,6 +18,7 @@ router.use("/auth", [
   SendOTPRoute,
   VerifyOTPRoute,
   EmailVerificationRoute,
+  GoogleAuthRoute
 ]);
 
 router.use("/utils/user", [
