@@ -2,7 +2,7 @@ import { connectToRabbitMQ } from "../../../../rabbitmqConnection";
 
 export async function subscribeToQueue(
   queueName: string,
-  callback: (deviceToken: string, message: string) => void,
+  callback: (deviceToken: string, notificationTitle: string, message: string) => void,
 ) {
   const { connection, channel } = await connectToRabbitMQ();
 
@@ -11,8 +11,8 @@ export async function subscribeToQueue(
     queueName,
     (msg) => {
       if (msg) {
-        const [deviceToken, pushMessage] = msg.content.toString().split(":");
-        callback(deviceToken, pushMessage);
+        const [deviceToken, notificationTitle, pushMessage] = msg.content.toString().split(":");
+        callback(deviceToken, notificationTitle, pushMessage);
       }
     },
     { noAck: true },

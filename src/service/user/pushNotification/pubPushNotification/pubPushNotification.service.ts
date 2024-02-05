@@ -6,17 +6,17 @@ import { sendPushNotification, buildOverrideMessage } from "./utils/sendPushNoti
 export async function setupPushNotificationSubscriber() {
   await subscribeToQueue(
     PUSH_NOTIFICATION_QUEUE,
-    (deviceToken, pushMessage) => {
-      sendPushNotification(deviceToken, buildOverrideMessage(pushMessage));
+    (deviceToken, notificationTitle, pushMessage) => {
+      sendPushNotification(deviceToken, buildOverrideMessage(notificationTitle, pushMessage));
     },
   );
 }
 
 export const pushNotificationPublisher = {
-  publish: async (message: string, deviceToken: string) => {
+  publish: async (notificationTitle: string, message: string, deviceToken: string) => {
     try {
       // Modify the format of the message to include the deviceToken
-      const fullMessage = `${deviceToken}:${message}`;
+      const fullMessage = `${deviceToken}:${notificationTitle}:${message}`;
       await publishMessage(fullMessage, PUSH_NOTIFICATION_QUEUE);
     } catch (error) {
       console.error(error);

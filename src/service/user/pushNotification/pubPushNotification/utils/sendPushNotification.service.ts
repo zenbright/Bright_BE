@@ -64,13 +64,13 @@ export async function sendPushNotification(
  * Construct a JSON object that will be used to customize
  * the messages sent to iOS and Android devices.
  */
-export function buildOverrideMessage(pushMessage: string) {
+export function buildOverrideMessage(notificationTitle: string, notificationText: string) {
   return {
     message: {
-      topic: "news",
+      topic: "chat",
       notification: {
-        title: "Breaking News",
-        body: pushMessage,
+        title: notificationTitle,
+        body: notificationText,
       },
       data: {
         story_id: "story_12345",
