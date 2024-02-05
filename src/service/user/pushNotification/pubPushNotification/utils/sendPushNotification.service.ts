@@ -68,7 +68,6 @@ export function buildOverrideMessage(deviceToken: string, notificationTitle: str
   return {
     message: {
       token: deviceToken,
-      // topic: "chat",
       notification: {
         title: notificationTitle,
         body: notificationText,
@@ -91,6 +90,11 @@ export function buildOverrideMessage(deviceToken: string, notificationTitle: str
           "apns-priority": "10",
         },
       },
+      webpush: {
+        fcm_options: {
+          link: "https://dummypage.com"
+        }
+      }
     },
   };
 }
