@@ -27,7 +27,6 @@ function getAccessToken() {
 }
 
 export async function sendPushNotification(
-  deviceToken: string,
   fcmMessage: any,
 ) {
   getAccessToken().then(function (accessToken) {
@@ -64,10 +63,12 @@ export async function sendPushNotification(
  * Construct a JSON object that will be used to customize
  * the messages sent to iOS and Android devices.
  */
-export function buildOverrideMessage(notificationTitle: string, notificationText: string) {
+export function buildOverrideMessage(deviceToken: string, notificationTitle: string, notificationText: string) {
+  console.log("deviceToken: " + deviceToken);
   return {
     message: {
-      topic: "chat",
+      token: deviceToken,
+      // topic: "chat",
       notification: {
         title: notificationTitle,
         body: notificationText,

@@ -11,7 +11,7 @@ export async function subscribeToQueue(
     queueName,
     (msg) => {
       if (msg) {
-        const [deviceToken, notificationTitle, pushMessage] = msg.content.toString().split(":");
+        const [deviceToken, notificationTitle, pushMessage] = msg.content.toString().split("&&&&");
         callback(deviceToken, notificationTitle, pushMessage);
       }
     },
