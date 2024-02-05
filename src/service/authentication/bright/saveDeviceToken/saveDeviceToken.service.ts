@@ -1,5 +1,4 @@
 import userInfo from "../../../../models/userInfoModel";
-import { RESPONSE_CODE } from "../../../utils/constants";
 
 export async function saveDeviceTokenService(req: any, res: any, next: any) {
   try {
@@ -9,10 +8,10 @@ export async function saveDeviceTokenService(req: any, res: any, next: any) {
 
     if (userDataMongo) {
       if (!userDataMongo.deviceTokens.includes(deviceToken)) {
-        // Push it into the string array
         userDataMongo.deviceTokens.push(deviceToken);
-        console.log("Pushed");
+        userDataMongo.save();
       }
+      console.log("userDataMongo.deviceTokens", userDataMongo.deviceTokens);
     }
   } catch (error) {
     next(error);

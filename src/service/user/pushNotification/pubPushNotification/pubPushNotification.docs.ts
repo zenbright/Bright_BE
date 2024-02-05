@@ -12,7 +12,7 @@
  *         properties:
  *         example: {
  *           "message": "Hello, this is a push notification!",
- *           "deviceToken": "device123",
+ *           "deviceToken": "fT_PId2sYBr3ZVKDPhL8GH:APA91bEwhjGu0BER5ZkJ_hrrus5-sCuyVEwRimlx3gB5zD_J-rJVA4LzavT23Xea2eOGaSCJmE3bq0y66rOMPVph8Qt0avMZic01Xt4_s3ojC-iEKLWMnIy-1JL-pxpybFLjD8mDsx48",
  *         }
  *     responses:
  *       200:
