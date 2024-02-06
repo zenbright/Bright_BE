@@ -30,6 +30,15 @@ staticRoutes.get("/:userId/:groupId/main.js", (req, res) => {
   );
 });
 
+staticRoutes.get("/:userId/:groupId/video-call.js", (req, res) => {
+  res.sendFile(
+    path.join(
+      __dirname,
+      "src/service/realtimechat/message/sendMessage/sendMessage-FE/video-call.js",
+    ),
+  );
+});
+
 staticRoutes.get("/:userId/:groupId/sendMessage", async (req, res) => {
   validateUserGroupId(req, res);
 

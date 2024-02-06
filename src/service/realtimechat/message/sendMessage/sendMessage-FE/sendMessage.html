@@ -48,7 +48,15 @@
         </button>
       </form>
     </div>
-    <h3 class="clients-total" id="client-total">Total clients: 2</h3>
+    <h3 class="clients-total" id="client-total">Total Clients: 0</h3>
+
+    <h1>Group Video Chat</h1>
+    <div id="video-grid">
+      VIDEO
+      <button id="video-connect-btn" onclick=startVideoCall()>Connect</button>
+      <button id="video-connect-btn" onclick=leaveVideoCall()>Leave</button>
+      <h3 class="video-clients-total" id="video-client-total">Total Clients: 0</h3>
+    </div>
 
     <script src="/socket.io/socket.io.js"></script>
     <script
@@ -57,5 +65,6 @@
       crossorigin="anonymous"
     ></script>
     <script src="main.js"></script>
+    <script src="video-call.js"></script>
   </body>
 </html>

@@ -140,7 +140,11 @@ body {
   background-color: #f6f6f6;
 }
 
-.clients-total {
+.clients-total, .video-clients-total {
   margin: 20px 0;
   color: #7e7e7e;
+}
+
+#video-grid {
+  margin-bottom: 50px;
 }
