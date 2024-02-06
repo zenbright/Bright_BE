@@ -14,8 +14,8 @@ router.get(
 );
 
 router.get("/google/redirect", passport.authenticate("google", {
-  successRedirect: "/bright-backend/api/auth/success",
-  failureRedirect: "/bright-backend/api/auth/failed"
+  successRedirect: "http://localhost:5173/",
+  //failureRedirect: "/bright-backend/api/auth/failed"
 }));
 
 router.get("/success", (req, res) => {
