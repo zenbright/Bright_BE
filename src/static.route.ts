@@ -30,6 +30,15 @@ staticRoutes.get("/:userId/:groupId/main.js", (req, res) => {
   );
 });
 
+staticRoutes.get("/:userId/:groupId/webrtc.js", (req, res) => {
+  res.sendFile(
+    path.join(
+      __dirname,
+      "src/service/realtimechat/message/sendMessage/sendMessage-FE/webrtc.js",
+    ),
+  );
+});
+
 staticRoutes.get("/:userId/:groupId/video-call.js", (req, res) => {
   res.sendFile(
     path.join(

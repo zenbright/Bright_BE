@@ -148,3 +148,21 @@ body {
 #video-grid {
   margin-bottom: 50px;
 }
+
+.playerContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+#peerPlayer, #localPlayer {
+  width: 200px;
+  height: 150px;
+}
+
+#peerPlayer{
+  background: aqua;
+}
+
+#localPlayer{
+  background: red;
+}

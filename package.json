@@ -58,6 +58,7 @@
     "redis": "^4.6.10",
     "regenerator-runtime": "^0.14.0",
     "sendmail": "^1.6.1",
+    "simple-peer": "^9.11.1",
     "socket.io": "^4.7.2",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0",
