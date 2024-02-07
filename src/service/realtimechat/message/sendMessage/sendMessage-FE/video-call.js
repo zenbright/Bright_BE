@@ -46,6 +46,7 @@ function leaveVideoCall() {
   closeDataChannel();
   localPeerConnection.close();
   localPeerConnection = null;
+  localPlayer.srcObject = null;
   console.log("LEFT");
 }
 
