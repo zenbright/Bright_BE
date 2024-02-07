@@ -21,11 +21,11 @@ staticRoutes.get("/:userId/:groupId/sendMessage.css", (req, res) => {
   );
 });
 
-staticRoutes.get("/:userId/:groupId/main.js", (req, res) => {
+staticRoutes.get("/:userId/:groupId/sendMessage.js", (req, res) => {
   res.sendFile(
     path.join(
       __dirname,
-      "src/service/realtimechat/message/sendMessage/sendMessage-FE/main.js",
+      "src/service/realtimechat/message/sendMessage/sendMessage-FE/sendMessage.js",
     ),
   );
 });
@@ -34,16 +34,43 @@ staticRoutes.get("/:userId/:groupId/webrtc.js", (req, res) => {
   res.sendFile(
     path.join(
       __dirname,
-      "src/service/realtimechat/message/sendMessage/sendMessage-FE/webrtc.js",
+      "src/service/realtimechat/message/sendMessage/sendMessage-FE/videoCall/webrtc.js",
     ),
   );
 });
 
-staticRoutes.get("/:userId/:groupId/video-call.js", (req, res) => {
+staticRoutes.get("/:userId/:groupId/handleVideoCallButtons.js", (req, res) => {
   res.sendFile(
     path.join(
       __dirname,
-      "src/service/realtimechat/message/sendMessage/sendMessage-FE/video-call.js",
+      "src/service/realtimechat/message/sendMessage/sendMessage-FE/videoCall/handleVideoCallButtons.js",
+    ),
+  );
+});
+
+staticRoutes.get("/:userId/:groupId/clientSocket.js", (req, res) => {
+  res.sendFile(
+    path.join(
+      __dirname,
+      "src/service/realtimechat/message/sendMessage/sendMessage-FE/videoCall/clientSocket.js",
+    ),
+  );
+});
+
+staticRoutes.get("/:userId/:groupId/offer.js", (req, res) => {
+  res.sendFile(
+    path.join(
+      __dirname,
+      "src/service/realtimechat/message/sendMessage/sendMessage-FE/videoCall/offer.js",
+    ),
+  );
+});
+
+staticRoutes.get("/:userId/:groupId/answer.js", (req, res) => {
+  res.sendFile(
+    path.join(
+      __dirname,
+      "src/service/realtimechat/message/sendMessage/sendMessage-FE/videoCall/answer.js",
     ),
   );
 });

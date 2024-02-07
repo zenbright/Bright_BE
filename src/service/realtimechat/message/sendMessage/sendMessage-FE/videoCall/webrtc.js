@@ -27,14 +27,10 @@ const pcConstraints = {
 };
 
 // When user clicks call button, we will create the p2p connection with RTCPeerConnection
-function callOnClick() {
+async function callOnClick() {
   localPeerConnection = new RTCPeerConnection(servers, pcConstraints);
 
-  localStream.getVideoTracks().forEach((track) => {
-    localPeerConnection.addTrack(track, localStream);
-  });
-
-  localStream.getAudioTracks().forEach((track) => {
+  localStream.getTracks().forEach((track) => {
     localPeerConnection.addTrack(track, localStream);
   });
 
@@ -44,51 +40,10 @@ function callOnClick() {
   localPeerConnection.createOffer().then(gotLocalDescription);
 }
 
-const gotRemoteDescription = (answer) => {
-  console.log("gotRemoteDescription invoked:", answer);
-  localPeerConnection.setRemoteDescription(answer);
-};
-
-// async function to handle offer sdp
-const gotLocalDescription = (offer) => {
-  console.log("gotLocalDescription invoked:", offer);
-  localPeerConnection.setLocalDescription(offer);
-};
 // async function to handle received remote stream
 const gotRemoteStream = (event) => {
   console.log("gotRemoteStream invoked");
   peerPlayer.srcObject = event.stream;
-};
-
-const gotAnswerDescription = (answer) => {
-  console.log("gotAnswerDescription invoked:", answer);
-  localPeerConnection.setLocalDescription(answer);
-};
-
-// async function to handle ice candidates
-const gotLocalIceCandidateOffer = (event) => {
-  // when gathering candidate finished, send complete sdp
-  console.log("event.candidate: " + event.candidate);
-  if (!event.candidate) {
-    const offer = localPeerConnection.localDescription;
-    // send offer sdp to signaling server via websocket
-    socket.emit("video-call-connection", "send_offer", {
-      offer: offer,
-    });
-  }
-};
-
-// End Establishing the RTCPeerConnection.
-
-const gotLocalIceCandidateAnswer = (event) => {
-  // gathering candidate finished, send complete sdp
-  if (!event.candidate) {
-    const answer = localPeerConnection.localDescription;
-
-    socket.emit("video-call-connection", "send_answer", {
-      answer: answer,
-    });
-  }
 };
 
 const gotReceiveChannel = (event) => {
@@ -97,33 +52,6 @@ const gotReceiveChannel = (event) => {
   receiveChannel.onmessage = handleMessage;
   receiveChannel.onopen = handleReceiveChannelStateChange;
   receiveChannel.onclose = handleReceiveChannelStateChange;
-};
-
-const onAnswer = (offer) => {
-  console.log("onAnswer invoked");
-
-  if (localStream.getVideoTracks().length > 0) {
-    console.log(`Using video device: ${localStream.getVideoTracks()[0].label}`);
-  }
-  if (localStream.getAudioTracks().length > 0) {
-    console.log(`Using audio device: ${localStream.getAudioTracks()[0].label}`);
-  }
-
-  console.log("new RTCPeerConnection for local");
-  localPeerConnection = new RTCPeerConnection(servers, pcConstraints);
-  console.log("setup gotLocalIceCandidateAnswer");
-  localPeerConnection.onicecandidate = gotLocalIceCandidateAnswer;
-
-  console.log("setup gotRemoteStream");
-  localPeerConnection.onaddstream = gotRemoteStream;
-
-  createDataChannel();
-
-  console.log("localPeerConnection.addStream invoked");
-  localPeerConnection.addStream(localStream);
-
-  localPeerConnection.setRemoteDescription(offer);
-  localPeerConnection.createAnswer().then(gotAnswerDescription);
 };
 
 const createDataChannel = () => {
