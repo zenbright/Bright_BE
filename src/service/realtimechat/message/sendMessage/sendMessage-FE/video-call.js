@@ -24,7 +24,8 @@ function enableMedia() {
       // render local stream on DOM
       localPlayer.srcObject = stream;
       localStream = stream;
-      callOnClick(stream);
+      remoteStream = new MediaStream();
+      callOnClick();
     },
     (error) => {
       console.error("getUserMedia error:", error);

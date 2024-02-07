@@ -2,6 +2,7 @@ const localPlayer = document.getElementById("localPlayer");
 const peerPlayer = document.getElementById("peerPlayer");
 
 let localStream;
+let remoteStream;
 let localPeerConnection;
 let sendChannel;
 let receiveChannel;
@@ -26,20 +27,22 @@ const pcConstraints = {
 };
 
 // When user clicks call button, we will create the p2p connection with RTCPeerConnection
-const callOnClick = (localStream) => {
-  console.log("callOnClick invoked");
-  if (localStream.getVideoTracks().length > 0) {
-    console.log(`Using video device: ${localStream.getVideoTracks()[0].label}`);
-  }
-  if (localStream.getAudioTracks().length > 0) {
-    console.log(`Using audio device: ${localStream.getAudioTracks()[0].label}`);
-  }
+function callOnClick() {
   localPeerConnection = new RTCPeerConnection(servers, pcConstraints);
+
+  localStream.getVideoTracks().forEach((track) => {
+    localPeerConnection.addTrack(track, localStream);
+  });
+
+  localStream.getAudioTracks().forEach((track) => {
+    localPeerConnection.addTrack(track, localStream);
+  });
+
   localPeerConnection.onicecandidate = gotLocalIceCandidateOffer;
   localPeerConnection.onaddstream = gotRemoteStream;
   localPeerConnection.addStream(localStream);
   localPeerConnection.createOffer().then(gotLocalDescription);
-};
+}
 
 const gotRemoteDescription = (answer) => {
   console.log("gotRemoteDescription invoked:", answer);
