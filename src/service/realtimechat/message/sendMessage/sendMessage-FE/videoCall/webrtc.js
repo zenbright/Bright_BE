@@ -8,7 +8,6 @@ let sendChannel;
 let receiveChannel;
 let SDPs = [];
 
-// Establishing the RTCPeerConnection.
 /* 
 Reference: 
 - https://medium.com/@fengliu_367/getting-started-with-webrtc-a-practical-guide-with-example-code-b0f60efdd0a7
@@ -28,21 +27,21 @@ const pcConstraints = {
 
 // When user clicks call button, we will create the p2p connection with RTCPeerConnection
 async function callOnClick() {
-  localPeerConnection = new RTCPeerConnection(servers, pcConstraints);
+  localPeerConnection = new RTCPeerConnection(servers/*, pcConstraints */);
 
   localStream.getTracks().forEach((track) => {
     localPeerConnection.addTrack(track, localStream);
   });
 
   localPeerConnection.onicecandidate = gotLocalIceCandidateOffer;
-  gotRemoteStream;
+  setPeerPlayer;
   localPeerConnection.addStream(localStream);
   localPeerConnection.createOffer().then(gotLocalDescription);
 }
 
 // async function to handle received remote stream
-const gotRemoteStream = (event) => {
-  console.log("gotRemoteStream invoked");
+const setPeerPlayer = (event) => {
+  console.log("setPeerPlayer invoked");
   peerPlayer.srcObject = event.stream;
 };
 

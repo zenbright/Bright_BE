@@ -19,8 +19,8 @@ function handleOffer(offer) {
   console.log("setup gotLocalIceCandidateAnswer");
   localPeerConnection.onicecandidate = gotLocalIceCandidateAnswer;
 
-  console.log("setup gotRemoteStream");
-  gotRemoteStream;
+  console.log("setup setPeerPlayer");
+  setPeerPlayer;
 
   createDataChannel();
 
