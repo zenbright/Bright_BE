@@ -1,7 +1,7 @@
 const videoGrid = document.getElementById("video-grid");
 const videoConnectButton = document.getElementById("video-connect-btn");
 const videoClientsTotal = document.getElementById("video-client-total");
-const localPlayer = document.getElementById("localPlayer");
+
 const constraints = {
   video: {
     width: { ideal: 1280 },
@@ -11,17 +11,12 @@ const constraints = {
   audio: true,
 };
 
-let localStream;
-
 // Function to handle video call actions
 function handleVideoCall(action) {
   socket.emit("video-call-connection", action);
 }
 
-function startVideoCall() {
-  handleVideoCall("join");
-  console.log("JOINED");
-
+function enableMedia() {
   // Setting up the local media stream (camera and microphone).
   navigator.getUserMedia(
     { audio: true, video: true, constraints },
@@ -29,7 +24,7 @@ function startVideoCall() {
       // render local stream on DOM
       localPlayer.srcObject = stream;
       localStream = stream;
-      callOnClick(localStream);
+      callOnClick(stream);
     },
     (error) => {
       console.error("getUserMedia error:", error);
@@ -38,33 +33,10 @@ function startVideoCall() {
 }
 
 function joinVideoCall() {
+  enableMedia();
   handleVideoCall("join");
   console.log("JOINED");
-
-  // Setting up the local media stream (camera and microphone).
-  navigator.getUserMedia(
-    { audio: true, video: true, constraints },
-    (stream) => {
-      // render local stream on DOM
-      localPlayer.srcObject = stream;
-      localStream = stream;
-      join(localStream);
-    },
-    (error) => {
-      console.error("getUserMedia error:", error);
-    },
-  );
 }
-
-const join = () => {
-  console.log("join invoked");
-  const userId = window.location.pathname.split("/")[1];
-
-  // sendWsMessage('join', {
-  //     serverGroupId,
-  //     userId,
-  // });
-};
 
 // Example: Call this function when leaving a video call
 function leaveVideoCall() {
@@ -72,16 +44,10 @@ function leaveVideoCall() {
 
   // Close the peer connection
   closeDataChannel();
-//   localPeerConnection.close();
-//   localPeerConnection = null;
+  localPeerConnection.close();
+  localPeerConnection = null;
   console.log("LEFT");
 }
-
-const closeDataChannel = () => {
-  console.log("closeDataChannel invoked");
-  // sendChannel && sendChannel.close();
-  // receiveChannel && receiveChannel.close();
-};
 
 // Update total number of clients
 socket.on("video-clients-total", ({ groupId, videoSocketsConnectedSize }) => {
@@ -90,4 +56,14 @@ socket.on("video-clients-total", ({ groupId, videoSocketsConnectedSize }) => {
   } else {
     console.log("Different group");
   }
+});
+
+socket.on("joined", ({ sdp }) => {
+  console.log("sdp: " + sdp);
+  console.log("User just joined");
+});
+
+socket.on("offer_sdp_received", ({ offer }) => {
+  console.log("offer: " + offer);
+  onAnswer(offer);
 });
