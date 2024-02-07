@@ -2,8 +2,13 @@ import { Server, Socket } from "socket.io";
 import { sendMessageService } from "./service/realtimechat/message/sendMessage/sendMessage.service";
 
 const messageSocketsConnected = new Map();
-const videoSocketsConnected = new Map();
+interface VideoSocketsConnected {
+  [groupId: string]: {
+    [socketId: string]: Server;
+  };
+}
 
+const videoSocketsConnected: VideoSocketsConnected = {};
 // socket.io setup
 export const initSocketIo = (server: any) => {
   const io = new Server(server, {});
@@ -42,8 +47,8 @@ export const initSocketIo = (server: any) => {
       });
 
       // Handle video call actions
-      socket.on("video-call-connection", (action) => {
-        handleVideoCallAction(action, socket.id, groupId, io);
+      socket.on("video-call-connection", (action, body) => {
+        handleVideoCallAction(action, socket.id, groupId, io, body);
       });
 
       socket.on("disconnect", () => {
@@ -59,11 +64,14 @@ function handleVideoCallAction(
   socketId: string,
   groupId: string,
   io: Server,
+  body: any,
 ) {
   if (action === "join") {
     increaseVideoClientCount(groupId, socketId, io);
   } else if (action === "leave") {
     decreaseVideoClientCount(groupId, socketId, io);
+  } else if (action === "send_offer") {
+    sendOffer(groupId, body.sdp, io);
   }
 }
 
@@ -97,11 +105,17 @@ function increaseVideoClientCount(
   socketId: string,
   io: Server,
 ) {
-  if (!videoSocketsConnected.has(groupId)) {
-    videoSocketsConnected.set(groupId, new Set());
+  if (videoSocketsConnected[groupId]) {
+    videoSocketsConnected[groupId][socketId] = io;
+  } else {
+    videoSocketsConnected[groupId] = {};
+    videoSocketsConnected[groupId][socketId] = io;
   }
-  videoSocketsConnected.get(groupId).add(socketId);
-  const videoSocketsConnectedSize = videoSocketsConnected.get(groupId).size;
+
+  const userIds = Object.keys(videoSocketsConnected[groupId]);
+  send(io, "joined", userIds);
+
+  const videoSocketsConnectedSize = userIds.length;
 
   io.emit("video-clients-total", {
     groupId,
@@ -114,15 +128,40 @@ function decreaseVideoClientCount(
   socketId: string,
   io: Server,
 ) {
-  if (videoSocketsConnected.has(groupId)) {
-    videoSocketsConnected.get(groupId).delete(socketId);
-    const videoSocketsConnectedSize = videoSocketsConnected.get(groupId).size;
+  let videoSocketsConnectedSize = 0;
+  if (videoSocketsConnected[groupId]) {
+    delete videoSocketsConnected[groupId][socketId];
+    const userIds = Object.keys(videoSocketsConnected[groupId]);
+    if (userIds.length === 0) {
+      delete videoSocketsConnected[groupId];
+    }
 
-    io.emit("video-clients-total", {
-      groupId,
-      videoSocketsConnectedSize,
-    });
+    videoSocketsConnectedSize = userIds.length;
   }
+
+  io.emit("video-clients-total", {
+    groupId,
+    videoSocketsConnectedSize,
+  });
+}
+
+function sendOffer(groupId: string, sdp: any, io: Server) {
+  // exchange sdp to peer
+  let userSocketIds = Object.keys(videoSocketsConnected[groupId]);
+  userSocketIds.forEach((id: string) => {
+    const wsClient = videoSocketsConnected[groupId][id];
+    send(wsClient, "offer_sdp_received", sdp);
+  });
+}
+
+function send(wsClient: any, type: string, sdp: any) {
+  console.log("send");
+  wsClient.send(
+    JSON.stringify({
+      type,
+      sdp,
+    }),
+  );
 }
 
 export default initSocketIo;
