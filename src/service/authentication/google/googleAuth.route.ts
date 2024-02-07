@@ -6,7 +6,7 @@ const router = Router();
 
 router.get(
   "/google",
-  IPSpamChecker.checkIpSpamServer("/auth/google"), // Check IP spam
+  //IPSpamChecker.checkIpSpamServer("/auth/google"), // Check IP spam
   passport.authenticate("google", {
     scope: ["email", "profile"],
     prompt: "select_account",
@@ -14,8 +14,8 @@ router.get(
 );
 
 router.get("/google/redirect", passport.authenticate("google", {
-  successRedirect: "/bright-backend/api/auth/success",
-  failureRedirect: "/bright-backend/api/auth/failed"
+  successRedirect: "http://localhost:5173/",
+  //failureRedirect: "/bright-backend/api/auth/failed"
 }));
 
 router.get("/success", (req, res) => {
@@ -47,7 +47,7 @@ router.get('/google/logout', (req, res) => {
     }
 
     // Redirect upon successful logout
-    res.redirect('http://localhost:4000/');
+    res.redirect('http://localhost:5173/');
   });
 });
 
