@@ -113,6 +113,7 @@ app.use(bodyParser.urlencoded({ limit: "20mb", extended: false }));
 // passport initialize
 app.use(
   session({
+    name: "session",
     secret: "Bright",
     resave: true,
     saveUninitialized: true,

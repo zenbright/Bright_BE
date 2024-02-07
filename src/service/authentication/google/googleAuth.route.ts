@@ -6,7 +6,7 @@ const router = Router();
 
 router.get(
   "/google",
-  IPSpamChecker.checkIpSpamServer("/auth/google"), // Check IP spam
+  //IPSpamChecker.checkIpSpamServer("/auth/google"), // Check IP spam
   passport.authenticate("google", {
     scope: ["email", "profile"],
     prompt: "select_account",
@@ -47,7 +47,7 @@ router.get('/google/logout', (req, res) => {
     }
 
     // Redirect upon successful logout
-    res.redirect('http://localhost:4000/');
+    res.redirect('http://localhost:5173/');
   });
 });
 
