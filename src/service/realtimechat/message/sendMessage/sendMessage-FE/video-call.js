@@ -89,5 +89,6 @@ socket.on("offer_sdp_received", ({ body }) => {
 });
 
 socket.on("answer_sdp_received", ({ body }) => {
+  console.log("answer received - answer: " + JSON.stringify(body));
   gotRemoteDescription(body);
 });

@@ -67,16 +67,10 @@ const gotAnswerDescription = (answer) => {
 
 // async function to handle ice candidates
 const gotLocalIceCandidateOffer = (event) => {
-  //   console.log(
-  //     "gotLocalIceCandidateOffer invoked",
-  //     event.candidate,
-  //     localPeerConnection.localDescription,
-  //   );
   // when gathering candidate finished, send complete sdp
   console.log("event.candidate: " + event.candidate);
   if (!event.candidate) {
     const offer = localPeerConnection.localDescription;
-    //   console.log("offer in gotLocalIceCandidateOffer: " + JSON.stringify(offer));
     // send offer sdp to signaling server via websocket
     socket.emit("video-call-connection", "send_offer", {
       offer: offer,
@@ -87,12 +81,6 @@ const gotLocalIceCandidateOffer = (event) => {
 // End Establishing the RTCPeerConnection.
 
 const gotLocalIceCandidateAnswer = (event) => {
-  //   console.log(
-  //     "gotLocalIceCandidateAnswer invoked",
-  //     event.candidate,
-  //     localPeerConnection.localDescription,
-  //   );
-
   // gathering candidate finished, send complete sdp
   if (!event.candidate) {
     const answer = localPeerConnection.localDescription;
