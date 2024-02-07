@@ -60,18 +60,18 @@ socket.on("video-clients-total", ({ groupId, videoSocketsConnectedSize }) => {
   }
 });
 
-socket.on("joined", ({ sdp }) => {
-  console.log("sdp: " + sdp);
-  if (!SDPs.includes(sdp)) {
-    SDPs.push(sdp);
+socket.on("joined", ({ body }) => {
+  console.log("sdp: " + body);
+  if (!SDPs.includes(body)) {
+    SDPs.push(body);
   }
   console.log("User just joined");
 });
 
-socket.on("left", ({ socketId }) => {
-  console.log("socketId: " + socketId);
+socket.on("left", ({ body }) => {
+  console.log("socketId: " + body);
   // Find the index of the element you want to delete
-  const index = SDPs.indexOf(socketId);
+  const index = SDPs.indexOf(body);
 
   // Check if the element exists in the array
   if (index !== -1) {
@@ -83,11 +83,11 @@ socket.on("left", ({ socketId }) => {
   }
 });
 
-socket.on("offer_sdp_received", ({ offer }) => {
-  console.log("offer: " + offer);
-  onAnswer(offer);
+socket.on("offer_sdp_received", ({ body }) => {
+  console.log("offer: " + body);
+  onAnswer(body);
 });
 
-socket.on("answer_sdp_received", ({ answer }) => {
-  gotRemoteDescription(answer);
+socket.on("answer_sdp_received", ({ body }) => {
+  gotRemoteDescription(body);
 });

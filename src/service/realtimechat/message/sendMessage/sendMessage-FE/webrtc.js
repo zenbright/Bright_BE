@@ -39,7 +39,7 @@ function callOnClick() {
   });
 
   localPeerConnection.onicecandidate = gotLocalIceCandidateOffer;
-  localPeerConnection.onaddstream = gotRemoteStream;
+  gotRemoteStream;
   localPeerConnection.addStream(localStream);
   localPeerConnection.createOffer().then(gotLocalDescription);
 }

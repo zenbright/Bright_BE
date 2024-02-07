@@ -14,10 +14,8 @@ export const initSocketIo = (server: any) => {
   const io = new Server(server, {});
 
   io.on("connection", (socket) => {
-    // console.log(socket.id);
 
     const referer = socket.handshake.headers.referer;
-    // console.log("referer: " + referer);
 
     // Extract userId and groupId from the referer URL
     if (referer) {
@@ -67,9 +65,9 @@ function handleVideoCallAction(
   body: any,
 ) {
   if (action === "join") {
-    increaseVideoClientCount(groupId, socketId, io);
+    joinVideoCall(groupId, socketId, io);
   } else if (action === "leave") {
-    decreaseVideoClientCount(groupId, socketId, io);
+    leaveVideoCall(groupId, socketId, io);
   } else if (action === "send_offer") {
     sendOffer(groupId, body.offer);
   } else if (action === "send_answer") {
@@ -104,7 +102,7 @@ function decreaseMessageClientCount(
   }
 }
 
-function increaseVideoClientCount(
+function joinVideoCall(
   groupId: string,
   socketId: string,
   io: Server,
@@ -117,7 +115,7 @@ function increaseVideoClientCount(
   }
 
   const userIds = Object.keys(videoSocketsConnected[groupId]);
-  send(io, "joined", userIds);
+  send(io, "joined", socketId);
 
   const videoSocketsConnectedSize = userIds.length;
 
@@ -127,7 +125,7 @@ function increaseVideoClientCount(
   });
 }
 
-function decreaseVideoClientCount(
+function leaveVideoCall(
   groupId: string,
   socketId: string,
   io: Server,
