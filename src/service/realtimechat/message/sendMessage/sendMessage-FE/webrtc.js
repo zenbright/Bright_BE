@@ -78,31 +78,31 @@ const gotLocalIceCandidateOffer = (event) => {
   // when gathering candidate finished, send complete sdp
   console.log("event.candidate: " + event.candidate);
   if (!event.candidate) {
-    for (const sdp of SDPs) {
+    const offer = localPeerConnection.localDescription;
       //   console.log("offer in gotLocalIceCandidateOffer: " + JSON.stringify(offer));
       // send offer sdp to signaling server via websocket
       socket.emit("video-call-connection", "send_offer", {
-        sdp: sdp,
+        offer: offer,
       });
-    }
+    
   }
 };
 
 // End Establishing the RTCPeerConnection.
 
 const gotLocalIceCandidateAnswer = (event) => {
-  console.log(
-    "gotLocalIceCandidateAnswer invoked",
-    event.candidate,
-    localPeerConnection.localDescription,
-  );
+//   console.log(
+//     "gotLocalIceCandidateAnswer invoked",
+//     event.candidate,
+//     localPeerConnection.localDescription,
+//   );
 
   // gathering candidate finished, send complete sdp
   if (!event.candidate) {
     const answer = localPeerConnection.localDescription;
 
     socket.emit("video-call-connection", "send_answer", {
-      sdp: answer,
+      answer: answer,
     });
   }
 };
