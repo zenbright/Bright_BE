@@ -47,7 +47,6 @@ function leaveVideoCall() {
   localPeerConnection.close();
   localPeerConnection = null;
   localPlayer.srcObject = null;
-  SDPs.delete(sdp);
   console.log("LEFT");
 }
 
@@ -66,6 +65,21 @@ socket.on("joined", ({ sdp }) => {
     SDPs.push(sdp);
   }
   console.log("User just joined");
+});
+
+socket.on("left", ({ socketId }) => {
+  console.log("socketId: " + socketId);
+  // Find the index of the element you want to delete
+  const index = SDPs.indexOf(socketId);
+
+  // Check if the element exists in the array
+  if (index !== -1) {
+    // Remove the element at the found index
+    SDPs.splice(index, 1);
+    console.log("User just left");
+  } else {
+    console.log("Element not found in SDPs array");
+  }
 });
 
 socket.on("offer_sdp_received", ({ offer }) => {

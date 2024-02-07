@@ -132,6 +132,9 @@ function decreaseVideoClientCount(
   socketId: string,
   io: Server,
 ) {
+  const wsClient = videoSocketsConnected[groupId][socketId];
+  send(wsClient, "left", socketId);
+
   let videoSocketsConnectedSize = 0;
   if (videoSocketsConnected[groupId]) {
     delete videoSocketsConnected[groupId][socketId];
