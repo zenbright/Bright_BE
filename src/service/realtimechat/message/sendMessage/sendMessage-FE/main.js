@@ -139,8 +139,8 @@ socket.on("group-message", ({ groupId, formattedMsg }) => {
 
 // Function to add a message to the UI
 function addMessageToUI(isOwnMessage, data, multimedia) {
-  console.log("data: ", data);
-  console.log("multimedia: ", multimedia);
+  // console.log("data: ", data);
+  // console.log("multimedia: ", multimedia);
   clearFeedback();
 
   let element = ``;

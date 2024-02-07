@@ -11,6 +11,7 @@ let localStream;
 let localPeerConnection;
 let sendChannel;
 let receiveChannel;
+let SDPs = [];
 
 // Establishing the RTCPeerConnection.
 /* 
@@ -45,6 +46,12 @@ const callOnClick = (localStream) => {
   localPeerConnection.addStream(localStream);
   localPeerConnection.createOffer().then(gotLocalDescription);
 };
+
+const gotRemoteDescription = (answer) => {
+  console.log("gotRemoteDescription invoked:", answer);
+  localPeerConnection.setRemoteDescription(answer);
+};
+
 // async function to handle offer sdp
 const gotLocalDescription = (offer) => {
   console.log("gotLocalDescription invoked:", offer);
@@ -55,24 +62,58 @@ const gotRemoteStream = (event) => {
   console.log("gotRemoteStream invoked");
   peerPlayer.srcObject = event.stream;
 };
+
+const gotAnswerDescription = (answer) => {
+  console.log("gotAnswerDescription invoked:", answer);
+  localPeerConnection.setLocalDescription(answer);
+};
+
 // async function to handle ice candidates
 const gotLocalIceCandidateOffer = (event) => {
-  console.log(
-    "gotLocalIceCandidateOffer invoked",
-    event.candidate,
-    localPeerConnection.localDescription,
-  );
+  //   console.log(
+  //     "gotLocalIceCandidateOffer invoked",
+  //     event.candidate,
+  //     localPeerConnection.localDescription,
+  //   );
   // when gathering candidate finished, send complete sdp
+  console.log("event.candidate: " + event.candidate);
   if (!event.candidate) {
-    const offer = localPeerConnection.localDescription;
-    // send offer sdp to signaling server via websocket
-    socket.emit("video-call-connection", "send_offer", {
-      sdp: offer,
-    });
+    for (const sdp of SDPs) {
+      //   console.log("offer in gotLocalIceCandidateOffer: " + JSON.stringify(offer));
+      // send offer sdp to signaling server via websocket
+      socket.emit("video-call-connection", "send_offer", {
+        sdp: sdp,
+      });
+    }
   }
 };
 
 // End Establishing the RTCPeerConnection.
+
+const gotLocalIceCandidateAnswer = (event) => {
+  console.log(
+    "gotLocalIceCandidateAnswer invoked",
+    event.candidate,
+    localPeerConnection.localDescription,
+  );
+
+  // gathering candidate finished, send complete sdp
+  if (!event.candidate) {
+    const answer = localPeerConnection.localDescription;
+
+    socket.emit("video-call-connection", "send_answer", {
+      sdp: answer,
+    });
+  }
+};
+
+const gotReceiveChannel = (event) => {
+  console.log("gotReceiveChannel invoked");
+  receiveChannel = event.channel;
+  receiveChannel.onmessage = handleMessage;
+  receiveChannel.onopen = handleReceiveChannelStateChange;
+  receiveChannel.onclose = handleReceiveChannelStateChange;
+};
 
 const onAnswer = (offer) => {
   console.log("onAnswer invoked");
@@ -123,4 +164,14 @@ const closeDataChannel = () => {
   console.log("closeDataChannel invoked");
   sendChannel && sendChannel.close();
   receiveChannel && receiveChannel.close();
+};
+
+const handleSendChannelStateChange = () => {
+  const readyState = sendChannel.readyState;
+  console.log("handleSendChannelStateChange invoked", readyState);
+};
+
+const handleReceiveChannelStateChange = () => {
+  const readyState = receiveChannel.readyState;
+  console.log("handleReceiveChannelStateChange invoked", readyState);
 };

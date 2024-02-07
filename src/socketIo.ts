@@ -71,9 +71,9 @@ function handleVideoCallAction(
   } else if (action === "leave") {
     decreaseVideoClientCount(groupId, socketId, io);
   } else if (action === "send_offer") {
-    sendOffer(groupId, body.sdp);
+    sendOffer(groupId);
   } else if (action === "send_answer") {
-    sendAnswer(groupId, body.sdp);
+    sendAnswer(groupId);
   } else if (action === "send_ice_candidate") {
     sendIceCandidate(body.candidate, groupId, body.sdp);
   }
@@ -148,24 +148,28 @@ function decreaseVideoClientCount(
   });
 }
 
-function sendOffer(groupId: string, sdp: any) {
+function sendOffer(groupId: string) {
+  console.log("Sending offer");
   // exchange sdp to peer
   let userSocketIds = Object.keys(videoSocketsConnected[groupId]);
   userSocketIds.forEach((id: string) => {
+    console.log("id: " + id);
     const wsClient = videoSocketsConnected[groupId][id];
-    send(wsClient, "offer_sdp_received", sdp);
+    send(wsClient, "offer_sdp_received", id);
   });
 }
 
-function sendAnswer(groupId: string, sdp: any) {
+function sendAnswer(groupId: string) {
+  console.log("Sending Answer");
   let userSocketIds = Object.keys(videoSocketsConnected[groupId]);
   userSocketIds.forEach((id: string) => {
     const wsClient = videoSocketsConnected[groupId][id];
-    send(wsClient, "answer_sdp_received", sdp);
+    send(wsClient, "answer_sdp_received", id);
   });
 }
 
 function sendIceCandidate(candidate: any, groupId: string, sdp: any) {
+  console.log("Sending Ice Candidate");
   let userSocketIds = Object.keys(videoSocketsConnected[groupId]);
   userSocketIds.forEach((id: string) => {
     const wsClient = videoSocketsConnected[groupId][id];
@@ -174,8 +178,6 @@ function sendIceCandidate(candidate: any, groupId: string, sdp: any) {
 }
 
 function send(wsClient: any, type: string, sdp: any) {
-  console.log("send");
-
   wsClient.emit(type, {
     sdp,
   });

@@ -47,6 +47,7 @@ function leaveVideoCall() {
   localPeerConnection.close();
   localPeerConnection = null;
   localPlayer.srcObject = null;
+  SDPs.delete(sdp);
   console.log("LEFT");
 }
 
@@ -61,10 +62,17 @@ socket.on("video-clients-total", ({ groupId, videoSocketsConnectedSize }) => {
 
 socket.on("joined", ({ sdp }) => {
   console.log("sdp: " + sdp);
+  if (!SDPs.includes(sdp)) {
+    SDPs.push(sdp);
+  }
   console.log("User just joined");
 });
 
 socket.on("offer_sdp_received", ({ offer }) => {
   console.log("offer: " + offer);
   onAnswer(offer);
+});
+
+socket.on("answer_sdp_received", ({ answer }) => {
+  gotRemoteDescription(answer);
 });

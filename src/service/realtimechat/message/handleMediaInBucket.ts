@@ -24,7 +24,7 @@ export const uploadMediaToBucket = async (
   multimediaObjectId: string,
   multimedia: any,
 ) => {
-  console.log("multimedia: ", multimedia);
+  // console.log("multimedia: ", multimedia);
   // console.log("contentType: ", contentType);
   // Convert base64 string to Buffer
   const buffer = Buffer.from(multimedia.buffer, "base64");
@@ -39,7 +39,7 @@ export const uploadMediaToBucket = async (
   try {
     const response = await client.send(command);
     console.log("UPLOADED");
-    console.log(response);
+    // console.log(response);
   } catch (err) {
     console.log("ERROR");
     console.error(err);
@@ -76,7 +76,7 @@ export const getMultimediaFromBucket = async (multimediaObjectId: string) => {
       Key: multimediaObjectId,
     });
     const metadata = await client.send(command);
-    console.log(`Metadata for ${multimediaObjectId}:`, metadata);
+    // console.log(`Metadata for ${multimediaObjectId}:`, metadata);
     return metadata;
   } catch (err) {
     console.error(err);
