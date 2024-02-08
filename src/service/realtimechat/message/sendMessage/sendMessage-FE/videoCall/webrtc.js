@@ -16,8 +16,6 @@ let localStream;
 let remoteStream;
 let localPeerConnection = new RTCPeerConnection(servers /*, pcConstraints */);
 let remotePeerConnection = new RTCPeerConnection(servers /*, pcConstraints */);
-let sendChannel;
-let receiveChannel;
 let videoMembers = [];
 
 /* 
@@ -37,38 +35,3 @@ async function startCommunication() {
 const setPeerPlayer = (event) => {
   peerPlayer.srcObject = event.stream;
 };
-
-// const gotReceiveChannel = (event) => {
-//   receiveChannel = event.channel;
-//   receiveChannel.onmessage = handleMessage;
-//   receiveChannel.onopen = handleReceiveChannelStateChange;
-//   receiveChannel.onclose = handleReceiveChannelStateChange;
-// };
-
-// const createDataChannel = () => {
-//   try {
-//     sendChannel = localPeerConnection.createDataChannel("sendDataChannel", {
-//       reliable: true,
-//     });
-//   } catch (error) {
-//     console.log("localPeerConnection.createDataChannel failed", error);
-//   }
-
-//   sendChannel.onopen = handleSendChannelStateChange;
-//   sendChannel.onClose = handleSendChannelStateChange;
-
-//   localPeerConnection.ondatachannel = gotReceiveChannel;
-// };
-
-// const closeDataChannel = () => {
-//   sendChannel && sendChannel.close();
-//   receiveChannel && receiveChannel.close();
-// };
-
-// const handleSendChannelStateChange = () => {
-//   const readyState = sendChannel.readyState;
-// };
-
-// const handleReceiveChannelStateChange = () => {
-//   const readyState = receiveChannel.readyState;
-// };

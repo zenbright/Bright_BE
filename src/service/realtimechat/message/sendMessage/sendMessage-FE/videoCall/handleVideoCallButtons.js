@@ -46,8 +46,6 @@ function joinVideoCall() {
 function leaveVideoCall() {
   handleVideoCall("leave");
 
-  // Close the peer connection
-  // closeDataChannel();
   localPeerConnection.close();
   localPeerConnection = null;
   localPlayer.srcObject = null;

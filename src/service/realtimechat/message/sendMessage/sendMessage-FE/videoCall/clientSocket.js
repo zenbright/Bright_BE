@@ -1,4 +1,3 @@
-// Update total number of clients
 socket.on("video-clients-total", ({ groupId, videoSocketsConnectedSize }) => {
   if (groupId == serverGroupId) {
     videoClientsTotal.innerText = `Total Clients: ${videoSocketsConnectedSize}`;
@@ -12,7 +11,6 @@ socket.on("joined", ({ userId }) => {
   console.log("userId: " + userId + " VS urlId: " + urlId);
   if (userId != urlId) {
     console.log(userId, " just joined");
-    // startCommunication();
   }
 });
 
