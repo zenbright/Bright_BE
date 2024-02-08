@@ -57,24 +57,6 @@ staticRoutes.get("/:userId/:groupId/clientSocket.js", (req, res) => {
   );
 });
 
-staticRoutes.get("/:userId/:groupId/offer.js", (req, res) => {
-  res.sendFile(
-    path.join(
-      __dirname,
-      "src/service/realtimechat/message/sendMessage/sendMessage-FE/videoCall/offer.js",
-    ),
-  );
-});
-
-staticRoutes.get("/:userId/:groupId/answer.js", (req, res) => {
-  res.sendFile(
-    path.join(
-      __dirname,
-      "src/service/realtimechat/message/sendMessage/sendMessage-FE/videoCall/answer.js",
-    ),
-  );
-});
-
 staticRoutes.get("/:userId/:groupId/sendMessage", async (req, res) => {
   validateUserGroupId(req, res);
 

@@ -30,7 +30,7 @@ function enableMedia() {
       localPeerConnection.addStream(localStream);
       remoteStream = new MediaStream();
       socket.emit("video-call-connection", "join");
-      startCommunication();
+      sendOffer();
     },
     (error) => {
       console.error("getUserMedia error:", error);

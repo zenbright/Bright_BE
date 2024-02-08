@@ -24,14 +24,52 @@ Reference:
 */
 
 // When user clicks call button, we will create the p2p connection with RTCPeerConnection
-async function startCommunication() {
-  localPeerConnection.createOffer().then(setLocalDescription);
-  
-  setPeerPlayer;
-  // localPeerConnection.onicecandidate = gotLocalIceCandidateOffer;
+async function sendOffer() {
+  localPeerConnection.createOffer().then((offer) => {
+    console.log("Setting local description with local offer:", offer);
+    localPeerConnection.setLocalDescription(offer);
+    console.log("Sending an offer");
+    socket.emit("video-call-connection", "send_offer", {
+      offer: offer,
+    });
+  })
 }
 
-// async function to handle received remote stream
-const setPeerPlayer = (event) => {
-  peerPlayer.srcObject = event.stream;
-};
+
+function gotRemoteOffer(offer) {
+  console.log("Got remote offer: ", offer);
+
+  console.log("Setting remote description with offer");
+  localPeerConnection.setRemoteDescription(offer)
+    .then(() => {
+      return localPeerConnection.createAnswer();
+    })
+    .then((answer) => {
+      console.log("Setting local description with answer:", answer);
+      return localPeerConnection.setLocalDescription(answer);
+    })
+    .then(() => {
+      console.log("Sending an answer");
+      socket.emit("video-call-connection", "send_answer", {
+        answer: localPeerConnection.localDescription,
+      });
+    })
+    .catch((error) => {
+      console.error('Error setting remote description', error);
+    });
+
+  // Attach the oNTrack event to handle incoming streams
+  localPeerConnection.ontrack = (event) => {
+    console.log('Received remote stream');
+    peerPlayer.srcObject = event.streams[0];
+  };
+}
+
+function gotRemoteAnswer(answer) {
+  console.log("Got remote answer:", answer);
+  console.log(
+    "localPeerConnection.signalingState: ",
+    localPeerConnection.signalingState,
+  );
+  localPeerConnection.setRemoteDescription(answer);
+}

@@ -14,14 +14,14 @@ socket.on("joined", ({ userId }) => {
   }
 });
 
-socket.on("left", ({ body }) => {
-  console.log(body, " User just left");
+socket.on("left", ({ userId }) => {
+  console.log(userId, " User just left");
   if (videoMembers.includes(userId)) {
     const index = videoMembers.indexOf(userId);
     if (index !== -1) {
-        videoMembers.splice(index, 1);
+      videoMembers.splice(index, 1);
     }
-}
+  }
 });
 
 socket.on("offer_sdp_received", ({ offer, userId }) => {
@@ -37,9 +37,9 @@ socket.on("answer_sdp_received", ({ answer, userId }) => {
   console.log("userId: " + userId + " VS urlId: " + urlId);
   if (userId != urlId) {
     gotRemoteAnswer(answer);
-
+    
     if (!videoMembers.includes(userId)) {
-      startCommunication();
+      sendOffer();
       videoMembers.push(userId);
     }
   }
