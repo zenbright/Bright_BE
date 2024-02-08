@@ -18,7 +18,7 @@ let localPeerConnection = new RTCPeerConnection(servers /*, pcConstraints */);
 let remotePeerConnection = new RTCPeerConnection(servers /*, pcConstraints */);
 let sendChannel;
 let receiveChannel;
-let SDPs = [];
+let videoMembers = [];
 
 /* 
 Reference: 
@@ -27,11 +27,6 @@ Reference:
 
 // When user clicks call button, we will create the p2p connection with RTCPeerConnection
 async function startCommunication() {
-  localStream.getTracks().forEach((track) => {
-    localPeerConnection.addTrack(track, localStream);
-  });
-
-  localPeerConnection.addStream(localStream);
   localPeerConnection.createOffer().then(setLocalDescription);
   
   setPeerPlayer;

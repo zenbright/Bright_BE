@@ -8,28 +8,22 @@ socket.on("video-clients-total", ({ groupId, videoSocketsConnectedSize }) => {
 });
 
 socket.on("joined", ({ userId }) => {
-  // if (!SDPs.includes(userId)) {
-  //   SDPs.push(userId);
-  // }
-
-  // const urlId = window.location.pathname.split("/")[1];
-  // console.log("userId: " + userId + " VS urlId: " + urlId);
-  // if (userId != urlId) {
-  //   startCommunication();
-  // }
-
-  console.log(userId, " just joined");
+  const urlId = window.location.pathname.split("/")[1];
+  console.log("userId: " + userId + " VS urlId: " + urlId);
+  if (userId != urlId) {
+    console.log(userId, " just joined");
+    // startCommunication();
+  }
 });
 
 socket.on("left", ({ body }) => {
-  // const index = SDPs.indexOf(body);
-
-  // if (index !== -1) {
-  //   SDPs.splice(index, 1);
-    console.log(body, " User just left");
-  // } else {
-  //   console.log("Element not found in SDPs array");
-  // }
+  console.log(body, " User just left");
+  if (videoMembers.includes(userId)) {
+    const index = videoMembers.indexOf(userId);
+    if (index !== -1) {
+        videoMembers.splice(index, 1);
+    }
+}
 });
 
 socket.on("offer_sdp_received", ({ offer, userId }) => {
@@ -45,5 +39,10 @@ socket.on("answer_sdp_received", ({ answer, userId }) => {
   console.log("userId: " + userId + " VS urlId: " + urlId);
   if (userId != urlId) {
     gotRemoteAnswer(answer);
+
+    if (!videoMembers.includes(userId)) {
+      startCommunication();
+      videoMembers.push(userId);
+    }
   }
 });

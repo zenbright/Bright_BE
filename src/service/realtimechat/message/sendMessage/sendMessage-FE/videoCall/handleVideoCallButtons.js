@@ -24,6 +24,10 @@ function enableMedia() {
       // render local stream on DOM
       localPlayer.srcObject = stream;
       localStream = stream;
+      localStream.getTracks().forEach((track) => {
+        localPeerConnection.addTrack(track, localStream);
+      });
+      localPeerConnection.addStream(localStream);
       remoteStream = new MediaStream();
       socket.emit("video-call-connection", "join");
       startCommunication();
@@ -43,7 +47,7 @@ function leaveVideoCall() {
   handleVideoCall("leave");
 
   // Close the peer connection
-  closeDataChannel();
+  // closeDataChannel();
   localPeerConnection.close();
   localPeerConnection = null;
   localPlayer.srcObject = null;
