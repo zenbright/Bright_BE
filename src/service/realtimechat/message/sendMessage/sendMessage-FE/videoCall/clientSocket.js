@@ -7,45 +7,43 @@ socket.on("video-clients-total", ({ groupId, videoSocketsConnectedSize }) => {
   }
 });
 
-socket.on("joined", ({ body }) => {
-  console.log("sdp: " + body);
-  if (!SDPs.includes(body)) {
-    SDPs.push(body);
-  }
-  console.log("User just joined");
+socket.on("joined", ({ userId }) => {
+  // if (!SDPs.includes(userId)) {
+  //   SDPs.push(userId);
+  // }
+
+  // const urlId = window.location.pathname.split("/")[1];
+  // console.log("userId: " + userId + " VS urlId: " + urlId);
+  // if (userId != urlId) {
+  //   startCommunication();
+  // }
+
+  console.log(userId, " just joined");
 });
 
 socket.on("left", ({ body }) => {
-  console.log("socketId: " + body);
-  // Find the index of the element you want to delete
-  const index = SDPs.indexOf(body);
+  // const index = SDPs.indexOf(body);
 
-  // Check if the element exists in the array
-  if (index !== -1) {
-    // Remove the element at the found index
-    SDPs.splice(index, 1);
-    console.log("User just left");
-  } else {
-    console.log("Element not found in SDPs array");
+  // if (index !== -1) {
+  //   SDPs.splice(index, 1);
+    console.log(body, " User just left");
+  // } else {
+  //   console.log("Element not found in SDPs array");
+  // }
+});
+
+socket.on("offer_sdp_received", ({ offer, userId }) => {
+  const urlId = window.location.pathname.split("/")[1];
+  console.log("userId: " + userId + " VS urlId: " + urlId);
+  if (userId != urlId) {
+    gotRemoteOffer(offer);
   }
 });
 
-socket.on("offer_sdp_received", ({ body }) => {
-  //   console.log("offer: " + JSON.stringify(body));
-  //   const JSONobjectBody = JSON.parse(body);
-  //   const { type, sdp } = body;
-
-  // Creating a new instance of RTCSessionDescription using the constructor
-  //   const sessionDescription = new RTCSessionDescription({ type, sdp });
-  handleOffer(body);
-});
-
-socket.on("answer_sdp_received", ({ body }) => {
-  //  console.log("answer received - answer: " + JSON.stringify(body));
-  //   const JSONobjectBody = JSON.parse(body);
-  //   const { type, sdp } = body;
-
-  // Creating a new instance of RTCSessionDescription using the constructor
-  //   const sessionDescription = new RTCSessionDescription({ type, sdp });
-  gotRemoteDescription(body);
+socket.on("answer_sdp_received", ({ answer, userId }) => {
+  const urlId = window.location.pathname.split("/")[1];
+  console.log("userId: " + userId + " VS urlId: " + urlId);
+  if (userId != urlId) {
+    gotRemoteAnswer(answer);
+  }
 });

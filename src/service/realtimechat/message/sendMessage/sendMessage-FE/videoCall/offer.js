@@ -1,48 +1,49 @@
 // async function to handle offer sdp
-const gotLocalDescription = (offer) => {
-  console.log("gotLocalDescription invoked:", offer);
+const setLocalDescription = (offer) => {
+  console.log("Setting local description with local offer:", offer);
   localPeerConnection.setLocalDescription(offer);
+  console.log("Sending an offer");
+  socket.emit("video-call-connection", "send_offer", {
+    offer: offer,
+  });
 };
 
-function handleOffer(offer) {
-  console.log("handleOffer invoked");
+function gotRemoteOffer(offer) {
+  console.log("Got remote offer: ", offer);
 
-  if (localStream.getVideoTracks().length > 0) {
-    console.log(`Using video device: ${localStream.getVideoTracks()[0].label}`);
-  }
-  if (localStream.getAudioTracks().length > 0) {
-    console.log(`Using audio device: ${localStream.getAudioTracks()[0].label}`);
-  }
+  // if (localStream.getVideoTracks().length > 0) {
+  //   console.log(`Using video device: ${localStream.getVideoTracks()[0].label}`);
+  // }
+  // if (localStream.getAudioTracks().length > 0) {
+  //   console.log(`Using audio device: ${localStream.getAudioTracks()[0].label}`);
+  // }
 
-  console.log("new RTCPeerConnection for local");
-  localPeerConnection = new RTCPeerConnection(servers, pcConstraints);
-  console.log("setup gotLocalIceCandidateAnswer");
-  localPeerConnection.onicecandidate = gotLocalIceCandidateAnswer;
+  // console.log("new RTCPeerConnection for local");
 
-  console.log("setup setPeerPlayer");
   setPeerPlayer;
-
-  createDataChannel();
-
-  console.log("localPeerConnection.addStream invoked");
-  localPeerConnection.addStream(localStream);
 
   console.log("Setting remote description with offer");
   localPeerConnection.setRemoteDescription(offer);
-  localPeerConnection.createAnswer().then(gotAnswerDescription);
+
+  console.log("Creating an answer");
+  localPeerConnection.createAnswer().then((answer) => {
+    console.log("Setting local description with answer:", answer);
+    localPeerConnection.setLocalDescription(answer);
+
+    console.log("Sending an answer");
+    socket.emit("video-call-connection", "send_answer", {
+      answer: answer,
+    });
+  });
 }
 
 // async function to handle ice candidates
-const gotLocalIceCandidateOffer = (event) => {
-    // when gathering candidate finished, send complete sdp
-    //   console.log("event.candidate: " + event.candidate);
-    console.log("Sending offer to server");
-    if (!event.candidate) {
-      console.log("Sending Actual offer to server");
-      const offer = localPeerConnection.localDescription;
-      // send offer sdp to signaling server via websocket
-      socket.emit("video-call-connection", "send_offer", {
-        offer: offer,
-      });
-    }
-  };
+// const gotLocalIceCandidateOffer = (event) => {
+//     if (!event.candidate) {
+//       console.log("Sending Actual offer to server");
+//       const offer = localPeerConnection.localDescription;
+//       socket.emit("video-call-connection", "send_offer", {
+//         offer: offer,
+//       });
+//     }
+//   };

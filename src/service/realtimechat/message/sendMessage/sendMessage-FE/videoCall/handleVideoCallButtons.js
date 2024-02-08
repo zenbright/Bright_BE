@@ -25,7 +25,8 @@ function enableMedia() {
       localPlayer.srcObject = stream;
       localStream = stream;
       remoteStream = new MediaStream();
-      callOnClick();
+      socket.emit("video-call-connection", "join");
+      startCommunication();
     },
     (error) => {
       console.error("getUserMedia error:", error);
@@ -35,7 +36,6 @@ function enableMedia() {
 
 function joinVideoCall() {
   enableMedia();
-  handleVideoCall("join");
 }
 
 // Example: Call this function when leaving a video call

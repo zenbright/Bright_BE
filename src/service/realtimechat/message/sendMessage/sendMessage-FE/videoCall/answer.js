@@ -1,21 +1,19 @@
-function gotRemoteDescription(answer) {
-  console.log("Setting remote description with answer:", answer);
+function gotRemoteAnswer(answer) {
+  console.log("Got remote answer:", answer);
+  console.log(
+    "localPeerConnection.signalingState: ",
+    localPeerConnection.signalingState,
+  );
   localPeerConnection.setRemoteDescription(answer);
 }
 
-const gotAnswerDescription = (answer) => {
-  console.log("Setting local description with answer:", answer);
-  localPeerConnection.setLocalDescription(answer);
-};
+// const gotLocalIceCandidateAnswer = (event) => {
+//   if (!event.candidate) {
+//     console.log("Sending actual answer to server");
+//     const answer = localPeerConnection.localDescription;
 
-const gotLocalIceCandidateAnswer = (event) => {
-  // gathering candidate finished, send complete sdp
-  console.log("Sending answer to server");
-  if (!event.candidate) {
-    const answer = localPeerConnection.localDescription;
-
-    socket.emit("video-call-connection", "send_answer", {
-      answer: answer,
-    });
-  }
-};
+//     socket.emit("video-call-connection", "send_answer", {
+//       answer: answer,
+//     });
+//   }
+// };
