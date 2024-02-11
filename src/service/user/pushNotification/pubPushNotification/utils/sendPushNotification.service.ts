@@ -1,10 +1,15 @@
 import admin from "firebase-admin";
 import { google } from "googleapis";
-import https from "https";
-import { GOOGLE_APPLICATION_CREDENTIALS, HOST, PATH, SCOPES } from "../../../../../config";
+import {
+  GOOGLE_APPLICATION_CREDENTIALS,
+  SERVICE_ACCOUNT,
+  HOST,
+  PATH,
+  SCOPES,
+} from "../../../../../config";
 
 admin.initializeApp({
-  credential: admin.credential.applicationDefault(),
+  credential: admin.credential.cert(SERVICE_ACCOUNT),
 });
 
 function getAccessToken() {
@@ -26,36 +31,26 @@ function getAccessToken() {
   });
 }
 
-export async function sendPushNotification(
-  fcmMessage: any,
-) {
+export async function sendPushNotification(fcmMessage: any) {
   getAccessToken().then(function (accessToken) {
     const options = {
       hostname: HOST,
       path: PATH,
       method: "POST",
-      // [START use_access_token]
       headers: {
         Authorization: "Bearer " + accessToken,
       },
-      // [END use_access_token]
     };
 
-    const request = https.request(options, function (resp) {
-      resp.setEncoding("utf8");
-      resp.on("data", function (data) {
-        console.log("Message sent to Firebase for delivery, response:");
-        console.log(data);
+    admin
+      .messaging()
+      .send(fcmMessage.message)
+      .then((response) => {
+        console.log("Successfully sent message:", response);
+      })
+      .catch((error) => {
+        console.error("Error sending message:", error);
       });
-    });
-
-    request.on("error", function (err) {
-      console.log("Unable to send message to Firebase");
-      console.log(err);
-    });
-
-    request.write(JSON.stringify(fcmMessage));
-    request.end();
   });
 }
 
@@ -63,8 +58,11 @@ export async function sendPushNotification(
  * Construct a JSON object that will be used to customize
  * the messages sent to iOS and Android devices.
  */
-export function buildOverrideMessage(deviceToken: string, notificationTitle: string, notificationText: string) {
-  console.log("deviceToken: " + deviceToken);
+export function buildOverrideMessage(
+  deviceToken: string,
+  notificationTitle: string,
+  notificationText: string,
+) {
   return {
     message: {
       token: deviceToken,
@@ -73,7 +71,7 @@ export function buildOverrideMessage(deviceToken: string, notificationTitle: str
         body: notificationText,
       },
       data: {
-        story_id: "story_12345",
+        // story_id: "story_12345",
       },
       android: {
         notification: {
@@ -92,9 +90,9 @@ export function buildOverrideMessage(deviceToken: string, notificationTitle: str
       },
       webpush: {
         fcm_options: {
-          link: "https://dummypage.com"
-        }
-      }
+          link: "https://bright.com",
+        },
+      },
     },
   };
 }
