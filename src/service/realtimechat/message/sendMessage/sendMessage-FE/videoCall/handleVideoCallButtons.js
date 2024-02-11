@@ -47,7 +47,10 @@ function joinVideoCall() {
 function leaveVideoCall() {
   handleVideoCall("leave");
   joined = false;
-  localPeerConnection.close();
-  localPeerConnection = null;
+  // localPeerConnection.close();
+  // localPeerConnection = null;
+  // remotePeerConnection.close();
+  // remotePeerConnection = null;
   localPlayer.srcObject = null;
+  peerPlayer.srcObject = null;
 }
