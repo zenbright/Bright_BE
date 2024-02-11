@@ -71,7 +71,7 @@ function handleVideoCallAction(
   } else if (action === "send_offer") {
     sendOffer(groupId, body.offer, userId, io);
   } else if (action === "send_answer") {
-    sendAnswer(groupId, body.answer, userId, io);
+    sendAnswer(groupId, body.answer, body.answerTo, userId, io);
   } else if (action === "send_ice_candidate") {
     sendIceCandidate(body.candidate, groupId, userId);
   }
@@ -125,8 +125,6 @@ function joinVideoCall(groupId: string, userId: string, io: Server) {
     }
   });
 
-  
-
   const videoSocketsConnectedSize = userIds.length;
 
   io.emit("video-clients-total", {
@@ -168,14 +166,21 @@ function sendOffer(groupId: string, offer: any, userId: string, io: Server) {
   });
 }
 
-function sendAnswer(groupId: string, answer: any, userId: string, io: Server) {
+function sendAnswer(
+  groupId: string,
+  answer: any,
+  answerTo: string,
+  userId: string,
+  io: Server,
+) {
   let userIds = Object.keys(videoSocketsConnected[groupId]);
   userIds.forEach((id: string) => {
-    if (id != userId) {
+    if (id == answerTo) {
       console.log("Sending answer from " + userId + " to " + id);
       io.emit("answer_sdp_received", {
         answer,
         userId,
+        answerTo,
       });
     }
   });

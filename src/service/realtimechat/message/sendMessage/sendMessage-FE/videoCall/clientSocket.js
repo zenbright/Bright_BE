@@ -27,19 +27,18 @@ socket.on("left", ({ userId }) => {
 socket.on("offer_sdp_received", ({ offer, userId }) => {
   const urlId = window.location.pathname.split("/")[1];
   console.log("userId: " + userId + " VS urlId: " + urlId);
-  if (userId != urlId) {
-    gotRemoteOffer(offer);
+  if (userId != urlId && joined) {
+    gotRemoteOffer(offer, userId);
   }
 });
 
-socket.on("answer_sdp_received", ({ answer, userId }) => {
+socket.on("answer_sdp_received", ({ answer, userId, answerTo }) => {
   const urlId = window.location.pathname.split("/")[1];
   console.log("userId: " + userId + " VS urlId: " + urlId);
-  if (userId != urlId) {
+  if (answerTo == urlId) {
     gotRemoteAnswer(answer);
-    
+
     if (!videoMembers.includes(userId)) {
-      sendOffer();
       videoMembers.push(userId);
     }
   }

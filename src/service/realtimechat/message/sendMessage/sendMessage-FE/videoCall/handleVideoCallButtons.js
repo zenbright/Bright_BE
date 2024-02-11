@@ -40,12 +40,13 @@ function enableMedia() {
 
 function joinVideoCall() {
   enableMedia();
+  joined = true;
 }
 
 // Example: Call this function when leaving a video call
 function leaveVideoCall() {
   handleVideoCall("leave");
-
+  joined = false;
   localPeerConnection.close();
   localPeerConnection = null;
   localPlayer.srcObject = null;

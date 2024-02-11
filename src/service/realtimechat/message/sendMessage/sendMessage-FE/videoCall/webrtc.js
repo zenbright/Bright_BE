@@ -17,6 +17,7 @@ let remoteStream;
 let localPeerConnection = new RTCPeerConnection(servers /*, pcConstraints */);
 let remotePeerConnection = new RTCPeerConnection(servers /*, pcConstraints */);
 let videoMembers = [];
+let joined = false;
 
 /* 
 Reference: 
@@ -32,15 +33,15 @@ async function sendOffer() {
     socket.emit("video-call-connection", "send_offer", {
       offer: offer,
     });
-  })
+  });
 }
 
-
-function gotRemoteOffer(offer) {
+function gotRemoteOffer(offer, offerFrom) {
   console.log("Got remote offer: ", offer);
 
   console.log("Setting remote description with offer");
-  localPeerConnection.setRemoteDescription(offer)
+  localPeerConnection
+    .setRemoteDescription(offer)
     .then(() => {
       return localPeerConnection.createAnswer();
     })
@@ -52,18 +53,21 @@ function gotRemoteOffer(offer) {
       console.log("Sending an answer");
       socket.emit("video-call-connection", "send_answer", {
         answer: localPeerConnection.localDescription,
+        answerTo: offerFrom,
       });
     })
     .catch((error) => {
-      console.error('Error setting remote description', error);
+      console.error("Error setting remote description", error);
     });
 
   // Attach the oNTrack event to handle incoming streams
-  localPeerConnection.ontrack = (event) => {
-    console.log('Received remote stream');
-    peerPlayer.srcObject = event.streams[0];
-  };
+  localPeerConnection.ontrack = onTrackPeerConnection;
 }
+
+const onTrackPeerConnection = (event) => {
+  console.log("Received remote stream");
+  peerPlayer.srcObject = event.streams[0];
+};
 
 function gotRemoteAnswer(answer) {
   console.log("Got remote answer:", answer);
