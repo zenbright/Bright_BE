@@ -36,6 +36,18 @@ async function sendOffer() {
   });
 }
 
+async function sendIceCandidate(answerFrom) {
+  localPeerConnection.ontrack = (event) => {
+    console.log("Setting remote stream in sendIceCandidate");
+    peerPlayer.srcObject = event.streams[0];
+  };
+  console.log("Sending an ice_candidate");
+  socket.emit("video-call-connection", "send_ice_candidate", {
+    candidate: localPeerConnection.localDescription,
+    candidateTo: answerFrom,
+  });
+}
+
 function gotRemoteOffer(offer, offerFrom) {
   console.log("Got remote offer: ", offer);
 
@@ -61,20 +73,25 @@ function gotRemoteOffer(offer, offerFrom) {
     });
 
   localPeerConnection.ontrack = (event) => {
-    console.log("Received remote stream in gotRemoteOffer");
+    console.log("Setting remote stream in gotRemoteOffer");
     peerPlayer.srcObject = event.streams[0];
   };
 }
 
-function gotRemoteAnswer(answer) {
+function gotRemoteAnswer(answer, answerFrom) {
   console.log("Got remote answer:", answer);
   console.log(
     "localPeerConnection.signalingState: ",
     localPeerConnection.signalingState,
   );
   localPeerConnection.setRemoteDescription(answer);
+}
+
+function gotRemoteCandidate(candidate, candidateFrom) {
+  console.log("Got remote candidate:", candidate);
+  localPeerConnection.setRemoteDescription(candidate);
   localPeerConnection.ontrack = (event) => {
-    console.log("Received remote stream in gotRemoteAnswer");
+    console.log("Setting remote stream in gotRemoteCandidate");
     peerPlayer.srcObject = event.streams[0];
   };
 }

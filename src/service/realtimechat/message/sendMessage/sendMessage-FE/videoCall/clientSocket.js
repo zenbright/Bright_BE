@@ -36,11 +36,19 @@ socket.on("answer_sdp_received", ({ answer, userId, answerTo }) => {
   const urlId = window.location.pathname.split("/")[1];
   console.log("userId: " + userId + " VS urlId: " + urlId);
   if (answerTo == urlId) {
-    gotRemoteAnswer(answer);
+    gotRemoteAnswer(answer, userId);
 
     if (!videoMembers.includes(userId)) {
-      sendOffer();
+      sendIceCandidate(userId);
       videoMembers.push(userId);
     }
+  }
+});
+
+socket.on("ice_candidate_sdp_received", ({ candidate, userId, candidateTo }) => {
+  const urlId = window.location.pathname.split("/")[1];
+  console.log("userId: " + userId + " VS urlId: " + urlId);
+  if (candidateTo == urlId) {
+    gotRemoteCandidate(candidate, userId);
   }
 });
