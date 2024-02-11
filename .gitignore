@@ -5,3 +5,4 @@ logs
 logs/
 ACCESSTOKEN.pem
 build
+/**/*.html
