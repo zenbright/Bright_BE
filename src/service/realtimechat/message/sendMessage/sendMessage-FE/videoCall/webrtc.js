@@ -19,17 +19,14 @@ let remotePeerConnection = new RTCPeerConnection(servers /*, pcConstraints */);
 let videoMembers = [];
 let joined = false;
 
-/* 
-Reference: 
-- Signaling State: https://developer.mozilla.org/en-US/docs/Web/API/RTCPeerConnection/signalingState
-*/
-
 // When user clicks call button, we will create the p2p connection with RTCPeerConnection
 async function sendOffer() {
+  // Create an offer
   localPeerConnection.createOffer().then((offer) => {
-    console.log("Setting local description with local offer:", offer);
+    // Set the offer as a local description
     localPeerConnection.setLocalDescription(offer);
     console.log("Sending an offer");
+    // Send the offer to peers via socket
     socket.emit("video-call-connection", "send_offer", {
       offer: offer,
     });
@@ -37,11 +34,7 @@ async function sendOffer() {
 }
 
 async function sendIceCandidate(answerFrom) {
-  localPeerConnection.ontrack = (event) => {
-    console.log("Setting remote stream in sendIceCandidate");
-    peerPlayer.srcObject = event.streams[0];
-  };
-  console.log("Sending an ice_candidate");
+  // Send the ice candidate
   socket.emit("video-call-connection", "send_ice_candidate", {
     candidate: localPeerConnection.localDescription,
     candidateTo: answerFrom,
@@ -49,20 +42,15 @@ async function sendIceCandidate(answerFrom) {
 }
 
 function gotRemoteOffer(offer, offerFrom) {
-  console.log("Got remote offer: ", offer);
-
-  console.log("Setting remote description with offer");
   localPeerConnection
     .setRemoteDescription(offer)
     .then(() => {
       return localPeerConnection.createAnswer();
     })
     .then((answer) => {
-      console.log("Setting local description with answer:", answer);
       return localPeerConnection.setLocalDescription(answer);
     })
     .then(() => {
-      console.log("Sending an answer");
       socket.emit("video-call-connection", "send_answer", {
         answer: localPeerConnection.localDescription,
         answerTo: offerFrom,
@@ -72,26 +60,23 @@ function gotRemoteOffer(offer, offerFrom) {
       console.error("Error setting remote description", error);
     });
 
-  localPeerConnection.ontrack = (event) => {
-    console.log("Setting remote stream in gotRemoteOffer");
-    peerPlayer.srcObject = event.streams[0];
-  };
+  localPeerConnection.ontrack = setPeerPlayer;
 }
 
-function gotRemoteAnswer(answer, answerFrom) {
-  console.log("Got remote answer:", answer);
-  console.log(
-    "localPeerConnection.signalingState: ",
-    localPeerConnection.signalingState,
-  );
+function gotRemoteAnswer(answer) {
+  // Set the answer as a remote description
   localPeerConnection.setRemoteDescription(answer);
+  // Set the peer player
+  localPeerConnection.ontrack = setPeerPlayer;
 }
 
-function gotRemoteCandidate(candidate, candidateFrom) {
-  console.log("Got remote candidate:", candidate);
+function gotRemoteCandidate(candidate) {
+  // Set the candidate as the remote description
   localPeerConnection.setRemoteDescription(candidate);
-  localPeerConnection.ontrack = (event) => {
-    console.log("Setting remote stream in gotRemoteCandidate");
-    peerPlayer.srcObject = event.streams[0];
-  };
+  // Set the peer player
+  localPeerConnection.ontrack = setPeerPlayer;
 }
+
+const setPeerPlayer = (event) => {
+  peerPlayer.srcObject = event.streams[0];
+};
