@@ -1,0 +1,18 @@
+[33mf39cd3c7[m[33m ([m[1;35mrefs/stash[m[33m)[m refs/stash@{0}: WIP on feature_videocall: b8a338ae fix!: ignore the offer if the user hasn't joined the video call
+[33meb0d03c9[m refs/stash@{1}: WIP on feature_videocall: aed9949d refactor: combine multiple js files into one
+[33m61e1607c[m refs/stash@{2}: WIP on feature_videocall: aed9949d refactor: combine multiple js files into one
+[33medfa7f11[m refs/stash@{3}: WIP on feature_push_notifications: a6f932cc tmp: commit before checkout - getDeviceToken
+[33m3e0a7512[m refs/stash@{4}: WIP on feature_videocall: 520503d1 feat!: get media from bucket
+[33m7f469ade[m refs/stash@{5}: WIP on feature_push_notifications: fadf9ea1 feat: add docker instruction in README
+[33mc3c79809[m refs/stash@{6}: WIP on feature_realtimechat: c4d0e1e5 refactor!: remove groupId / messageId in group/message Schema -> use only _id
+[33m306c4d0c[m refs/stash@{7}: WIP on feature_realtimechat: 6b958939 refactor: models name changed (group, message)
+[33m6551d495[m refs/stash@{8}: WIP on feature_realtimechat: 427c0143 refactor: pull dev
+[33m6905fd34[m refs/stash@{9}: WIP on feature_realtimechat: 4da12c63 pull origin dev
+[33m0425e80b[m refs/stash@{10}: WIP on feature_trello: eede458d fix: node-schedule package error
+[33me737be02[m refs/stash@{11}: WIP on feature_trello: eede458d fix: node-schedule package error
+[33m720a2229[m refs/stash@{12}: WIP on feature_trello: 0da97c12 refactor: path name e.g. updateProject -> update/project && no camel case for path
+[33m9f5dd418[m refs/stash@{13}: WIP on feature_OTP_validation: c304ba23 resolve conflicts
+[33md57f99be[m refs/stash@{14}: WIP on feature_password_change: 1710ef80 change validator name
+[33m62d74047[m refs/stash@{15}: WIP on feature_password_change: 0b5ef6a2 password change feature
+[33m5b796b9a[m refs/stash@{16}: WIP on production: 472f3b2f Update README.md
+[33mcf823f3f[m refs/stash@{17}: WIP on production: 4459cd55 swagger + server IP setup

@@ -39,6 +39,7 @@ socket.on("answer_sdp_received", ({ answer, userId, answerTo }) => {
     gotRemoteAnswer(answer);
 
     if (!videoMembers.includes(userId)) {
+      sendOffer();
       videoMembers.push(userId);
     }
   }
