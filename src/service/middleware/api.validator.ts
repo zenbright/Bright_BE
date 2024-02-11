@@ -66,3 +66,14 @@ export const OTPVerificationValidator = [
   body("OTP").isString().notEmpty().withMessage("Missing OTP Field."),
   validatorErrorHandler,
 ];
+
+export const loginWithGoogleValidator = [
+  body("code").isString().notEmpty().withMessage("Invalid Google Auth Code."),
+  validatorErrorHandler,
+]
+
+export const saveDeviceTokenValidator = [
+  body("userId").isString().notEmpty().withMessage("Missing Id Field."),
+  body("deviceToken").isString().notEmpty().withMessage("Missing deviceToken Field."),
+  validatorErrorHandler,
+]
