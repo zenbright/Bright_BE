@@ -3,8 +3,6 @@ import { google } from "googleapis";
 import {
   GOOGLE_APPLICATION_CREDENTIALS,
   SERVICE_ACCOUNT,
-  HOST,
-  PATH,
   SCOPES,
 } from "../../../../../config";
 
@@ -12,36 +10,7 @@ admin.initializeApp({
   credential: admin.credential.cert(SERVICE_ACCOUNT),
 });
 
-function getAccessToken() {
-  return new Promise(function (resolve, reject) {
-    const jwtClient = new google.auth.JWT(
-      GOOGLE_APPLICATION_CREDENTIALS.client_email,
-      "",
-      GOOGLE_APPLICATION_CREDENTIALS.private_key,
-      SCOPES,
-      "",
-    );
-    jwtClient.authorize(function (err: any, tokens: any) {
-      if (err) {
-        reject(err);
-        return;
-      }
-      resolve(tokens.access_token);
-    });
-  });
-}
-
 export async function sendPushNotification(fcmMessage: any) {
-  getAccessToken().then(function (accessToken) {
-    const options = {
-      hostname: HOST,
-      path: PATH,
-      method: "POST",
-      headers: {
-        Authorization: "Bearer " + accessToken,
-      },
-    };
-
     admin
       .messaging()
       .send(fcmMessage.message)
@@ -51,7 +20,6 @@ export async function sendPushNotification(fcmMessage: any) {
       .catch((error) => {
         console.error("Error sending message:", error);
       });
-  });
 }
 
 /**
@@ -69,9 +37,6 @@ export function buildOverrideMessage(
       notification: {
         title: notificationTitle,
         body: notificationText,
-      },
-      data: {
-        // story_id: "story_12345",
       },
       android: {
         notification: {
