@@ -73,7 +73,9 @@ export function buildOverrideMessage(deviceToken: string, notificationTitle: str
         body: notificationText,
       },
       data: {
-        story_id: "story_12345",
+        // story_id: "story_12345",
+        title: notificationTitle,
+        body: notificationText,
       },
       android: {
         notification: {
