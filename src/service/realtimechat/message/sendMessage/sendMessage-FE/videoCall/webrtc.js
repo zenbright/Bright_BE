@@ -60,13 +60,11 @@ function gotRemoteOffer(offer, offerFrom) {
       console.error("Error setting remote description", error);
     });
 
-  localPeerConnection.ontrack = onTrackPeerConnection;
+  localPeerConnection.ontrack = (event) => {
+    console.log("Received remote stream in gotRemoteOffer");
+    peerPlayer.srcObject = event.streams[0];
+  };
 }
-
-const onTrackPeerConnection = (event) => {
-  console.log("Received remote stream");
-  peerPlayer.srcObject = event.streams[0];
-};
 
 function gotRemoteAnswer(answer) {
   console.log("Got remote answer:", answer);
@@ -75,5 +73,8 @@ function gotRemoteAnswer(answer) {
     localPeerConnection.signalingState,
   );
   localPeerConnection.setRemoteDescription(answer);
-  localPeerConnection.ontrack = onTrackPeerConnection;
+  localPeerConnection.ontrack = (event) => {
+    console.log("Received remote stream in gotRemoteAnswer");
+    peerPlayer.srcObject = event.streams[0];
+  };
 }
