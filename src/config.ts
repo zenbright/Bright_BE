@@ -62,6 +62,12 @@ export const GOOGLE_APPLICATION_CREDENTIALS = {
     "universe_domain": "googleapis.com"
 }
 
+export const SERVICE_ACCOUNT =  {
+  projectId: "bright-3e89b",
+  clientEmail: "firebase-adminsdk-jnpth@bright-3e89b.iam.gserviceaccount.com",
+  privateKey: "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDKgQMt8F9s2X8S\nC72jef7P2R2TcDjq88N9wnM0HWTJEtFgJhW9DIwW9Sa2VUB3tbTtTR6LCn5iPPjZ\nOgJK4YufobkOGMnYMbiHQQ3GQzk7EEvZA4AgqL+6mv/D4nu084MtgR9u+byFxk0x\nh1MZ7AlXSP+NaRpkgPch0UlYfh6c3zhf7+UFfXSlfJxo0SMn0ScEnAE8vXia6/Jd\n9c2ZHcflWlboz63ZCt7gb2Im7o1mfea0UZSOvJhztsdllhtBJK4gGWNMYZ6AV9sJ\n5cSZbXxPMjzp412oAB/5nQGoBkG9jQ1cpx/qx7RR6hrE9KvbLZg4FgOfaIOdgOVX\n8IStarJlAgMBAAECggEAX6ZjhZHpyOTMwA3ao7pucOeJMEiMIfJE7wRnXQDbR5yD\nWCp1Dyg7jWZ7RBlti33A+Wt5V0x8GNPa6OQdDBiP1jVRzwZHZL5Lfltsca7z++F9\nKgKcxRBgC3jGAVTbgMOavOYmHkmI0hkyAgh86JwUZ22cA8PWyw0dbhRIVCuyMv7n\nDJ3LLT4nXfElyXioIHHgpEmlrPhV8/ccAIwjQhBnbjWhfd1BF51vH4VJYq/KW9Bh\nOLqFu4q8MITzUPZq42qw0s9aDS+lzOHueNAMuhiZso3GYyErXm1qsJev0rc+/xw2\nAJEIQIHrsJL6S4jwbk6Ucw5k0xfi/t5lN7jP+5N2qwKBgQD12L7J0NBlDzK/u0SB\nCHIAsSJhl+9w1bFrun1jc9ZAH2eqDyNP881NjDqQ5IbYkvWj6YrciQbGzbT2Yr5Y\n0dxhxzPzjoTDFWZ/Ulpd20jSZD657f8Xw8t+6Ub6t3PPup+dCGkqxJQgEE5jHw04\nBO01USM9sArYwcdconTumxVWGwKBgQDS3gToyJ5JJi9u/Rgc++fxJzU3Cl82vsxY\niVgwNGyplG1UPwkvTLJ6UXYhSJ1HU80XXrHGiiY+H4QfgHUCapropRgO03ITZ6uN\njcCSk4rFLJkjZpxQ+fpbtCsrOqD2IyMeNd/hXPJweOl+OcTExuG5/eDGT7inCzL/\nfCJ3uuqhfwKBgQCVFxycx0WaA92C6M5icfyw7rsq9DkA9Jbj/fSMm3MS7/it6QBB\nPFkE7kWWGQCt1nGhNcBAfdjeN2HHCZrlwl8j7OpUidl5dUDzdb3XrWQ8Mw7XMr3A\na7y8+jtRUG+rSkIBuVgN16j8yObAtdQOZO51pv74Kgpp6Ro900eWa/ZEgQKBgHZl\nPEJrqhwOOaHKr4hOlDtdtU5TH4TAekHX09E1DjHk6cHcps6M9MUjCf3EJLLQxZ2y\niISeOry0u11opcoWiyXG1Iw2gp2MntEa3x4tg0QUN2OeEHSS9tQYhAiAobGxpt0m\niK6jnmgyK3+49dc6h7EDb/pI9rer3RV/4GZzZ5wHAoGBANSGnpvKZkEN8oopJdq8\nIcqhOO7hEMQtIIVSevW9v/lkkWpttUBVChCDCe/5E07rcctglE/rfIFC+8cfDi0A\nw4gg2A1RW73w6i3kmou5Mjq3tb35yzyvEaPsx9c+7qMuuh9+IFDmH0B+hmhSjLA2\nLsZbGwy3z7eob0nIr5TBDw3Q\n-----END PRIVATE KEY-----\n"
+}
+
 export const FIREBASE_CONFIG = {
   apiKey: "AIzaSyAYQ3DSfJ04fkvS7inqU32iKB104i_MBFE",
   authDomain: "bright-3e89b.firebaseapp.com",
@@ -71,6 +77,7 @@ export const FIREBASE_CONFIG = {
   appId: "1:100057300574:web:69b7053d376c9a725c3ecf",
   measurementId: "G-VKLC5EHNBS"
 };
+
 export const VAPIDKEY = "BNBE25IQ-JdSZOCB7RR-Sj3Kom65jCG-_ac4rMjxtMSpEAXs6Uu0UqCkuYS8CCao3F2-LbAfgcXYjGdJGT1_YpM"
 export const PROJECT_ID = "bright-3e89b";
 export const HOST = 'fcm.googleapis.com';
