@@ -72,4 +72,8 @@ function gotRemoteAnswer(answer) {
     localPeerConnection.signalingState,
   );
   localPeerConnection.setRemoteDescription(answer);
+  localPeerConnection.ontrack = (event) => {
+    console.log('Received remote stream');
+    peerPlayer.srcObject = event.streams[0];
+  };
 }
