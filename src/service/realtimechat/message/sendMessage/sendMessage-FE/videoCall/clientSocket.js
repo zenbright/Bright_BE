@@ -16,19 +16,8 @@ socket.on("joined", ({ userId, userIds }) => {
 
 socket.on("left", ({ body }) => {
   console.log(body, " User just left");
-
   if (body != localUserId) {
-    const containerElement = document.getElementById(`playerContainer-${body}`);
-    if (containerElement) {
-      containerElement.parentNode.removeChild(containerElement);
-    }
-
-    const videoElement = document.getElementById(`peerPlayer-${body}`);
-    if (videoElement) {
-      videoElement.srcObject = null;
-    }
-    remotePeerConnections[body].close();
-    remotePeerConnections[body] = null;
+    handleElementAfterLeaving(body);
   }
 });
 
