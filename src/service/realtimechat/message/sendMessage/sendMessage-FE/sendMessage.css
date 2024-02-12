@@ -140,7 +140,8 @@ body {
   background-color: #f6f6f6;
 }
 
-.clients-total, .video-clients-total {
+.clients-total,
+.video-clients-total {
   margin: 20px 0;
   color: #7e7e7e;
 }
@@ -154,15 +155,16 @@ body {
   flex-direction: row;
 }
 
-#peerPlayer, #localPlayer {
+[id^="peerPlayer"],
+#localPlayer {
   width: 200px;
   height: 150px;
 }
 
-#peerPlayer{
+[id^="peerPlayer"] {
   background: aqua;
 }
 
-#localPlayer{
+#localPlayer {
   background: red;
 }

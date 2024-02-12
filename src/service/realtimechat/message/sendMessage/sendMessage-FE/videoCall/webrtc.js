@@ -15,7 +15,8 @@ const pcConstraints = {
 let localStream;
 let remoteStream;
 let localPeerConnection = new RTCPeerConnection(servers /*, pcConstraints */);
-let remotePeerConnection = new RTCPeerConnection(servers /*, pcConstraints */);
+let remotePeerConnections = {};
+
 let videoMembers = [];
 let joined = false;
 const localUserId = window.location.pathname.split("/")[1];
@@ -43,6 +44,7 @@ async function sendIceCandidate(answerFrom) {
 }
 
 function gotRemoteOffer(offer, offerFrom) {
+  createRemotePeerConnection(offerFrom);
   localPeerConnection
     .setRemoteDescription(offer)
     .then(() => {
@@ -61,23 +63,45 @@ function gotRemoteOffer(offer, offerFrom) {
       console.error("Error setting remote description", error);
     });
 
-  localPeerConnection.ontrack = setPeerPlayer;
+  localPeerConnection.ontrack = (event) => setPeerPlayer(event, offerFrom);
 }
 
-function gotRemoteAnswer(answer) {
+function gotRemoteAnswer(answer, peerId) {
+  createRemotePeerConnection(peerId);
   // Set the answer as a remote description
   localPeerConnection.setRemoteDescription(answer);
   // Set the peer player
-  localPeerConnection.ontrack = setPeerPlayer;
+  localPeerConnection.ontrack = (event) => setPeerPlayer(event, peerId);
 }
 
-function gotRemoteCandidate(candidate) {
+function gotRemoteCandidate(candidate, peerId) {
   // Set the candidate as the remote description
   localPeerConnection.setRemoteDescription(candidate);
   // Set the peer player
-  localPeerConnection.ontrack = setPeerPlayer;
+  localPeerConnection.ontrack = (event) => setPeerPlayer(event, peerId);
 }
 
-const setPeerPlayer = (event) => {
-  peerPlayer.srcObject = event.streams[0];
+// Function to create a new remote RTCPeerConnection
+function createRemotePeerConnection(peerId) {
+  remotePeerConnections[peerId] = new RTCPeerConnection(servers);
+  remotePeerConnections[peerId].ontrack = (event) =>
+    setPeerPlayer(event, peerId);
+}
+
+const setPeerPlayer = (event, peerId) => {
+  const videoId = "peerPlayer-" + peerId;
+
+  if (!document.getElementById(videoId)) {
+    const playerContainer = document.createElement("div");
+    playerContainer.classList.add("playerContainer");
+    const newVideo = document.createElement("video");
+    newVideo.autoplay = true;
+    newVideo.id = videoId;
+    newVideo.srcObject = event.streams[0];
+    playerContainer.appendChild(newVideo);
+    videoGrid.appendChild(playerContainer);
+  } else {
+    const existingVideo = document.getElementById(videoId);
+    existingVideo.srcObject = event.streams[0];
+  }
 };

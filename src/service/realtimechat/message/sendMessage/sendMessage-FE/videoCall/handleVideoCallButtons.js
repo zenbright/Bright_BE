@@ -28,7 +28,6 @@ function enableMedia() {
         localPeerConnection.addTrack(track, localStream);
       });
       localPeerConnection.addStream(localStream);
-      // remoteStream = new MediaStream();
       socket.emit("video-call-connection", "join");
       sendOffer();
     },
@@ -52,5 +51,11 @@ function leaveVideoCall() {
   // remotePeerConnection.close();
   // remotePeerConnection = null;
   localPlayer.srcObject = null;
-  peerPlayer.srcObject = null;
+  // Set srcObject of all peerPlayer-IDs to null
+  Object.keys(remotePeerConnections).forEach((peerId) => {
+    const videoElement = document.getElementById(`peerPlayer-${peerId}`);
+    if (videoElement) {
+      videoElement.srcObject = null;
+    }
+  });
 }

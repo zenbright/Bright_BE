@@ -33,7 +33,7 @@ socket.on("offer_sdp_received", ({ offer, userId }) => {
 socket.on("answer_sdp_received", ({ answer, userId, answerTo }) => {
   // console.log("userId: " + userId + " VS localUserId: " + localUserId);
   if (answerTo == localUserId) {
-    gotRemoteAnswer(answer);
+    gotRemoteAnswer(answer, userId);
 
     if (!videoMembers.includes(userId)) {
       sendIceCandidate(userId);
@@ -47,7 +47,7 @@ socket.on(
   ({ candidate, userId, candidateTo }) => {
     // console.log("userId: " + userId + " VS localUserId: " + localUserId);
     if (candidateTo == localUserId) {
-      gotRemoteCandidate(candidate);
+      gotRemoteCandidate(candidate, userId);
     }
   },
 );
