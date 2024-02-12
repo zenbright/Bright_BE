@@ -36,6 +36,20 @@ function enableMedia() {
   );
 }
 
+function handleElementAfterLeaving(peerId) {
+  const containerElement = document.getElementById(`playerContainer-${peerId}`);
+  if (containerElement) {
+    containerElement.parentNode.removeChild(containerElement);
+  }
+
+  const videoElement = document.getElementById(`peerPlayer-${peerId}`);
+  if (videoElement) {
+    videoElement.srcObject = null;
+  }
+  remotePeerConnections[peerId].close();
+  remotePeerConnections[peerId] = null;
+}
+
 /*
 1. Join button click
 2. Enable Media
@@ -59,18 +73,4 @@ function leaveVideoCall() {
   Object.keys(remotePeerConnections).forEach((peerId) => {
     handleElementAfterLeaving(peerId);
   });
-}
-
-function handleElementAfterLeaving(peerId) {
-  const containerElement = document.getElementById(`playerContainer-${peerId}`);
-  if (containerElement) {
-    containerElement.parentNode.removeChild(containerElement);
-  }
-
-  const videoElement = document.getElementById(`peerPlayer-${peerId}`);
-  if (videoElement) {
-    videoElement.srcObject = null;
-  }
-  remotePeerConnections[peerId].close();
-  remotePeerConnections[peerId] = null;
 }

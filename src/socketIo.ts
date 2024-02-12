@@ -72,7 +72,7 @@ function handleVideoCallAction(
   } else if (action === "send_answer") {
     sendAnswer(body.answer, body.answerTo, userId, io);
   } else if (action === "send_ice_candidate") {
-    sendIceCandidate(groupId, body.candidate, body.candidateTo, userId, io);
+    sendIceCandidate(body.candidate, body.candidateTo, userId, io);
   }
 }
 
@@ -167,22 +167,17 @@ function sendAnswer(answer: any, answerTo: string, userId: string, io: Server) {
 }
 
 function sendIceCandidate(
-  groupId: string,
   candidate: any,
   candidateTo: string,
   userId: string,
   io: Server,
 ) {
-  let userIds = Object.keys(videoSocketsConnected[groupId]);
-  userIds.forEach((id: string) => {
-    if (id == candidateTo) {
-      console.log("Sending candidate from " + userId + " to " + id);
-      io.emit("ice_candidate_sdp_received", {
-        candidate,
-        userId,
-        candidateTo,
-      });
-    }
+  console.log("Sending candidate from " + userId + " to " + candidateTo);
+
+  io.emit("ice_candidate_sdp_received", {
+    candidate,
+    userId,
+    candidateTo,
   });
 }
 
