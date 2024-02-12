@@ -123,6 +123,12 @@ const setPeerPlayer = (event, peerId) => {
   if (!document.getElementById(videoId)) {
     const playerContainer = document.createElement("div");
     playerContainer.classList.add("playerContainer");
+     // Add a paragraph element for displaying peerId
+     const peerIdPara = document.createElement("p");
+     peerIdPara.textContent = "Peer ID: " + peerId;
+     playerContainer.appendChild(peerIdPara);
+
+    // Add a video element to the container
     const newVideo = document.createElement("video");
     newVideo.autoplay = true;
     newVideo.id = videoId;

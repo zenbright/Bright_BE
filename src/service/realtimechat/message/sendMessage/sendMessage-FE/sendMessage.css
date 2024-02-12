@@ -152,7 +152,8 @@ body {
 
 .playerContainer {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  margin-bottom: 10px;
 }
 
 [id^="peerPlayer"],
