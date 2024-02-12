@@ -52,16 +52,26 @@ function joinVideoCall() {
 function leaveVideoCall() {
   handleVideoCall("leave");
   joined = false;
-  // localPeerConnection.close();
-  // localPeerConnection = null;
+  localPeerConnection.close();
+  localPeerConnection = null;
+  localPlayer.srcObject = null;
+
   // remotePeerConnection.close();
   // remotePeerConnection = null;
-  localPlayer.srcObject = null;
-  // Set srcObject of all peerPlayer-IDs to null
+  
+  // Iterate through each peer and delete its container element
   Object.keys(remotePeerConnections).forEach((peerId) => {
+    const containerElement = document.getElementById(`playerContainer-${peerId}`);
+    if (containerElement) {
+      containerElement.parentNode.removeChild(containerElement);
+    }
+    
     const videoElement = document.getElementById(`peerPlayer-${peerId}`);
     if (videoElement) {
       videoElement.srcObject = null;
     }
+    remotePeerConnections[peerId].close();
+    remotePeerConnections[peerId] = null;
+
   });
 }

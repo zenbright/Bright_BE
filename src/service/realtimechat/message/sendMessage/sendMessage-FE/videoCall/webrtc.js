@@ -17,7 +17,6 @@ let remoteStream;
 let localPeerConnection = new RTCPeerConnection(servers /*, pcConstraints */);
 let remotePeerConnections = {};
 
-let videoMembers = [];
 let joined = false;
 const localUserId = window.location.pathname.split("/")[1];
 
@@ -118,11 +117,13 @@ function createRemotePeerConnection(peerId) {
 
 const setPeerPlayer = (event, peerId) => {
   console.log("setting PeerPlayer");
+  const containerId = "playerContainer-" + peerId;
   const videoId = "peerPlayer-" + peerId;
 
   if (!document.getElementById(videoId)) {
     const playerContainer = document.createElement("div");
     playerContainer.classList.add("playerContainer");
+    playerContainer.id = containerId;
      // Add a paragraph element for displaying peerId
      const peerIdPara = document.createElement("p");
      peerIdPara.textContent = "Peer ID: " + peerId;

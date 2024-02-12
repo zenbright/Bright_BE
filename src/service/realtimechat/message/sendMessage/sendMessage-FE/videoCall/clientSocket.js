@@ -14,13 +14,21 @@ socket.on("joined", ({ userId, userIds }) => {
   }
 });
 
-socket.on("left", ({ userId }) => {
-  console.log(userId, " User just left");
-  if (videoMembers.includes(userId)) {
-    const index = videoMembers.indexOf(userId);
-    if (index !== -1) {
-      videoMembers.splice(index, 1);
+socket.on("left", ({ body }) => {
+  console.log(body, " User just left");
+
+  if (body != localUserId) {
+    const containerElement = document.getElementById(`playerContainer-${body}`);
+    if (containerElement) {
+      containerElement.parentNode.removeChild(containerElement);
     }
+
+    const videoElement = document.getElementById(`peerPlayer-${body}`);
+    if (videoElement) {
+      videoElement.srcObject = null;
+    }
+    remotePeerConnections[body].close();
+    remotePeerConnections[body] = null;
   }
 });
 
@@ -35,11 +43,7 @@ socket.on("answer_sdp_received", ({ answer, userId, answerTo }) => {
   if (answerTo == localUserId) {
     console.log("Received Answer From ", userId, " to ", answerTo);
     gotRemoteAnswer(answer, userId);
-
-    if (!videoMembers.includes(userId)) {
-      sendIceCandidate(userId);
-      videoMembers.push(userId);
-    }
+    sendIceCandidate(userId);
   }
 });
 

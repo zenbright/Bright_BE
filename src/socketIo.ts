@@ -126,8 +126,9 @@ function joinVideoCall(groupId: string, userId: string, io: Server) {
 }
 
 function leaveVideoCall(groupId: string, userId: string, io: Server) {
-  const wsClient = videoSocketsConnected[groupId][userId];
-  send(wsClient, "left", userId);
+  // const wsClient = videoSocketsConnected[groupId][userId];
+  console.log(userId, " left");
+  send(io, "left", userId);
 
   let videoSocketsConnectedSize = 0;
   if (videoSocketsConnected[groupId]) {
