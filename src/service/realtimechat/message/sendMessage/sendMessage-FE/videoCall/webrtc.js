@@ -18,6 +18,7 @@ let localPeerConnection = new RTCPeerConnection(servers /*, pcConstraints */);
 let remotePeerConnection = new RTCPeerConnection(servers /*, pcConstraints */);
 let videoMembers = [];
 let joined = false;
+const localUserId = window.location.pathname.split("/")[1];
 
 // When user clicks call button, we will create the p2p connection with RTCPeerConnection
 async function sendOffer() {

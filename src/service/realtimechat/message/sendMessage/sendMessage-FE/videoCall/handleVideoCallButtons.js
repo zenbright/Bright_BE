@@ -28,7 +28,7 @@ function enableMedia() {
         localPeerConnection.addTrack(track, localStream);
       });
       localPeerConnection.addStream(localStream);
-      remoteStream = new MediaStream();
+      // remoteStream = new MediaStream();
       socket.emit("video-call-connection", "join");
       sendOffer();
     },
