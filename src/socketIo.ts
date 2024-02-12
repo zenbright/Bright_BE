@@ -126,9 +126,10 @@ function joinVideoCall(groupId: string, userId: string, io: Server) {
 }
 
 function leaveVideoCall(groupId: string, userId: string, io: Server) {
-  // const wsClient = videoSocketsConnected[groupId][userId];
   console.log(userId, " left");
-  send(io, "left", userId);
+  io.emit("left", {
+    userId,
+  });
 
   let videoSocketsConnectedSize = 0;
   if (videoSocketsConnected[groupId]) {
@@ -182,12 +183,6 @@ function sendIceCandidate(
         candidateTo,
       });
     }
-  });
-}
-
-function send(wsClient: any, type: string, body: any) {
-  wsClient.emit(type, {
-    body,
   });
 }
 

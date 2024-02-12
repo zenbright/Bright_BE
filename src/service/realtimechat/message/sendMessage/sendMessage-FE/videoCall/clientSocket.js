@@ -9,28 +9,27 @@ socket.on("video-clients-total", ({ groupId, videoSocketsConnectedSize }) => {
 socket.on("joined", ({ userId, userIds }) => {
   console.log(userId, " just joined");
   if (userId == localUserId) {
-    console.log("I JOINED!! LET ME SEND OFFERS");
     sendOffer(userIds);
   }
 });
 
-socket.on("left", ({ body }) => {
-  console.log(body, " User just left");
-  if (body != localUserId) {
-    handleElementAfterLeaving(body);
+socket.on("left", ({ userId }) => {
+  console.log(userId, " User just left");
+  if (userId != localUserId) {
+    handleElementAfterLeaving(userId);
   }
 });
 
 socket.on("offer_sdp_received", ({ offer, userId, offerTo }) => {
   if (offerTo == localUserId) {
-    console.log("Received Offer From ", userId, " to ", offerTo);
+    // console.log("Received Offer From ", userId, " to ", offerTo);
     gotRemoteOffer(offer, userId);
   }
 });
 
 socket.on("answer_sdp_received", ({ answer, userId, answerTo }) => {
   if (answerTo == localUserId) {
-    console.log("Received Answer From ", userId, " to ", answerTo);
+    // console.log("Received Answer From ", userId, " to ", answerTo);
     gotRemoteAnswer(answer, userId);
     sendIceCandidate(userId);
   }

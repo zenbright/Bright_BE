@@ -8,9 +8,9 @@ const servers = {
   ],
 };
 
-const pcConstraints = {
-  optional: [{ DtlsSrtpKeyAgreement: true }],
-};
+// const pcConstraints = {
+//   optional: [{ DtlsSrtpKeyAgreement: true }],
+// };
 
 let localStream;
 let remoteStream;
@@ -20,22 +20,14 @@ let remotePeerConnections = {};
 let joined = false;
 const localUserId = window.location.pathname.split("/")[1];
 
-// When user clicks call button, we will create the p2p connection with RTCPeerConnection
 async function sendOffer(joinedUsers) {
-  console.log("Sending offer to");
   // Iterate through each joined user
   for (const peerId of joinedUsers) {
     if (peerId != localUserId) {
-      console.log("Peer " + peerId);
-      // Create RemotePeerConnection for the peer
       createRemotePeerConnection(peerId);
 
-      // Create an offer
       remotePeerConnections[peerId].createOffer().then((offer) => {
-        // Set the offer as a local description
         remotePeerConnections[peerId].setLocalDescription(offer);
-        console.log("Sending an offer");
-        // Send the offer to peers via socket
         socket.emit("video-call-connection", "send_offer", {
           offer: offer,
           offerTo: peerId,
@@ -46,7 +38,6 @@ async function sendOffer(joinedUsers) {
 }
 
 async function sendIceCandidate(answerFrom) {
-  // Send the ice candidate
   socket.emit("video-call-connection", "send_ice_candidate", {
     candidate: remotePeerConnections[answerFrom].localDescription,
     candidateTo: answerFrom,
@@ -54,17 +45,13 @@ async function sendIceCandidate(answerFrom) {
 }
 
 function gotRemoteOffer(offer, offerFrom) {
-  console.log("Got remote offer", offer);
   createRemotePeerConnection(offerFrom);
 
   remotePeerConnections[offerFrom]
     .setRemoteDescription(offer)
     .then(() => {
-      console.log("Remote description set successfully");
-
       // Set the peer player
       remotePeerConnections[offerFrom].ontrack = (event) => {
-        console.log("ontrack event triggered");
         setPeerPlayer(event, offerFrom);
       };
         // Create an answer
@@ -87,7 +74,6 @@ function gotRemoteOffer(offer, offerFrom) {
 }
 
 function gotRemoteAnswer(answer, peerId) {
-  console.log("Got remote answer", answer);
   // Set the answer as a remote description
   remotePeerConnections[peerId].setRemoteDescription(answer);
   // Set the peer player
