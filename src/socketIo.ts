@@ -1,4 +1,4 @@
-import { Server, Socket } from "socket.io";
+import { Server } from "socket.io";
 import { sendMessageService } from "./service/realtimechat/message/sendMessage/sendMessage.service";
 
 const messageSocketsConnected = new Map();
@@ -45,7 +45,7 @@ export const initSocketIo = (server: any) => {
 
       // Handle video call actions
       socket.on("video-call-connection", (action, body) => {
-        handleVideoCallAction(action, socket.id, groupId, userId, io, body);
+        handleVideoCallAction(action, groupId, userId, io, body);
       });
 
       socket.on("disconnect", () => {
@@ -58,7 +58,6 @@ export const initSocketIo = (server: any) => {
 // Function to handle video call actions
 function handleVideoCallAction(
   action: string,
-  socketId: string,
   groupId: string,
   userId: string,
   io: Server,
@@ -69,9 +68,9 @@ function handleVideoCallAction(
   } else if (action === "leave") {
     leaveVideoCall(groupId, userId, io);
   } else if (action === "send_offer") {
-    sendOffer(groupId, body.offer, body.offerTo, userId, io);
+    sendOffer(body.offer, body.offerTo, userId, io);
   } else if (action === "send_answer") {
-    sendAnswer(groupId, body.answer, body.answerTo, userId, io);
+    sendAnswer(body.answer, body.answerTo, userId, io);
   } else if (action === "send_ice_candidate") {
     sendIceCandidate(groupId, body.candidate, body.candidateTo, userId, io);
   }
@@ -146,13 +145,7 @@ function leaveVideoCall(groupId: string, userId: string, io: Server) {
   });
 }
 
-function sendOffer(
-  groupId: string,
-  offer: any,
-  offerTo: string,
-  userId: string,
-  io: Server,
-) {
+function sendOffer(offer: any, offerTo: string, userId: string, io: Server) {
   console.log("Sending offer from " + userId + " to " + offerTo);
   io.emit("offer_sdp_received", {
     offer,
@@ -161,13 +154,7 @@ function sendOffer(
   });
 }
 
-function sendAnswer(
-  groupId: string,
-  answer: any,
-  answerTo: string,
-  userId: string,
-  io: Server,
-) {
+function sendAnswer(answer: any, answerTo: string, userId: string, io: Server) {
   console.log("Sending answer from " + userId + " to " + answerTo);
 
   io.emit("answer_sdp_received", {
