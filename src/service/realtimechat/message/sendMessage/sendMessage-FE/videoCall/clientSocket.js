@@ -6,10 +6,11 @@ socket.on("video-clients-total", ({ groupId, videoSocketsConnectedSize }) => {
   }
 });
 
-socket.on("joined", ({ userId }) => {
-  // console.log("userId: " + userId + " VS localUserId: " + localUserId);
-  if (userId != localUserId) {
-    console.log(userId, " just joined");
+socket.on("joined", ({ userId, userIds }) => {
+  console.log(userId, " just joined");
+  if (userId == localUserId) {
+    console.log("I JOINED!! LET ME SEND OFFERS");
+    sendOffer(userIds);
   }
 });
 
@@ -23,16 +24,16 @@ socket.on("left", ({ userId }) => {
   }
 });
 
-socket.on("offer_sdp_received", ({ offer, userId }) => {
-  // console.log("userId: " + userId + " VS localUserId: " + localUserId);
-  if (userId != localUserId && joined) {
+socket.on("offer_sdp_received", ({ offer, userId, offerTo }) => {
+  if (offerTo == localUserId) {
+    console.log("Received Offer From ", userId, " to ", offerTo);
     gotRemoteOffer(offer, userId);
   }
 });
 
 socket.on("answer_sdp_received", ({ answer, userId, answerTo }) => {
-  // console.log("userId: " + userId + " VS localUserId: " + localUserId);
   if (answerTo == localUserId) {
+    console.log("Received Answer From ", userId, " to ", answerTo);
     gotRemoteAnswer(answer, userId);
 
     if (!videoMembers.includes(userId)) {
@@ -45,7 +46,6 @@ socket.on("answer_sdp_received", ({ answer, userId, answerTo }) => {
 socket.on(
   "ice_candidate_sdp_received",
   ({ candidate, userId, candidateTo }) => {
-    // console.log("userId: " + userId + " VS localUserId: " + localUserId);
     if (candidateTo == localUserId) {
       gotRemoteCandidate(candidate, userId);
     }

@@ -22,73 +22,102 @@ let joined = false;
 const localUserId = window.location.pathname.split("/")[1];
 
 // When user clicks call button, we will create the p2p connection with RTCPeerConnection
-async function sendOffer() {
-  // Create an offer
-  localPeerConnection.createOffer().then((offer) => {
-    // Set the offer as a local description
-    localPeerConnection.setLocalDescription(offer);
-    console.log("Sending an offer");
-    // Send the offer to peers via socket
-    socket.emit("video-call-connection", "send_offer", {
-      offer: offer,
-    });
-  });
+async function sendOffer(joinedUsers) {
+  console.log("Sending offer to");
+  // Iterate through each joined user
+  for (const peerId of joinedUsers) {
+    if (peerId != localUserId) {
+      console.log("Peer " + peerId);
+      // Create RemotePeerConnection for the peer
+      createRemotePeerConnection(peerId);
+
+      // Create an offer
+      remotePeerConnections[peerId].createOffer().then((offer) => {
+        // Set the offer as a local description
+        remotePeerConnections[peerId].setLocalDescription(offer);
+        console.log("Sending an offer");
+        // Send the offer to peers via socket
+        socket.emit("video-call-connection", "send_offer", {
+          offer: offer,
+          offerTo: peerId,
+        });
+      });
+    }
+  }
 }
 
 async function sendIceCandidate(answerFrom) {
   // Send the ice candidate
   socket.emit("video-call-connection", "send_ice_candidate", {
-    candidate: localPeerConnection.localDescription,
+    candidate: remotePeerConnections[answerFrom].localDescription,
     candidateTo: answerFrom,
   });
 }
 
 function gotRemoteOffer(offer, offerFrom) {
+  console.log("Got remote offer", offer);
   createRemotePeerConnection(offerFrom);
-  localPeerConnection
+
+  remotePeerConnections[offerFrom]
     .setRemoteDescription(offer)
     .then(() => {
-      return localPeerConnection.createAnswer();
-    })
-    .then((answer) => {
-      return localPeerConnection.setLocalDescription(answer);
-    })
-    .then(() => {
-      socket.emit("video-call-connection", "send_answer", {
-        answer: localPeerConnection.localDescription,
-        answerTo: offerFrom,
-      });
-    })
+      console.log("Remote description set successfully");
+
+      // Set the peer player
+      remotePeerConnections[offerFrom].ontrack = (event) => {
+        console.log("ontrack event triggered");
+        setPeerPlayer(event, offerFrom);
+      };
+        // Create an answer
+        return remotePeerConnections[offerFrom].createAnswer();
+      })
+      .then((answer) => {
+        // Set the answer as a local description
+        return remotePeerConnections[offerFrom].setLocalDescription(answer);
+      })
+      .then(() => {
+        // Send the answer via socket
+        socket.emit("video-call-connection", "send_answer", {
+          answer: remotePeerConnections[offerFrom].localDescription,
+          answerTo: offerFrom,
+        });
+      })
     .catch((error) => {
       console.error("Error setting remote description", error);
     });
-
-  localPeerConnection.ontrack = (event) => setPeerPlayer(event, offerFrom);
 }
 
 function gotRemoteAnswer(answer, peerId) {
-  createRemotePeerConnection(peerId);
+  console.log("Got remote answer", answer);
   // Set the answer as a remote description
-  localPeerConnection.setRemoteDescription(answer);
+  remotePeerConnections[peerId].setRemoteDescription(answer);
   // Set the peer player
-  localPeerConnection.ontrack = (event) => setPeerPlayer(event, peerId);
+  remotePeerConnections[peerId].ontrack = (event) =>
+    setPeerPlayer(event, peerId);
 }
 
 function gotRemoteCandidate(candidate, peerId) {
+  console.log("Got remote candidate", candidate);
   // Set the candidate as the remote description
-  localPeerConnection.setRemoteDescription(candidate);
+  remotePeerConnections[peerId].setRemoteDescription(candidate);
   // Set the peer player
-  localPeerConnection.ontrack = (event) => setPeerPlayer(event, peerId);
+  remotePeerConnections[peerId].ontrack = (event) =>
+    setPeerPlayer(event, peerId);
 }
 
 // Function to create a new remote RTCPeerConnection
 function createRemotePeerConnection(peerId) {
   remotePeerConnections[peerId] = new RTCPeerConnection(servers);
+  localStream.getTracks().forEach((track) => {
+    remotePeerConnections[peerId].addTrack(track, localStream);
+  });
+  remotePeerConnections[peerId].addStream(localStream);
   remotePeerConnections[peerId].ontrack = (event) =>
     setPeerPlayer(event, peerId);
 }
 
 const setPeerPlayer = (event, peerId) => {
+  console.log("setting PeerPlayer");
   const videoId = "peerPlayer-" + peerId;
 
   if (!document.getElementById(videoId)) {

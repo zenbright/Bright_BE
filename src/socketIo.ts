@@ -69,7 +69,7 @@ function handleVideoCallAction(
   } else if (action === "leave") {
     leaveVideoCall(groupId, userId, io);
   } else if (action === "send_offer") {
-    sendOffer(groupId, body.offer, userId, io);
+    sendOffer(groupId, body.offer, body.offerTo, userId, io);
   } else if (action === "send_answer") {
     sendAnswer(groupId, body.answer, body.answerTo, userId, io);
   } else if (action === "send_ice_candidate") {
@@ -113,16 +113,9 @@ function joinVideoCall(groupId: string, userId: string, io: Server) {
   const userIds = Object.keys(videoSocketsConnected[groupId]);
   console.log("Joined userIds: ", userIds);
 
-  userIds.forEach((id: string) => {
-    if (id != userId) {
-      console.log(userId, " joined --> ", id);
-      // const wsClient = videoSocketsConnected[groupId][id];
-      // send(wsClient, "joined", userId);
-
-      io.emit("joined", {
-        userId,
-      });
-    }
+  io.emit("joined", {
+    userId,
+    userIds,
   });
 
   const videoSocketsConnectedSize = userIds.length;
@@ -153,16 +146,18 @@ function leaveVideoCall(groupId: string, userId: string, io: Server) {
   });
 }
 
-function sendOffer(groupId: string, offer: any, userId: string, io: Server) {
-  let userIds = Object.keys(videoSocketsConnected[groupId]);
-  userIds.forEach((id: string) => {
-    if (id != userId) {
-      console.log("Sending offer from " + userId + " to " + id);
-      io.emit("offer_sdp_received", {
-        offer,
-        userId,
-      });
-    }
+function sendOffer(
+  groupId: string,
+  offer: any,
+  offerTo: string,
+  userId: string,
+  io: Server,
+) {
+  console.log("Sending offer from " + userId + " to " + offerTo);
+  io.emit("offer_sdp_received", {
+    offer,
+    userId,
+    offerTo,
   });
 }
 
@@ -173,16 +168,12 @@ function sendAnswer(
   userId: string,
   io: Server,
 ) {
-  let userIds = Object.keys(videoSocketsConnected[groupId]);
-  userIds.forEach((id: string) => {
-    if (id == answerTo) {
-      console.log("Sending answer from " + userId + " to " + id);
-      io.emit("answer_sdp_received", {
-        answer,
-        userId,
-        answerTo,
-      });
-    }
+  console.log("Sending answer from " + userId + " to " + answerTo);
+
+  io.emit("answer_sdp_received", {
+    answer,
+    userId,
+    answerTo,
   });
 }
 

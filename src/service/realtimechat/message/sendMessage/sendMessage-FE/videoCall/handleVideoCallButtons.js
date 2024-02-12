@@ -29,7 +29,6 @@ function enableMedia() {
       });
       localPeerConnection.addStream(localStream);
       socket.emit("video-call-connection", "join");
-      sendOffer();
     },
     (error) => {
       console.error("getUserMedia error:", error);
@@ -37,6 +36,13 @@ function enableMedia() {
   );
 }
 
+/*
+1. Join button click
+2. Enable Media
+3. Let peers know the user joined (send "join")
+4. Get every peer who has joined the call
+5. Create an offer to each peer Send offer
+ */
 function joinVideoCall() {
   enableMedia();
   joined = true;
