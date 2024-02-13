@@ -3,6 +3,7 @@ import userCredentials from "../../../../models/userCredentialsModel";
 import userInfo from "../../../../models/userInfoModel";
 import { RESPONSE_CODE, PROVIDER } from "../../../utils/constants";
 import { passwordValidator } from "../../../utils/validator";
+import bcrypt from "bcryptjs";
 
 export async function signUpBrigthAccount(req: any, res: any, next: any) {
   try {
@@ -26,10 +27,13 @@ export async function signUpBrigthAccount(req: any, res: any, next: any) {
       }
     }
 
+    const salt = await bcrypt.genSalt(10);
+    const hashPassword = await bcrypt.hash(userData.password, salt);
+
     // Create new credential
     const newCredential = new userCredentials({
       account: userData.account,
-      password: userData.password,
+      password: hashPassword,
       userId: new mongoose.Types.ObjectId(),
       provider: PROVIDER.BRIGHT,
     });
