@@ -61,14 +61,12 @@ function startHeartbeatCheck(userId: string, socket: any) {
 
 async function updateUserState(userId: string, isOnline: boolean) {
   const userInfo = await userInfoModel.findOne({ _id: userId });
-  if (!userInfo) {
-    // console.log("User not found");
-  } else {
+  if (userInfo) {
     userInfo.isOnline = isOnline;
     if (!isOnline) {
       userInfo.lastOnlineTime = new Date();
     }
     await userInfo.save();
-    // console.log("Updated user info: " + userInfo);
+    // console.log("User info saved");
   }
 }
