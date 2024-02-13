@@ -39,6 +39,6 @@ async function updateUserState(userId: string, isOnline: boolean) {
       userInfo.lastOnlineTime = new Date();
     }
     userInfo.save();
-    console.log("User online info updated");
+    console.log("Updated user info: " + userInfo);
   }
 }
