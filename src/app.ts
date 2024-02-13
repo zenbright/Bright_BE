@@ -15,6 +15,7 @@ import { ROUTE_ENDPOINT } from "./config";
 import endpoint from "./endpoints";
 import errorResponseHandler from "./service/utils/errorResponseHandler";
 import { initHeartbeatSocket } from "./socketIoConnection/heartbeatSocket";
+import staticRoutes from "./static.route";
 
 dotenv.config();
 
@@ -112,6 +113,9 @@ app.use((req, res: any, next) => {
   res.RH = new ResponseHandler(res);
   next();
 });
+
+// Use the static routes module
+app.use("/", staticRoutes);
 
 // Connect MongoDB
 mongoose.set('strictQuery', false);
