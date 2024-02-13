@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /chat/leaveGroup:
+ * /chat/leave/group:
  *   put:
  *     summary: Leave a group
  *     tags:

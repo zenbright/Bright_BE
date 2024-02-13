@@ -1,13 +1,13 @@
 import { Router } from "express";
-import * as deleteGroupMessagesController from "./deleteGroupMessages.controller";
+import * as editMessageController from "./editMessage.controller";
 import * as IPSpamChecker from "../../../middleware/api.limiter";
 
 const router = Router();
 
-router.delete(
-  "/messages/:groupId",
+router.put(
+  "/message/:groupId/:msgId",
   IPSpamChecker.checkIpSpamServer("/chat"), 
-  deleteGroupMessagesController.deleteGroupMessagesController,
+  editMessageController.editMessageController,
 );
 
 export default router;

@@ -1,13 +1,13 @@
 import { Router } from "express";
-import * as getGroupMessagesController from "./getGroupMessages.controller";
+import * as getGroupsController from "./getGroups.controller";
 import * as IPSpamChecker from "../../../middleware/api.limiter";
 
 const router = Router();
 
 router.get(
-  "/messages/:groupId",
+  "/groups",
   IPSpamChecker.checkIpSpamServer("/chat"),
-  getGroupMessagesController.getGroupMessagesController,
+  getGroupsController.getGroupsController,
 );
 
 export default router;

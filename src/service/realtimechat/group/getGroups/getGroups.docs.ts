@@ -1,21 +1,13 @@
 /**
  * @swagger
- * /chat/group/{groupId}:
+ * /chat/groups:
  *   get:
- *     summary: Get a group from a group
+ *     summary: Get all groups
  *     tags:
  *       - Real-time chat feature
- *     parameters:
- *      - name: groupId
- *        in: path
- *        required: true
- *        schema:
- *          type: string
- *        example: "65b20ed75905ffc41c65290f"
- *        description: The ID of the group to be gotten
  *     responses:
  *       200:
- *         description: Get a group from a group success
+ *         description: Get all groups success
  *         schema:
  *           type: object
  *           example:

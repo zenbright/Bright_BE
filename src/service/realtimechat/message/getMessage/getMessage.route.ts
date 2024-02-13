@@ -5,7 +5,7 @@ import * as IPSpamChecker from "../../../middleware/api.limiter";
 const router = Router();
 
 router.get(
-  "/getMessage/:msgId",
+  "/message/:msgId",
   IPSpamChecker.checkIpSpamServer("/chat"),
   getMessageController.getMessageController,
 );

@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /chat/createGroup:
+ * /chat/group:
  *   post:
  *     summary: Create a new group 
  *     tags:

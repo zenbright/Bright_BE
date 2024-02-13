@@ -1,7 +1,7 @@
 /**
  * @swagger
- * /chat/deleteGroup:
- *   post:
+ * /chat/group:
+ *   delete:
  *     summary: Delete group
  *     tags:
  *       - Real-time chat feature
