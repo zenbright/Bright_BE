@@ -1,5 +1,6 @@
 heartbeatSocket = io({ path: "/heartbeat" });
 
-heartbeatSocket.emit("heartbeat", (result) => {
-
-});
+setInterval(() => {
+  console.log("heartbeat every 30 seconds");
+  heartbeatSocket.emit("heartbeat", (result) => {});
+}, 30000);

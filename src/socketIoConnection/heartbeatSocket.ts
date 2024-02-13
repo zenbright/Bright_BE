@@ -15,7 +15,9 @@ export const initHeartbeatSocket = (server: any) => {
       const userId = referer.split("/")[3];
       console.log(userId, " socket connected");
 
-      socket.on("message", async (data: any, callback: any) => {});
+      socket.on("heartbeat",  () => {
+        console.log(userId, " heartbeat checked at " , new Date().toISOString());
+      });
 
       socket.on("disconnect", () => {
         console.log(userId, " socket disconnected");
