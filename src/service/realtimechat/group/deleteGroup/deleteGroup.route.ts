@@ -5,7 +5,7 @@ import * as APIValidator from "../../../middleware/api.validator";
 
 const router = Router();
 
-router.post(
+router.delete(
   "/deleteGroup",
   IPSpamChecker.checkIpSpamServer("/utils/user"), // Check IP spam
   APIValidator.deleteGroupValidator,
