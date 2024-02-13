@@ -14,6 +14,7 @@ import swaggerUI from "swagger-ui-express";
 import { ROUTE_ENDPOINT } from "./config";
 import endpoint from "./endpoints";
 import errorResponseHandler from "./service/utils/errorResponseHandler";
+import { initHeartbeatSocket } from "./socketIoConnection/heartbeatSocket";
 
 dotenv.config();
 
@@ -124,10 +125,14 @@ mongoose.connect(MONGO_URI).then(async (data) => {
   });
 
 // Server Listener
-app.listen(PORT_SERVER, () => {
+const server = app.listen(PORT_SERVER, () => {
+  // ? Logging restart service
   logger.info(`Server is running on port ${PORT_SERVER}`);
   console.log(`Server is running on port ${PORT_SERVER}`);
 });
+
+// Connect to socket.io
+initHeartbeatSocket(server);
 
 // Errors Handler
 app.use(errorResponseHandler);
