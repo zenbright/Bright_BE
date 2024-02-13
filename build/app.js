@@ -66,7 +66,9 @@ if (["production", "development", "local"].includes(NODE_ENV)) {
         challenge: true,
     }), swaggerUI.serve, swaggerUI.setup(swaggerJSDoc));
 }
+// cookie parser
 app.use(cookieParser());
+// API settings
 app.use(compression());
 app.use(bodyParser.json({ limit: "20mb" }));
 app.use(bodyParser.urlencoded({ limit: "20mb", extended: false }));
@@ -114,7 +116,6 @@ app.listen(PORT_SERVER, () => {
     logger.info(`Server is running on port ${PORT_SERVER}`);
     console.log(`Server is running on port ${PORT_SERVER}`);
 });
-app.use(router);
-// Handle Errors
+// Errors Handler
 app.use(errorResponseHandler);
 export default app;
