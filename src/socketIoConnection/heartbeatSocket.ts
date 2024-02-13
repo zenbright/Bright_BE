@@ -46,18 +46,16 @@ function startHeartbeatCheck(userId: string, socket: any) {
     } else {
       consecutiveFailures++;
     }
-  }, 30000); 
+  }, 30000);
 
   socket.on("heartbeat_answer", () => {
-    console.log(userId, " received heartbeat answer from client");
+    // console.log(userId, " received heartbeat answer from client");
     // Reset consecutive failures upon receiving heartbeat answer
     consecutiveFailures = 0;
   });
 
   socket.on("disconnect", async () => {
     clearInterval(heartbeatInterval);
-    // console.log(userId, " socket disconnected");
-    await updateUserState(userId, false);
   });
 }
 
