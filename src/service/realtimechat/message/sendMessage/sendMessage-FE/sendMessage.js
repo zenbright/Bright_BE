@@ -1,5 +1,5 @@
 // Initialize Socket.IO
-socket = io();
+messageSocket = io({path: '/message'});
 
 // DOM elements
 const clientsTotal = document.getElementById("client-total");
@@ -55,7 +55,7 @@ messageForm.addEventListener("submit", (e) => {
 });
 
 // Update total number of clients
-socket.on("clients-total", ({ groupId, socketsConnectedSize }) => {
+messageSocket.on("clients-total", ({ groupId, socketsConnectedSize }) => {
   if (groupId == serverGroupId) {
     clientsTotal.innerText = `Total Clients: ${socketsConnectedSize}`;
   } else {
@@ -114,7 +114,7 @@ async function sendMessage() {
     };
 
     // Sending a message with a callback
-    socket.emit("message", dataToSend, (result) => {
+    messageSocket.emit("message", dataToSend, (result) => {
       addMessageToUI(true, result, multimediaDataArray);
     });
 
@@ -128,7 +128,7 @@ async function sendMessage() {
 }
 
 // Broadcast the message to other users in the same group
-socket.on("group-message", ({ groupId, formattedMsg }) => {
+messageSocket.on("group-message", ({ groupId, formattedMsg }) => {
   // console.log("serverGroupId: ", serverGroupId);
   if (groupId === serverGroupId) {
     addMessageToUI(false, formattedMsg, []);
@@ -261,27 +261,27 @@ async function deleteMessage(groupId, msgId) {
 // Event listeners for typing feedback
 textMessageInput.addEventListener("focus", (e) => {
   // console.log("feedback focus");
-  socket.emit("typing-feedback", {
+  messageSocket.emit("typing-feedback", {
     feedback: `✍️ ${nameInput.value} is typing a message`,
   });
 });
 
 textMessageInput.addEventListener("keypress", (e) => {
   // console.log("feedback keypress");
-  socket.emit("typing-feedback", {
+  messageSocket.emit("typing-feedback", {
     feedback: `✍️ ${nameInput.value} is typing a message`,
   });
 });
 
 textMessageInput.addEventListener("blur", (e) => {
   // console.log("feedback blur");
-  socket.emit("typing-feedback", {
+  messageSocket.emit("typing-feedback", {
     feedback: "",
   });
 });
 
 // Receive typing feedback
-socket.on("typing-feedback", (data) => {
+messageSocket.on("typing-feedback", (data) => {
   clearFeedback();
   const element = `
         <li class="message-feedback">

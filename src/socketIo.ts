@@ -1,3 +1,4 @@
+// Import necessary modules
 import { Server } from "socket.io";
 import { sendMessageService } from "./service/realtimechat/message/sendMessage/sendMessage.service";
 
@@ -9,11 +10,18 @@ interface VideoSocketsConnected {
 }
 
 const videoSocketsConnected: VideoSocketsConnected = {};
-// socket.io setup
-export const initSocketIo = (server: any) => {
-  const io = new Server(server, {});
 
-  io.on("connection", (socket) => {
+// Initialize Socket.IO instances
+const messageIo = new Server();
+const videoCallIo = new Server();
+
+// Function to initialize Socket.IO for message functionality
+export const initMessageSocket = (server: any) => {
+  messageIo.attach(server, {
+    path: "/message",
+  });
+
+  messageIo.on("connection", (socket) => {
     const referer = socket.handshake.headers.referer;
 
     // Extract userId and groupId from the referer URL
@@ -21,7 +29,7 @@ export const initSocketIo = (server: any) => {
       const userId = referer.split("/")[3];
       const groupId = referer.split("/")[4];
 
-      increaseMessageClientCount(groupId, socket.id, io);
+      increaseMessageClientCount(groupId, socket.id, messageIo);
 
       socket.on("message", async (data, callback) => {
         try {
@@ -43,13 +51,33 @@ export const initSocketIo = (server: any) => {
         }
       });
 
+      socket.on("disconnect", () => {
+        decreaseMessageClientCount(groupId, socket.id, messageIo);
+      });
+    }
+  });
+};
+
+// Function to initialize Socket.IO for video call functionality
+export const initVideoCallSocket = (server: any) => {
+  videoCallIo.attach(server, {
+    path: "/videoCall",
+  });
+
+  videoCallIo.on("connection", (socket) => {
+    const referer = socket.handshake.headers.referer;
+
+    // Extract userId and groupId from the referer URL
+    if (referer) {
+      const userId = referer.split("/")[3];
+      const groupId = referer.split("/")[4];
       // Handle video call actions
       socket.on("video-call-connection", (action, body) => {
-        handleVideoCallAction(action, groupId, userId, io, body);
+        handleVideoCallAction(action, groupId, userId, videoCallIo, body);
       });
 
       socket.on("disconnect", () => {
-        decreaseMessageClientCount(groupId, socket.id, io);
+        decreaseMessageClientCount(groupId, socket.id, videoCallIo);
       });
     }
   });
@@ -181,4 +209,4 @@ function sendIceCandidate(
   });
 }
 
-export default initSocketIo;
+export default { initMessageSocket, initVideoCallSocket };

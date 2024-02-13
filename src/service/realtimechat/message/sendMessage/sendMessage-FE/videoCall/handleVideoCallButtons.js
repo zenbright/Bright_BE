@@ -13,7 +13,7 @@ const constraints = {
 
 // Function to handle video call actions
 function handleVideoCall(action) {
-  socket.emit("video-call-connection", action);
+  videoCallSocket.emit("video-call-connection", action);
 }
 
 function enableMedia() {
@@ -28,7 +28,7 @@ function enableMedia() {
         localPeerConnection.addTrack(track, localStream);
       });
       localPeerConnection.addStream(localStream);
-      socket.emit("video-call-connection", "join");
+      videoCallSocket.emit("video-call-connection", "join");
     },
     (error) => {
       console.error("getUserMedia error:", error);

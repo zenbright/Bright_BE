@@ -1,5 +1,6 @@
 const localPlayer = document.getElementById("localPlayer");
 const peerPlayer = document.getElementById("peerPlayer");
+videoCallSocket = io({path: '/videoCall'});
 
 const servers = {
   iceServers: [
@@ -28,7 +29,7 @@ async function sendOffer(joinedUsers) {
 
       remotePeerConnections[peerId].createOffer().then((offer) => {
         remotePeerConnections[peerId].setLocalDescription(offer);
-        socket.emit("video-call-connection", "send_offer", {
+        videoCallSocket.emit("video-call-connection", "send_offer", {
           offer: offer,
           offerTo: peerId,
         });
@@ -38,7 +39,7 @@ async function sendOffer(joinedUsers) {
 }
 
 async function sendIceCandidate(answerFrom) {
-  socket.emit("video-call-connection", "send_ice_candidate", {
+  videoCallSocket.emit("video-call-connection", "send_ice_candidate", {
     candidate: remotePeerConnections[answerFrom].localDescription,
     candidateTo: answerFrom,
   });
@@ -62,8 +63,8 @@ function gotRemoteOffer(offer, offerFrom) {
         return remotePeerConnections[offerFrom].setLocalDescription(answer);
       })
       .then(() => {
-        // Send the answer via socket
-        socket.emit("video-call-connection", "send_answer", {
+        // Send the answer via videoCallSocket
+        videoCallSocket.emit("video-call-connection", "send_answer", {
           answer: remotePeerConnections[offerFrom].localDescription,
           answerTo: offerFrom,
         });
