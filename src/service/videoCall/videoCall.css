@@ -1,0 +1,28 @@
+.video-clients-total {
+  margin: 20px 0;
+  color: #7e7e7e;
+}
+
+#video-grid {
+  margin-bottom: 50px;
+}
+
+.playerContainer {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+[id^="peerPlayer"],
+#localPlayer {
+  width: 200px;
+  height: 150px;
+}
+
+[id^="peerPlayer"] {
+  background: aqua;
+}
+
+#localPlayer {
+  background: red;
+}
