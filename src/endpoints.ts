@@ -26,6 +26,7 @@ import GetMessageRoute from "./service/realtimechat/message/getMessage/getMessag
 import GetGroupMessagesRoute from "./service/realtimechat/message/getGroupMessages/getGroupMessages.route";
 import DeleteMessageRoute from "./service/realtimechat/message/deleteMessage/deleteMessage.route";
 import DeleteGroupMessagesRoute from "./service/realtimechat/message/deleteGroupMessages/deleteGroupMessages.route";
+import EditMessageRoute from "./service/realtimechat/message/editMessage/editMessage.route";
 
 const router = Router();
 
@@ -55,6 +56,7 @@ router.use("/chat", [
   GetMessageRoute,
   GetGroupMessagesRoute,
   DeleteGroupMessagesRoute,
+  EditMessageRoute
 ]);
 
 export default router;
