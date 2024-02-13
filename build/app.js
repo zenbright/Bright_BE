@@ -27,6 +27,8 @@ import errorResponseHandler from "./service/utils/errorResponseHandler";
 import cookieParser from "cookie-parser";
 import passport from "passport";
 import("./service/authentication/google/googleAuth.service");
+import { initHeartbeatSocket } from "./socketIoConnection/heartbeatSocket";
+import staticRoutes from "./static.route";
 dotenv.config();
 import { MORGAN_FORMAT, CORS_OPTIONS, USERNAME_API_DOCS, PASSWORD_API_DOCS, NODE_ENV, PORT_SERVER, MONGO_URI, DB_NAME, } from "./config";
 const app = express();
@@ -99,6 +101,8 @@ app.use((req, res, next) => {
     res.RH = new ResponseHandler(res);
     next();
 });
+// Use the static routes module
+app.use("/", staticRoutes);
 // Connect MongoDB
 mongoose.set("strictQuery", false);
 mongoose
@@ -112,10 +116,13 @@ mongoose
     process.exit(1);
 });
 // Server Listener
-app.listen(PORT_SERVER, () => {
+const server = app.listen(PORT_SERVER, () => {
+    // ? Logging restart service
     logger.info(`Server is running on port ${PORT_SERVER}`);
     console.log(`Server is running on port ${PORT_SERVER}`);
 });
+// Connect to socket.io
+initHeartbeatSocket(server);
 // Errors Handler
 app.use(errorResponseHandler);
 export default app;

@@ -21,6 +21,8 @@ import passport from "passport";
 import("./service/authentication/google/googleAuth.service");
 
 import { UserBasicInfo } from './models/userBasicInfo';
+import { initHeartbeatSocket } from "./socketIoConnection/heartbeatSocket";
+import staticRoutes from "./static.route";
 
 dotenv.config();
 
@@ -147,6 +149,9 @@ app.use((req, res: any, next) => {
   next();
 });
 
+// Use the static routes module
+app.use("/", staticRoutes);
+
 // Connect MongoDB
 mongoose.set("strictQuery", false);
 mongoose
@@ -161,10 +166,14 @@ mongoose
   });
 
 // Server Listener
-app.listen(PORT_SERVER, () => {
+const server = app.listen(PORT_SERVER, () => {
+  // ? Logging restart service
   logger.info(`Server is running on port ${PORT_SERVER}`);
   console.log(`Server is running on port ${PORT_SERVER}`);
 });
+
+// Connect to socket.io
+initHeartbeatSocket(server);
 
 // Errors Handler
 app.use(errorResponseHandler);

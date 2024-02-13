@@ -83,6 +83,7 @@
     "redis": "^4.6.10",
     "regenerator-runtime": "^0.14.0",
     "sendmail": "^1.6.1",
+    "socket.io": "^4.7.4",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0",
     "wink-bm25-text-search": "^3.1.2",
