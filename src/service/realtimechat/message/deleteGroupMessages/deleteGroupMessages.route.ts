@@ -5,7 +5,7 @@ import * as IPSpamChecker from "../../../middleware/api.limiter";
 const router = Router();
 
 router.delete(
-  "/deleteGroupMessages/:groupId",
+  "/messages/:groupId",
   IPSpamChecker.checkIpSpamServer("/chat"), 
   deleteGroupMessagesController.deleteGroupMessagesController,
 );

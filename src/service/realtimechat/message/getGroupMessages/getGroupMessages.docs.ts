@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /chat/getGroupMessages/{groupId}:
+ * /chat/messages/{groupId}:
  *   get:
  *     summary: Get messages from a group
  *     tags:
