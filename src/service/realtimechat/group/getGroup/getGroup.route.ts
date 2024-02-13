@@ -5,7 +5,7 @@ import * as IPSpamChecker from "../../../middleware/api.limiter";
 const router = Router();
 
 router.get(
-  "/getGroup/:groupId",
+  "/group/:groupId",
   IPSpamChecker.checkIpSpamServer("/chat"),
   getGroupController.getGroupController,
 );

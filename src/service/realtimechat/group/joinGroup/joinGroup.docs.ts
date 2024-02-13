@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /chat/joinGroup:
+ * /chat/join/group:
  *   put:
  *     summary: Join group
  *     tags:

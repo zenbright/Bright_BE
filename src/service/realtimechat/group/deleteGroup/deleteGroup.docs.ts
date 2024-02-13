@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /chat/deleteGroup:
+ * /chat/group:
  *   delete:
  *     summary: Delete group
  *     tags:

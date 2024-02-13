@@ -6,7 +6,7 @@ import * as APIValidator from "../../../middleware/api.validator";
 const router = Router();
 
 router.put(
-  "/joinGroup",
+  "/join/group",
   IPSpamChecker.checkIpSpamServer("/utils/user"), // Check IP spam
   APIValidator.JoinLeaveGroupValidator,
   joinGroupController.joinGroupController,
