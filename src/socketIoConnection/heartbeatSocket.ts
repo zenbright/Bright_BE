@@ -7,16 +7,19 @@ export const initHeartbeatSocket = (server: any) => {
     path: "/heartbeat",
   });
 
-  heartbeatIo.on("connection", (socket) => {
+  heartbeatIo.on("connection", (socket: any) => {
     const referer = socket.handshake.headers.referer;
 
     // Extract userId and groupId from the referer URL
     if (referer) {
       const userId = referer.split("/")[3];
+      console.log(userId, " socket connected");
 
-      socket.on("message", async (data, callback) => {});
+      socket.on("message", async (data: any, callback: any) => {});
 
-      socket.on("disconnect", () => {});
+      socket.on("disconnect", () => {
+        console.log(userId, " socket disconnected");
+      });
     }
   });
 };
