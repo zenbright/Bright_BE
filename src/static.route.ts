@@ -30,33 +30,6 @@ staticRoutes.get("/:userId/:groupId/sendMessage.js", (req, res) => {
   );
 });
 
-staticRoutes.get("/:userId/:groupId/webrtc.js", (req, res) => {
-  res.sendFile(
-    path.join(
-      __dirname,
-      "src/service/realtimechat/message/sendMessage/sendMessage-FE/videoCall/webrtc.js",
-    ),
-  );
-});
-
-staticRoutes.get("/:userId/:groupId/handleVideoCallButtons.js", (req, res) => {
-  res.sendFile(
-    path.join(
-      __dirname,
-      "src/service/realtimechat/message/sendMessage/sendMessage-FE/videoCall/handleVideoCallButtons.js",
-    ),
-  );
-});
-
-staticRoutes.get("/:userId/:groupId/clientSocket.js", (req, res) => {
-  res.sendFile(
-    path.join(
-      __dirname,
-      "src/service/realtimechat/message/sendMessage/sendMessage-FE/videoCall/clientSocket.js",
-    ),
-  );
-});
-
 staticRoutes.get("/:userId/:groupId/sendMessage", async (req, res) => {
   validateUserGroupId(req, res);
 
@@ -67,6 +40,55 @@ staticRoutes.get("/:userId/:groupId/sendMessage", async (req, res) => {
     ),
   );
 });
+
+staticRoutes.get("/:userId/:groupId/videoCall.css", (req, res) => {
+  res.sendFile(
+    path.join(
+      __dirname,
+      "src/service/videoCall/videoCall.css",
+    ),
+  );
+});
+
+staticRoutes.get("/:userId/:groupId/webrtc.js", (req, res) => {
+  res.sendFile(
+    path.join(
+      __dirname,
+      "src/service/videoCall/webrtc.js",
+    ),
+  );
+});
+
+staticRoutes.get("/:userId/:groupId/handleVideoCallButtons.js", (req, res) => {
+  res.sendFile(
+    path.join(
+      __dirname,
+      "src/service/videoCall/handleVideoCallButtons.js",
+    ),
+  );
+});
+
+staticRoutes.get("/:userId/:groupId/clientSocket.js", (req, res) => {
+  res.sendFile(
+    path.join(
+      __dirname,
+      "src/service/videoCall/clientSocket.js",
+    ),
+  );
+});
+
+staticRoutes.get("/:userId/:groupId/videoCall", async (req, res) => {
+  validateUserGroupId(req, res);
+
+  res.sendFile(
+    path.join(
+      __dirname,
+      "src/service/videoCall/videoCall.html",
+    ),
+  );
+});
+
+
 
 async function validateUserGroupId(req: any, res: any) {
   const { userId, groupId } = req.params;

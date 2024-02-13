@@ -50,18 +50,6 @@
     </div>
     <h3 class="clients-total" id="client-total">Total Clients: 0</h3>
 
-    <h1>Group Video Chat</h1>
-    <div id="video-grid">
-      VIDEO
-      <div className='playerContainer' id="playerContainer">
-        <video id="localPlayer" autoPlay></video>
-      </div>
-
-      <button id="video-connect-btn" onclick=joinVideoCall()>Join</button>
-      <button id="video-connect-btn" onclick=leaveVideoCall()>Leave</button>
-      <h3 class="video-clients-total" id="video-client-total">Total Clients: 0</h3>
-    </div>
-
     <script src="/socket.io/socket.io.js"></script>
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.28.0/moment.min.js"
@@ -72,8 +60,5 @@
     https://cdn.jsdelivr.net/npm/simple-peer@9.11.1/simplepeer.min.js
     "></script>
     <script src="sendMessage.js"></script>
-    <script src="webrtc.js"></script>
-    <script src="handleVideoCallButtons.js"></script>
-    <script src="clientSocket.js"></script>
   </body>
 </html>

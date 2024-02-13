@@ -1,6 +1,7 @@
 const localPlayer = document.getElementById("localPlayer");
 const peerPlayer = document.getElementById("peerPlayer");
 videoCallSocket = io({path: '/videoCall'});
+let serverGroupId = window.location.pathname.split("/")[2];
 
 const servers = {
   iceServers: [
