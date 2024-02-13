@@ -21,11 +21,11 @@ staticRoutes.get("/:userId/:groupId/sendMessage.css", (req, res) => {
   );
 });
 
-staticRoutes.get("/:userId/:groupId/main.js", (req, res) => {
+staticRoutes.get("/:userId/:groupId/sendMessage.js", (req, res) => {
   res.sendFile(
     path.join(
       __dirname,
-      "src/service/realtimechat/message/sendMessage/sendMessage-FE/main.js",
+      "src/service/realtimechat/message/sendMessage/sendMessage-FE/sendMessage.js",
     ),
   );
 });

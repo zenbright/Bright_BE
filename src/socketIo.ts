@@ -1,27 +1,29 @@
-import { Server, Socket } from "socket.io";
+// Import necessary modules
+import { Server } from "socket.io";
 import { sendMessageService } from "./service/realtimechat/message/sendMessage/sendMessage.service";
 
-const socketsConnected = new Map();
+const messageSocketsConnected = new Map();
 
-// socket.io setup
-export const initSocketIo = (server: any) => {
-  const io = new Server(server, {});
+// Initialize Socket.IO instances
+const messageIo = new Server();
 
-  io.on("connection", (socket) => {
-    // console.log(socket.id);
+// Function to initialize Socket.IO for message functionality
+export const initMessageSocket = (server: any) => {
+  messageIo.attach(server, {
+    path: "/message",
+  });
 
+  messageIo.on("connection", (socket) => {
     const referer = socket.handshake.headers.referer;
-    // console.log("referer: " + referer);
 
     // Extract userId and groupId from the referer URL
     if (referer) {
       const userId = referer.split("/")[3];
       const groupId = referer.split("/")[4];
 
-      increaseClientCount(groupId, socket.id, io);
+      increaseMessageClientCount(groupId, socket.id, messageIo);
 
       socket.on("message", async (data, callback) => {
-
         try {
           // Process the message and obtain a result
           const sendMsgRes = await sendMessageService(groupId, userId, data);
@@ -42,27 +44,35 @@ export const initSocketIo = (server: any) => {
       });
 
       socket.on("disconnect", () => {
-        decreaseClientCount(groupId, socket.id, io);
+        decreaseMessageClientCount(groupId, socket.id, messageIo);
       });
     }
   });
 };
 
-function increaseClientCount(groupId: string, socketId: string, io: Server) {
-  if (!socketsConnected.has(groupId)) {
-    socketsConnected.set(groupId, new Set());
+function increaseMessageClientCount(
+  groupId: string,
+  socketId: string,
+  io: Server,
+) {
+  if (!messageSocketsConnected.has(groupId)) {
+    messageSocketsConnected.set(groupId, new Set());
   }
-  socketsConnected.get(groupId).add(socketId);
-  const socketsConnectedSize = socketsConnected.get(groupId).size;
+  messageSocketsConnected.get(groupId).add(socketId);
+  const socketsConnectedSize = messageSocketsConnected.get(groupId).size;
   io.emit("clients-total", { groupId, socketsConnectedSize });
 }
 
-function decreaseClientCount(groupId: string, socketId: string, io: Server) {
-  if (socketsConnected.has(groupId)) {
-    socketsConnected.get(groupId).delete(socketId);
-    const socketsConnectedSize = socketsConnected.get(groupId).size;
+function decreaseMessageClientCount(
+  groupId: string,
+  socketId: string,
+  io: Server,
+) {
+  if (messageSocketsConnected.has(groupId)) {
+    messageSocketsConnected.get(groupId).delete(socketId);
+    const socketsConnectedSize = messageSocketsConnected.get(groupId).size;
     io.emit("clients-total", { groupId, socketsConnectedSize });
   }
 }
 
-export default initSocketIo;
+export default { initMessageSocket };

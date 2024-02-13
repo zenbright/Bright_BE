@@ -15,7 +15,7 @@ import { ROUTE_ENDPOINT } from "./config";
 import endpoint from "./endpoints";
 import errorResponseHandler from "./service/utils/errorResponseHandler";
 import connectToMongoDB from "./mongodb";
-import initSocketIo from "./socketIo";
+import { initMessageSocket } from "./socketIo";
 import staticRoutes from "./static.route";
 
 dotenv.config();
@@ -28,7 +28,6 @@ import {
   NODE_ENV,
   PORT_SERVER,
 } from "./config";
-
 
 const __dirname = path.resolve();
 
@@ -66,8 +65,11 @@ redisClient.connect();
 
 // Handle Response
 app.use((req, res: any, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept",
+  );
   res.RH = new ResponseHandler(res);
   next();
 });
@@ -121,7 +123,6 @@ app.use((req, res: any, next) => {
 // Use the static routes module
 app.use("/", staticRoutes);
 
-
 // Connect to MongoDB
 connectToMongoDB();
 
@@ -132,7 +133,7 @@ const server = app.listen(PORT_SERVER, () => {
 });
 
 // Connect to socket.io
-initSocketIo(server);
+initMessageSocket(server);
 
 // Handle Errors
 app.use(errorResponseHandler);
