@@ -1,6 +1,23 @@
 heartbeatSocket = io({ path: "/heartbeat" });
 
-setInterval(() => {
-  console.log("heartbeat every 30 seconds");
-  heartbeatSocket.emit("heartbeat", (result) => {});
-}, 30000);
+let tabVisibilityState = true;
+
+heartbeatSocket.on("heartbeat", () => {
+  console.log("Received heartbeat from server");
+  if (tabVisibilityState) {
+    heartbeatSocket.emit("heartbeat_answer", (result) => {});
+  }
+});
+
+document.addEventListener(
+  "visibilitychange",
+  function () {
+    if (document.visibilityState === "hidden") {
+      tabVisibilityState = false;
+    } else {
+      tabVisibilityState = true;
+      heartbeatSocket.emit("heartbeat_revive", (result) => {});
+    }
+  },
+  false,
+);
