@@ -15,7 +15,8 @@ import { ROUTE_ENDPOINT } from "./config";
 import endpoint from "./endpoints";
 import errorResponseHandler from "./service/utils/errorResponseHandler";
 import connectToMongoDB from "./mongodb";
-import { initMessageSocket, initVideoCallSocket } from "./socketIo";
+import { initMessageSocket } from "./socketIoConnection/messageSocket";
+import { initVideoCallSocket } from "./socketIoConnection/videoCallSocket";
 import staticRoutes from "./static.route";
 
 dotenv.config();
