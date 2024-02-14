@@ -3,6 +3,7 @@ import Group from "../../../../models/groupModel";
 import { RESPONSE_CODE } from "../../../utils/constants";
 import mongoose from "mongoose";
 import { uploadMediaToBucket } from "../handleMediaInBucket";
+import redisClient from "../../../utils/redisConfig";
 
 export async function sendMessageService(
   groupId: String,
@@ -50,6 +51,18 @@ export async function sendMessageService(
     } else {
       return { error: "GROUP_" + RESPONSE_CODE.NOT_FOUND_ERROR };
     }
+
+     // Update cached data in Redis after saving the new message
+     const cachedData = await redisClient.get("messages-" + groupId);
+     if (cachedData) {
+         const parsedData = JSON.parse(cachedData);
+         parsedData.messages.push(newMessage);
+         await redisClient.set(
+             "messages-" + groupId,
+             JSON.stringify(parsedData)
+         );
+     }
+
 
     return { status: RESPONSE_CODE.SUCCESS, newMessage: newMessage };
   } catch (error) {
