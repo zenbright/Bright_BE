@@ -2,15 +2,26 @@ import Group from "../../../../models/groupModel";
 import Message from "../../../../models/groupMessageModel";
 import { RESPONSE_CODE } from "../../../utils/constants";
 import { getMultimedia } from "../getMessage/getMessage.service";
+import redisClient from "../../../utils/redisConfig";
 
 export async function getGroupMessagesService(
-  params: { groupId: string[] },
+  params: { groupId: string },
   res: any,
 ) {
   try {
     const { groupId } = params;
 
-    // Use findOne instead of find if you expect only one document
+    // Check if data exists in Redis cache
+    const cachedData = await redisClient.get("messages-" + groupId);
+    if (cachedData) {
+      console.log("Cached data: " + cachedData);
+      const parsedData = JSON.parse(cachedData);
+      return res.status(200).json(parsedData);
+    }
+
+    console.log("No Cached Date found.");
+
+    // Data not found in cache, fetch from MongoDB
     const group = await Group.findOne({ _id: groupId });
 
     if (!group) {
@@ -19,14 +30,25 @@ export async function getGroupMessagesService(
 
     const messageIds = group.messages;
     console.log("messageIds: ", messageIds);
+
     // Fetch messages using an array of message IDs
     const messages = await Message.find({ _id: { $in: messageIds } });
 
     const multimediaPromises = messages.map(async (message) => {
       return await getMultimedia(message.multimedia);
     });
-    
+
     const allMultimedia = await Promise.all(multimediaPromises);
+
+    // Store fetched data in Redis cache
+    await redisClient.set(
+      "messages-" + groupId,
+      JSON.stringify({
+        status: RESPONSE_CODE.SUCCESS,
+        messages: messages,
+        multimedia: allMultimedia,
+      }),
+    );
 
     return res.status(200).json({
       status: RESPONSE_CODE.SUCCESS,
