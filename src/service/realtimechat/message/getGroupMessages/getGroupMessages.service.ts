@@ -14,12 +14,12 @@ export async function getGroupMessagesService(
     // Check if data exists in Redis cache
     const cachedData = await redisClient.get("messages-" + groupId);
     if (cachedData) {
-      console.log("Cached data: " + cachedData);
+      // console.log("Cache Hit!");
       const parsedData = JSON.parse(cachedData);
       return res.status(200).json(parsedData);
     }
 
-    console.log("No Cached Date found.");
+    // console.log("Cache Miss!");
 
     // Data not found in cache, fetch from MongoDB
     const group = await Group.findOne({ _id: groupId });
@@ -29,7 +29,6 @@ export async function getGroupMessagesService(
     }
 
     const messageIds = group.messages;
-    console.log("messageIds: ", messageIds);
 
     // Fetch messages using an array of message IDs
     const messages = await Message.find({ _id: { $in: messageIds } });
@@ -57,7 +56,6 @@ export async function getGroupMessagesService(
     });
   } catch (error) {
     console.log(error);
-    // Handle other errors
     return res.status(500).json({ error: RESPONSE_CODE.INTERNAL_SERVER_ERROR });
   }
 }
