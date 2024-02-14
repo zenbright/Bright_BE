@@ -15,14 +15,14 @@ let serverGroupId = "";
 async function fetchMessages(userId, groupId) {
   try {
     const groupResponse = await fetch(
-      `/bright-backend/api/chat/getGroup/${groupId}`,
+      `/bright-backend/api/chat/group/${groupId}`,
       { method: "GET" },
     );
     const groupObject = await groupResponse.json();
     const group = groupObject.group;
 
     const messageResponse = await fetch(
-      `/bright-backend/api/chat/getGroupMessages/${group._id}`,
+      `/bright-backend/api/chat/messages/${group._id}`,
       { method: "GET" },
     );
     const messageObject = await messageResponse.json();
@@ -238,7 +238,7 @@ messageContainer.addEventListener("click", (e) => {
 async function deleteMessage(groupId, msgId) {
   try {
     const response = await fetch(
-      `/bright-backend/api/chat/deleteMessage/${groupId}/${msgId}`,
+      `/bright-backend/api/chat/message/${groupId}/${msgId}`,
       {
         method: "DELETE",
       },
