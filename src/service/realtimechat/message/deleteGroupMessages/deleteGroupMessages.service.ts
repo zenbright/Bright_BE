@@ -2,6 +2,7 @@ import Group from "../../../../models/groupModel";
 import Message from "../../../../models/groupMessageModel";
 import { RESPONSE_CODE } from "../../../utils/constants";
 import { deleteMultimediaFromBucket } from "../deleteMessage/deleteMessage.service";
+import redisClient from "../../../utils/redisConfig";
 
 export async function deleteGroupMessagesService(
   params: { groupId: string },
@@ -29,6 +30,9 @@ export async function deleteGroupMessagesService(
     // Empty the group's messages field
     existingGroup.messages = [];
     await existingGroup.save();
+
+    // Delete cached data from Redis
+    await redisClient.del("messages-" + groupId);
 
     return res.status(200).json({ message: RESPONSE_CODE.SUCCESS });
   } catch (error) {
