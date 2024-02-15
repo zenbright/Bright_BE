@@ -2,6 +2,7 @@ import Project from "../../../../models/groupProjectModel";
 import Task from "../../../../models/projectTaskModel";
 import { RESPONSE_CODE } from "../../../utils/constants";
 import { deleteTaskService } from "../../task/deleteTask/deleteTask.service";
+import redisClient from "../../../../service/utils/redisConfig";
 
 export async function deleteProjectService(req: any, res: any, next: any) {
   try {
@@ -19,6 +20,16 @@ export async function deleteProjectService(req: any, res: any, next: any) {
 
     for (const task of tasks) {
       await deleteTaskService({ body: { taskId: task._id } }, res, next);
+    }
+
+    // Update cached data in Redis after deleting the project
+    const cachedData = await redisClient.get("projects");
+    if (cachedData) {
+      const parsedData = JSON.parse(cachedData);
+      parsedData.projects = parsedData.projects.filter(
+        (project: any) => project._id !== projectId,
+      );
+      await redisClient.set("projects", JSON.stringify(parsedData));
     }
 
     await Project.deleteOne({ _id: projectId });

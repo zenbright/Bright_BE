@@ -2,6 +2,7 @@ import Group from "../../../../models/groupModel";
 import Project from "../../../../models/groupProjectModel";
 import { RESPONSE_CODE } from "../../../utils/constants";
 import { notificationService } from "../../sendNotification/newProjectNotification/notification.service";
+import redisClient from "../../../../service/utils/redisConfig";
 
 export async function createProjectService(req: any, res: any, next: any) {
   try {
@@ -22,6 +23,14 @@ export async function createProjectService(req: any, res: any, next: any) {
     });
 
     await project.save();
+
+    // Update cached data in Redis after saving the new project
+    const cachedData = await redisClient.get("projects");
+    if (cachedData) {
+      const parsedData = JSON.parse(cachedData);
+      parsedData.projects.push(project);
+      await redisClient.set("projects", JSON.stringify(parsedData));
+    }
 
     const notificationResult = await notificationService({
       body: { project: project },

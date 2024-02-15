@@ -1,5 +1,6 @@
 import Project from "../../../../models/groupProjectModel";
 import { RESPONSE_CODE } from "../../../utils/constants";
+import redisClient from "../../../../service/utils/redisConfig";
 
 export async function updateProjectService(req: any, res: any, next: any) {
   try {
@@ -20,7 +21,20 @@ export async function updateProjectService(req: any, res: any, next: any) {
     // Save the updated project
     await project.save();
 
-    await project.save();
+    // Update cached data in Redis after editing the project
+    const cachedData = await redisClient.get("projects");
+    if (cachedData) {
+      const parsedData = JSON.parse(cachedData);
+      const editedProjectIndex = parsedData.projects.findIndex(
+        (project: any) => project._id === projectId,
+      );
+      if (editedProjectIndex !== -1) {
+        parsedData.projects[editedProjectIndex].name = name;
+        parsedData.projects[editedProjectIndex].description = description;
+        await redisClient.set("projects", JSON.stringify(parsedData));
+      }
+    }
+
     return res.status(200).json({ message: RESPONSE_CODE.SUCCESS });
   } catch (error) {
     next(error);
