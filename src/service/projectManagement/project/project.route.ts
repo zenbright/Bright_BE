@@ -16,7 +16,7 @@ router.post(
 );
 
 router.get(
-  "/project",
+  "/projects",
   IPSpamChecker.checkIpSpamServer("/project-management"),
   readProjectsController.readProjectsController,
 );

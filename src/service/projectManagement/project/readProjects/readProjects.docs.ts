@@ -1,6 +1,6 @@
 /**
  * @swagger
- * /project-management/project:
+ * /project-management/projects:
  *   get:
  *     summary: Read all projects 
  *     tags:
