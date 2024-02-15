@@ -1,10 +1,18 @@
 /**
  * @swagger
- * /project-management/checklistitem:
+ * /project-management/checklistitem/{taskId}:
  *   get:
  *     summary: Read all Checklist Items 
  *     tags:
  *       - Project Management
+ *     parameters:
+ *      - name: taskId
+ *        in: path
+ *        required: true
+ *        schema:
+ *          type: string
+ *        example: "656c3048eabd6d1ac3d767ad"
+ *        description: The ID of the task
  *     responses:
  *       200:
  *         description: Read all Checklist Items success

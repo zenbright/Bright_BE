@@ -12,7 +12,7 @@
  *        schema:
  *          type: string
  *        example: "656c3048eabd6d1ac3d767ad"
- *        description: The ID of the group
+ *        description: The ID of the project
  *     responses:
  *       200:
  *         description: Read all tasks success

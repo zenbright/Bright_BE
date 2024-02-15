@@ -1,6 +1,7 @@
 import ChecklistItem from "../../../../models/taskChecklistItemModel";
 import Task from "../../../../models/projectTaskModel";
 import { RESPONSE_CODE } from "../../../utils/constants";
+import redisClient from "../../../../service/utils/redisConfig";
 
 export async function deleteChecklistItemService(
   req: any,
@@ -27,6 +28,19 @@ export async function deleteChecklistItemService(
     }
 
     await ChecklistItem.deleteOne({ _id: itemId });
+
+    // Update cached data in Redis after deleting the checklist item
+    const cachedData = await redisClient.get("checklistItems-" + taskId);
+    if (cachedData) {
+      const parsedData = JSON.parse(cachedData);
+      parsedData.checklistItems = parsedData.checklistItems.filter(
+        (item: any) => item._id !== itemId,
+      );
+      await redisClient.set(
+        "checklistItems-" + taskId,
+        JSON.stringify(parsedData),
+      );
+    }
 
     task.checklist = task.checklist.filter(
       (checklistItemId) => checklistItemId !== itemId,

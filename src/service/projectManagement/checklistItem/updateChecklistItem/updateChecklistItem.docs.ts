@@ -11,6 +11,7 @@
  *         required: true
  *         properties:
  *         example: {
+ *           "taskId": "657d6badf601c86b8d2c1df7",
  *           "itemId": "657d6badf601c86b8d2c1df7",
  *           "name": "DO THIS!",
  *           "completed": "true",

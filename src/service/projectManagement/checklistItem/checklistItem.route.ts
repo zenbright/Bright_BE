@@ -15,7 +15,7 @@ router.post(
 );
 
 router.get(
-  "/checklistitem",
+  "/checklistitem/:taskId",
   IPSpamChecker.checkIpSpamServer("/project-management"),
   readChecklistItemsController.readChecklistItemsController,
 );
