@@ -1,13 +1,13 @@
 /**
  * @swagger
- * /project-management/checklistitem/read:
+ * /project-management/checklistitem:
  *   get:
- *     summary: Read a new ChecklistItem 
+ *     summary: Read all Checklist Items 
  *     tags:
  *       - Project Management
  *     responses:
  *       200:
- *         description: Read a new ChecklistItem success
+ *         description: Read all Checklist Items success
  *         schema:
  *           type: object
  *           example:

@@ -1,8 +1,8 @@
 /**
  * @swagger
- * /project-management/checklistitem/create:
+ * /project-management/checklistitem:
  *   post:
- *     summary: Create a new ChecklistItem 
+ *     summary: Create a new Checklist Item 
  *     tags:
  *       - Project Management
  *     parameters:
@@ -16,7 +16,7 @@
  *         }
  *     responses:
  *       200:
- *         description: Create a new ChecklistItem success
+ *         description: Create a new Checklist Item success
  *         schema:
  *           type: object
  *           example:

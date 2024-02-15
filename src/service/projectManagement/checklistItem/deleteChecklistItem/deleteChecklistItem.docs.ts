@@ -1,8 +1,8 @@
 /**
  * @swagger
- * /project-management/checklistitem/delete:
+ * /project-management/checklistitem:
  *   delete:
- *     summary: Delete a new ChecklistItem 
+ *     summary: Delete a Checklist Item 
  *     tags:
  *       - Project Management
  *     parameters:
@@ -16,7 +16,7 @@
  *         }
  *     responses:
  *       200:
- *         description: Delete a new ChecklistItem success
+ *         description: Delete a Checklist Item success
  *         schema:
  *           type: object
  *           example:

@@ -1,8 +1,8 @@
 /**
  * @swagger
- * /project-management/checklistitem/update:
+ * /project-management/checklistitem:
  *   put:
- *     summary: Update a new ChecklistItem 
+ *     summary: Update an existing Checklist Item 
  *     tags:
  *       - Project Management
  *     parameters:
@@ -17,7 +17,7 @@
  *         }
  *     responses:
  *       200:
- *         description: Update a new ChecklistItem success
+ *         description: Update an existing Checklist Item success
  *         schema:
  *           type: object
  *           example:
