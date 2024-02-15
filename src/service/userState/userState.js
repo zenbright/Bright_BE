@@ -9,6 +9,11 @@ heartbeatSocket.on("heartbeat", () => {
   }
 });
 
+heartbeatSocket.on("state_changed", (isOnline) => {
+  console.log("State changed: user's isOnline value = " + isOnline);
+  // TODO: FE logic to display the new state
+});
+
 document.addEventListener(
   "visibilitychange",
   function () {

@@ -16,12 +16,12 @@ export const initHeartbeatSocket = (server: any) => {
       // console.log(userId, " socket connected");
 
       // Update user state and start heartbeat check interval
-      await updateUserState(userId, true);
+      await updateUserState(userId, true, socket);
       startHeartbeatCheck(userId, socket);
 
       // When the user's back after offline period
       socket.on("heartbeat_revive", async () => {
-        await updateUserState(userId, true);
+        await updateUserState(userId, true, socket);
         startHeartbeatCheck(userId, socket);
       });
     }
@@ -39,7 +39,7 @@ function startHeartbeatCheck(userId: string, socket: any) {
     // Check for consecutive failures
     if (consecutiveFailures >= 2) {
       clearInterval(heartbeatInterval);
-      updateUserState(userId, false);
+      updateUserState(userId, false, socket);
       // console.log(
       //   `User ${userId} marked as offline due to consecutive failures.`,
       // );
@@ -59,7 +59,7 @@ function startHeartbeatCheck(userId: string, socket: any) {
   });
 }
 
-async function updateUserState(userId: string, isOnline: boolean) {
+async function updateUserState(userId: string, isOnline: boolean, socket: any) {
   const userInfo = await userInfoModel.findOne({ _id: userId });
   if (userInfo) {
     userInfo.isOnline = isOnline;
@@ -68,5 +68,6 @@ async function updateUserState(userId: string, isOnline: boolean) {
     }
     await userInfo.save();
     // console.log("User info saved");
+    socket.emit("state_changed", isOnline);
   }
 }
