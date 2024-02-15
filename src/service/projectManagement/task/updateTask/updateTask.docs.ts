@@ -11,6 +11,7 @@
  *         required: true
  *         properties:
  *         example: {
+ *           "projectId": "657d5709097a6b09c695829e",
  *           "taskId": "657d5709097a6b09c695829e",
  *           "name": "YO",
  *           "description": "DO THIS!!",

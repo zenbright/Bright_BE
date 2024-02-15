@@ -16,7 +16,7 @@ router.post(
 );
 
 router.get(
-  "/tasks",
+  "/tasks/:projectId",
   IPSpamChecker.checkIpSpamServer("/project-management"),
   readTasksController.readTasksController,
 );

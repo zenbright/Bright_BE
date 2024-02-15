@@ -3,6 +3,7 @@ import Project from "../../../../models/groupProjectModel";
 import Task from "../../../../models/projectTaskModel";
 import { RESPONSE_CODE } from "../../../utils/constants";
 import { notificationService } from "../../sendNotification/newTaskNotification/notification.service";
+import redisClient from "../../../../service/utils/redisConfig";
 
 export async function createTaskService(req: any, res: any, next: any) {
   try {
@@ -48,6 +49,17 @@ export async function createTaskService(req: any, res: any, next: any) {
     });
 
     await task.save();
+
+    // Update cached data in Redis after saving the new task
+    const cachedData = await redisClient.get("tasks-" + projectId);
+    if (cachedData) {
+        const parsedData = JSON.parse(cachedData);
+        parsedData.messages.push(task);
+        await redisClient.set(
+            "tasks-" + projectId,
+            JSON.stringify(parsedData)
+        );
+    }
 
     const notificationResult = await notificationService({
       body: { task: task, project: project },
