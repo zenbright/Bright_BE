@@ -1,8 +1,8 @@
 /**
  * @swagger
- * /project-management/task/delete:
+ * /project-management/task:
  *   delete:
- *     summary: Delete Task
+ *     summary: Delete a task
  *     tags:
  *       - Project Management
  *     parameters:
@@ -15,7 +15,7 @@
  *         }
  *     responses:
  *       200:
- *         description: Delete task success
+ *         description: Delete a task success
  *         schema:
  *           type: object
  *           example:

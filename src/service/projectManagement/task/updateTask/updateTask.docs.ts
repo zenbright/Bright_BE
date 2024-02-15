@@ -1,8 +1,8 @@
 /**
  * @swagger
- * /project-management/task/update:
+ * /project-management/task:
  *   put:
- *     summary: Update a new Task 
+ *     summary: Update an existing Task 
  *     tags:
  *       - Project Management
  *     parameters:
@@ -22,7 +22,7 @@
  *         }
  *     responses:
  *       200:
- *         description: Update a new Task success
+ *         description: Update an existing Task success
  *         schema:
  *           type: object
  *           example:

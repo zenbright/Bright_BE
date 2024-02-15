@@ -1,7 +1,7 @@
 import Task from "../../../../models/projectTaskModel";
 import { RESPONSE_CODE } from "../../../utils/constants";
 
-export async function readTaskService(req: any, res: any, next: any) {
+export async function readTasksService(req: any, res: any, next: any) {
   try {
     const tasks = await Task.find();
 
