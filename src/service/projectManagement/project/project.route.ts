@@ -2,35 +2,35 @@ import { Router } from "express";
 import * as IPSpamChecker from "../../middleware/api.limiter";
 import * as APIValidator from "../../middleware/api.validator";
 import * as createProjectController from "./createProject/createProject.controller";
-import * as readProjectController from "./readProject/readProject.controller";
+import * as readProjectsController from "./readProjects/readProjects.controller";
 import * as updateProjectController from "./updateProject/updateProject.controller";
 import * as deleteProjectController from "./deleteProject/deleteProject.controller";
 
 const router = Router();
 
 router.post(
-  "/project/create",
+  "/project",
   IPSpamChecker.checkIpSpamServer("/project-management"),
   APIValidator.createProjectValidator,
   createProjectController.createProjectController,
 );
 
 router.get(
-  "/project/read",
+  "/project",
   IPSpamChecker.checkIpSpamServer("/project-management"),
-  readProjectController.readProjectController,
+  readProjectsController.readProjectsController,
 );
 
 router.put(
-  "/project/update",
+  "/project",
   IPSpamChecker.checkIpSpamServer("/project-management"),
   APIValidator.projectValidator,
   updateProjectController.updateProjectController,
 );
 
 router.delete(
-  "/project/delete",
-  IPSpamChecker.checkIpSpamServer("/projectManagement"),
+  "/project",
+  IPSpamChecker.checkIpSpamServer("/project-management"),
   APIValidator.projectValidator,
   deleteProjectController.deleteProjectController,
 );

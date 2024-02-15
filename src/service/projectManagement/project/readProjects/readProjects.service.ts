@@ -1,7 +1,7 @@
 import Project from "../../../../models/groupProjectModel";
 import { RESPONSE_CODE } from "../../../utils/constants";
 
-export async function readProjectService(req: any, res: any, next: any) {
+export async function readProjectsService(req: any, res: any, next: any) {
   try {
     const projects = await Project.find();
 

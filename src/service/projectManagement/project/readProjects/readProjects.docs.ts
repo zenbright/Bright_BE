@@ -1,13 +1,13 @@
 /**
  * @swagger
- * /project-management/project/read:
+ * /project-management/project:
  *   get:
- *     summary: Read a new project 
+ *     summary: Read all projects 
  *     tags:
  *       - Project Management
  *     responses:
  *       200:
- *         description: Read a new project success
+ *         description: Read all projects success
  *         schema:
  *           type: object
  *           example:
