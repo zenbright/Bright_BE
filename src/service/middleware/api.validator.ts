@@ -66,3 +66,55 @@ export const OTPVerificationValidator = [
   body("OTP").isString().notEmpty().withMessage("Missing OTP Field."),
   validatorErrorHandler,
 ];
+
+export const createProjectValidator = [
+  body("name").isString().notEmpty().withMessage("Missing name Field."),
+  body("description").isString().withMessage("Description is not a string."),
+  body("groupId").isString().notEmpty().withMessage("Missing groupId Field."),
+  validatorErrorHandler,
+];
+
+export const projectValidator = [
+  body("projectId")
+    .isString()
+    .notEmpty()
+    .withMessage("Missing projectId Field."),
+  validatorErrorHandler,
+];
+
+export const createTaskValidator = [
+  body("projectId")
+    .isString()
+    .notEmpty()
+    .withMessage("Missing projectId Field."),
+  body("name").isString().notEmpty().withMessage("Missing name Field."),
+  body("belongedMonth")
+    .isString()
+    .notEmpty()
+    .withMessage("Missing belongedMonth Field."),
+  validatorErrorHandler,
+];
+
+export const taskValidator = [
+  body("taskId").isString().notEmpty().withMessage("Missing taskId Field."),
+  validatorErrorHandler,
+];
+
+export const createChecklistItemValidator = [
+  body("taskId").isString().notEmpty().withMessage("Missing taskId Field."),
+  body("name").isString().notEmpty().withMessage("Missing name Field."),
+  validatorErrorHandler,
+];
+
+export const updateChecklistItemValidator = [
+  body("itemId").isString().notEmpty().withMessage("Missing itemId Field."),
+  body("name").isString().notEmpty().withMessage("Missing name Field."),
+  body("completed").isString().notEmpty().withMessage("Missing completed Field."),
+  validatorErrorHandler,
+];
+
+export const deleteChecklistItemValidator = [
+  body("taskId").isString().notEmpty().withMessage("Missing taskId Field."),
+  body("itemId").isString().notEmpty().withMessage("Missing itemId Field."),
+  validatorErrorHandler,
+];

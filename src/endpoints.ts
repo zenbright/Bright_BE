@@ -8,6 +8,9 @@ import UserProfileImageRoute from "./service/user/crudProfileImage/manageImage.r
 import UserSearchRoute from "./service/user/searchUser/searchUser.route";
 import UserPasswordChangeRoute from "./service/user/changePassword/changePassword.route";
 import UserAccountDeleteRoute from "./service/user/deleteAccount/deleteAccount.route";
+import ProjectRoute from "./service/projectManagement/project/project.route";
+import TaskRoute from "./service/projectManagement/task/task.route";
+import ChecklistItemRoute from "./service/projectManagement/checklistItem/checklistItem.route";
 
 const router = Router();
 
@@ -25,5 +28,7 @@ router.use("/utils/user", [
   UserAccountDeleteRoute,
   UserProfileImageRoute,
 ]);
+
+router.use("/project-management", [ProjectRoute, TaskRoute, ChecklistItemRoute]);
 
 export default router;

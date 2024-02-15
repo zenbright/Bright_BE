@@ -14,6 +14,9 @@ import swaggerUI from "swagger-ui-express";
 import { ROUTE_ENDPOINT } from "./config";
 import endpoint from "./endpoints";
 import errorResponseHandler from "./service/utils/errorResponseHandler";
+import cron from "node-cron";
+import { checkDelayedTaskService } from "./service/projectManagement/sendNotification/delayedTaskNotification/checkDelayedTask";
+import { remindTaskService } from "./service/projectManagement/sendNotification/taskReminderNotification/remindTask";
 
 dotenv.config();
 
@@ -122,6 +125,13 @@ mongoose.connect(MONGO_URI).then(async (data) => {
     logger.error('Please make sure Mongodb is installed and running!');
     process.exit(1);
   });
+
+// Schedule an hourly job when the application starts
+cron.schedule("0 * * * *", async () => {
+  // Run the batch job every hour
+  await remindTaskService();
+  await checkDelayedTaskService();
+});
 
 // Server Listener
 app.listen(PORT_SERVER, () => {
