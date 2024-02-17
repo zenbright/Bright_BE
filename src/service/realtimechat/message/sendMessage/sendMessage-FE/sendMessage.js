@@ -1,5 +1,5 @@
 // Initialize Socket.IO
-messageSocket = io({path: '/message'});
+messageSocket = io({ path: "/message" });
 
 // DOM elements
 const clientsTotal = document.getElementById("client-total");
@@ -15,24 +15,34 @@ let serverGroupId = "";
 async function fetchMessages(userId, groupId) {
   try {
     const groupResponse = await fetch(
-      `/bright-backend/api/chat/getGroup/${groupId}`,
+      `/bright-backend/api/chat/group/${groupId}`,
       { method: "GET" },
     );
     const groupObject = await groupResponse.json();
     const group = groupObject.group;
 
     const messageResponse = await fetch(
-      `/bright-backend/api/chat/getGroupMessages/${group._id}`,
+      `/bright-backend/api/chat/messages/${group._id}`,
       { method: "GET" },
     );
-    const messageObject = await messageResponse.json();
-    const messages = messageObject.messages;
+    const res = await messageResponse.json();
+    const messages = res.messages;
+    console.log("messages: " + JSON.stringify(messages));
 
-    // Iterate over the messages array
-    for (const message of messages) {
+    // Get the keys (message IDs) of the messageObject
+    const messageKeys = Object.keys(messages);
+
+    // Iterate over the message keys
+    for (const messageId of messageKeys) {
+      const messageMetadata = messages[messageId];
+      console.log("messageMetadata: " + JSON.stringify(messageMetadata));
       // Perform actions for each message
-      const isOwnMessage = message.fromId === userId;
-      addMessageToUI(isOwnMessage, message, messageObject.multimedia);
+      const isOwnMessage = messageMetadata.data.fromId === userId;
+      addMessageToUI(
+        isOwnMessage,
+        messageMetadata.data,
+        messageMetadata.metadata,
+      );
     }
 
     scrollToBottom();
@@ -115,7 +125,8 @@ async function sendMessage() {
 
     // Sending a message with a callback
     messageSocket.emit("message", dataToSend, (result) => {
-      addMessageToUI(true, result, multimediaDataArray);
+      console.log("result: " + JSON.stringify(result));
+      addMessageToUI(true, result.data, result.metadata);
     });
 
     // Clear input fields
@@ -131,7 +142,7 @@ async function sendMessage() {
 messageSocket.on("group-message", ({ groupId, formattedMsg }) => {
   // console.log("serverGroupId: ", serverGroupId);
   if (groupId === serverGroupId) {
-    addMessageToUI(false, formattedMsg, []);
+    addMessageToUI(false, formattedMsg.data, formattedMsg.metadata);
   } else {
     console.log("Different group");
   }
@@ -238,7 +249,7 @@ messageContainer.addEventListener("click", (e) => {
 async function deleteMessage(groupId, msgId) {
   try {
     const response = await fetch(
-      `/bright-backend/api/chat/deleteMessage/${groupId}/${msgId}`,
+      `/bright-backend/api/chat/message/${groupId}/${msgId}`,
       {
         method: "DELETE",
       },
