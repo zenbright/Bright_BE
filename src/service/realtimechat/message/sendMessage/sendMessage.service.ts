@@ -4,6 +4,7 @@ import { RESPONSE_CODE } from "../../../utils/constants";
 import mongoose from "mongoose";
 import { uploadMediaToBucket } from "../handleMediaInBucket";
 import redisClient from "../../../utils/redisConfig";
+import { MessageMetadata } from "../MessageMetadata.interface";
 
 export async function sendMessageService(
   groupId: String,
@@ -21,12 +22,12 @@ export async function sendMessageService(
     */
 
     const multimediaObjectIds = [];
-
+    let newMultimedia;
     for (const eachMedia of multimedia) {
       const multimediaObjectId = new mongoose.Types.ObjectId();
       const stringMultimediaObjectId = multimediaObjectId.toHexString();
 
-      await uploadMediaToBucket(stringMultimediaObjectId, eachMedia);
+      newMultimedia = await uploadMediaToBucket(stringMultimediaObjectId, eachMedia);
 
       multimediaObjectIds.push(stringMultimediaObjectId);
     }
@@ -45,6 +46,11 @@ export async function sendMessageService(
     const newMsgId = newMessage._id.toString();
     const group = await Group.findOne({ _id: groupId });
 
+    const newMessageMetadata = {
+      data: newMessage,
+      metadata: newMultimedia,
+    };
+
     if (group) {
       group.messages.push(newMsgId);
       await group.save();
@@ -55,16 +61,25 @@ export async function sendMessageService(
      // Update cached data in Redis after saving the new message
      const cachedData = await redisClient.get("messages-" + groupId);
      if (cachedData) {
-         const parsedData = JSON.parse(cachedData);
-         parsedData.messages.push(newMessage);
-         await redisClient.set(
-             "messages-" + groupId,
-             JSON.stringify(parsedData)
-         );
-     }
+      const parsedData = JSON.parse(cachedData);
+      console.log("parsed data: ", parsedData);
+  
+      // Ensure parsedData.messages is an array
+      if (!Array.isArray(parsedData.messages)) {
+          parsedData.messages = [];
+      }
+  
+      // Push newMessageMetadata to parsedData.messages
+      parsedData.messages.push(newMessageMetadata);
+  
+      await redisClient.set(
+          "messages-" + groupId,
+          JSON.stringify(parsedData)
+      );
+  }
 
 
-    return { status: RESPONSE_CODE.SUCCESS, newMessage: newMessage };
+    return { status: RESPONSE_CODE.SUCCESS, newMessage: newMessageMetadata };
   } catch (error) {
     console.error(error);
   }

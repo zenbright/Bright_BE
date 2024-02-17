@@ -39,7 +39,7 @@ export const uploadMediaToBucket = async (
   try {
     const response = await client.send(command);
     console.log("UPLOADED");
-    console.log(response);
+    return response;
   } catch (err) {
     console.log("ERROR");
     console.error(err);
@@ -76,7 +76,7 @@ export const getMultimediaFromBucket = async (multimediaObjectId: string) => {
       Key: multimediaObjectId,
     });
     const metadata = await client.send(command);
-    console.log(`Metadata for ${multimediaObjectId}:`, metadata);
+    // console.log(`Metadata for ${multimediaObjectId}:`, metadata);
     return metadata;
   } catch (err) {
     console.error(err);

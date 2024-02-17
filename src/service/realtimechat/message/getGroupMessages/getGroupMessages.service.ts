@@ -3,6 +3,7 @@ import Message from "../../../../models/groupMessageModel";
 import { RESPONSE_CODE } from "../../../utils/constants";
 import { getMultimedia } from "../getMessage/getMessage.service";
 import redisClient from "../../../utils/redisConfig";
+import { MessageMetadata } from "../MessageMetadata.interface";
 
 export async function getGroupMessagesService(
   params: { groupId: string },
@@ -16,6 +17,7 @@ export async function getGroupMessagesService(
     if (cachedData) {
       // console.log("Cache Hit!");
       const parsedData = JSON.parse(cachedData);
+      console.log("parsed data: " + parsedData);
       return res.status(200).json(parsedData);
     }
 
@@ -33,26 +35,32 @@ export async function getGroupMessagesService(
     // Fetch messages using an array of message IDs
     const messages = await Message.find({ _id: { $in: messageIds } });
 
+    const messageWithMetadata: { [key: string]: MessageMetadata } = {};
+
     const multimediaPromises = messages.map(async (message) => {
-      return await getMultimedia(message.multimedia);
+      const multimedia = await getMultimedia(message.multimedia);
+
+      messageWithMetadata[message._id.toString()] = {
+        data: message,
+        metadata: multimedia,
+      };
     });
 
-    const allMultimedia = await Promise.all(multimediaPromises);
+    // Await all multimedia promises to ensure they are all resolved
+    await Promise.all(multimediaPromises);
 
     // Store fetched data in Redis cache
     await redisClient.set(
       "messages-" + groupId,
       JSON.stringify({
         status: RESPONSE_CODE.SUCCESS,
-        messages: messages,
-        multimedia: allMultimedia,
+        messages: messageWithMetadata,
       }),
     );
 
     return res.status(200).json({
       status: RESPONSE_CODE.SUCCESS,
-      messages: messages,
-      multimedia: allMultimedia,
+      messages: messageWithMetadata,
     });
   } catch (error) {
     console.log(error);

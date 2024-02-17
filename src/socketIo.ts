@@ -1,4 +1,3 @@
-// Import necessary modules
 import { Server } from "socket.io";
 import { sendMessageService } from "./service/realtimechat/message/sendMessage/sendMessage.service";
 
