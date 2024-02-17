@@ -18,7 +18,6 @@ export async function deleteGroupMessagesService(
       return res.status(404).json({ error: RESPONSE_CODE.NOT_FOUND_ERROR });
     }
 
-    // Extract message IDs from the group
     const messageIds = Array.from(existingGroup.messages);
 
     // Delete all multimedia in every message in the group
