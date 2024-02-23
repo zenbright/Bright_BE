@@ -1,12 +1,12 @@
 import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
+import path from "path";
 import compression from "compression";
 import bodyParser from "body-parser";
 import morgan from "morgan";
 import basicAuth from "express-basic-auth";
-import logger from './logger';
-import mongoose from 'mongoose';
+import logger from "./logger";
 import redisClient from "./service/utils/redisConfig";
 import ResponseHandler from "./service/utils/responseHandler";
 import swaggerJSDoc from "./swagger";
@@ -14,6 +14,9 @@ import swaggerUI from "swagger-ui-express";
 import { ROUTE_ENDPOINT } from "./config";
 import endpoint from "./endpoints";
 import errorResponseHandler from "./service/utils/errorResponseHandler";
+import connectToMongoDB from "./mongodb";
+import { initMessageSocket } from "./socketIo";
+import staticRoutes from "./static.route";
 
 dotenv.config();
 
@@ -24,9 +27,11 @@ import {
   PASSWORD_API_DOCS,
   NODE_ENV,
   PORT_SERVER,
-  MONGO_URI,
-  DB_NAME
 } from "./config";
+
+const __dirname = path.resolve();
+
+dotenv.config();
 
 const app = express();
 
@@ -60,8 +65,11 @@ redisClient.connect();
 
 // Handle Response
 app.use((req, res: any, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept",
+  );
   res.RH = new ResponseHandler(res);
   next();
 });
@@ -69,8 +77,8 @@ app.use((req, res: any, next) => {
 // Enable CORS
 app.use(cors(CORS_OPTIONS));
 
-// Reverse Proxy
-app.enable('trust proxy');
+// Get access to user IP address
+app.enable("trust proxy");
 
 // Swagger APIs Docs
 if (["production", "development", "local"].includes(NODE_ENV)) {
@@ -112,24 +120,22 @@ app.use((req, res: any, next) => {
   next();
 });
 
-// Connect MongoDB
-mongoose.set('strictQuery', false);
-mongoose.connect(MONGO_URI).then(async (data) => {
-  logger.info(`Mongodb connected ${MONGO_URI} : ${DB_NAME}`);
-})
-  .catch((error) => {
-    console.log(error);
-    logger.error('Please make sure Mongodb is installed and running!');
-    process.exit(1);
-  });
+// Use the static routes module
+app.use("/", staticRoutes);
 
-// Server Listener
-app.listen(PORT_SERVER, () => {
+// Connect to MongoDB
+connectToMongoDB();
+
+const server = app.listen(PORT_SERVER, () => {
+  // ? Logging restart service
   logger.info(`Server is running on port ${PORT_SERVER}`);
   console.log(`Server is running on port ${PORT_SERVER}`);
 });
 
-// Errors Handler
+// Connect to socket.io
+initMessageSocket(server);
+
+// Handle Errors
 app.use(errorResponseHandler);
 
 export default app;
