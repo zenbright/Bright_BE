@@ -63,7 +63,7 @@ if (["development", "local", "production"].includes(NODE_ENV)) {
 }
 
 // Connect Redis
-redisClient.connect();
+// redisClient.connect();
 
 // Handle Response
 app.use((req, res: any, next) => {
