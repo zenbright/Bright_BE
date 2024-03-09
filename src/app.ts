@@ -8,7 +8,7 @@ import morgan from "morgan";
 import basicAuth from "express-basic-auth";
 import logger from "./logger";
 import mongoose from "mongoose";
-import redisClient from "./service/utils/redisConfig";
+// import redisClient from "./service/utils/redisConfig";
 import ResponseHandler from "./service/utils/responseHandler";
 import swaggerJSDoc from "./swagger";
 import swaggerUI from "swagger-ui-express";
@@ -20,7 +20,7 @@ import cookieParser from "cookie-parser";
 import passport from "passport";
 import("./service/authentication/google/googleAuth.service");
 
-import { UserBasicInfo } from './models/userBasicInfo';
+import { UserBasicInfo } from "./models/userBasicInfo";
 
 dotenv.config();
 
@@ -61,9 +61,6 @@ if (["development", "local", "production"].includes(NODE_ENV)) {
     }),
   );
 }
-
-// Connect Redis
-// redisClient.connect();
 
 // Handle Response
 app.use((req, res: any, next) => {
@@ -148,17 +145,17 @@ app.use((req, res: any, next) => {
 });
 
 // Connect MongoDB
-mongoose.set("strictQuery", false);
-mongoose
-  .connect(MONGO_URI)
-  .then(async (data) => {
-    logger.info(`Mongodb connected ${MONGO_URI} : ${DB_NAME}`);
-  })
-  .catch((error) => {
-    console.log(error);
-    logger.error("Please make sure Mongodb is installed and running!");
-    process.exit(1);
-  });
+// mongoose.set("strictQuery", false);
+// mongoose
+//   .connect(MONGO_URI)
+//   .then(async (data) => {
+//     logger.info(`Mongodb connected ${MONGO_URI} : ${DB_NAME}`);
+//   })
+//   .catch((error) => {
+//     console.log(error);
+//     logger.error("Please make sure Mongodb is installed and running!");
+//     process.exit(1);
+//   });
 
 // Server Listener
 app.listen(PORT_SERVER, () => {
