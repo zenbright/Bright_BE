@@ -2,11 +2,13 @@ version: '3'
 
 services:
   redis:
+    container_name: redis
     image: redis:latest
     ports:
       - "6379:6379"
 
   server:
+    container_name: bright-BE
     build: .
     environment:
       NODE_ENV: local

@@ -8,7 +8,6 @@ import morgan from "morgan";
 import basicAuth from "express-basic-auth";
 import logger from "./logger";
 import mongoose from "mongoose";
-import redisClient from "./service/utils/redisConfig";
 import ResponseHandler from "./service/utils/responseHandler";
 import swaggerJSDoc from "./swagger";
 import swaggerUI from "swagger-ui-express";
@@ -61,9 +60,6 @@ if (["development", "local", "production"].includes(NODE_ENV)) {
     }),
   );
 }
-
-// Connect Redis
-// redisClient.connect();
 
 // Handle Response
 app.use((req, res: any, next) => {
