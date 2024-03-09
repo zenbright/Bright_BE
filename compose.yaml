@@ -1,12 +1,6 @@
 version: '3'
 
 services:
-  redis:
-    container_name: redis
-    image: redis:latest
-    ports:
-      - "6379:6379"
-
   server:
     container_name: bright-BE
     build: .
@@ -29,7 +23,7 @@ services:
       REFRESH_TOKEN_SECRET: "595123fa6753ef1f1f9ea4c14d6ecb98e287fcf6a03f54fc1874c00b2ccddce973a710aa8a4da28abf73a5cf866f56d8ded8d37d496faa092090a0a3807e02a0"
     ports:
       - 5000:5000
-      - 9229:9229 # default: node.js debugging
+      - 9229:9229 # debugging
     volumes:
       - .:/user/src/bright/backend # map current wrkdir with docker wrkdir
       - /usr/src/bright/backend/node_modules # do not map with local wrkdir
@@ -37,4 +31,8 @@ services:
       - redis
     command: npm start
 
-
+  redis:
+    container_name: redis
+    image: redis:latest
+    ports:
+      - "6379:6379"

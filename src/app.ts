@@ -60,7 +60,6 @@ if (["development", "local", "production"].includes(NODE_ENV)) {
     }),
   );
 }
-
 // Handle Response
 app.use((req, res: any, next) => {
   res.header("Access-Control-Allow-Origin", "*");
