@@ -19,7 +19,7 @@ import cookieParser from "cookie-parser";
 import passport from "passport";
 import("./service/authentication/google/googleAuth.service");
 
-import { UserBasicInfo } from './models/userBasicInfo';
+import { UserBasicInfo } from "./models/userBasicInfo";
 
 dotenv.config();
 
@@ -143,17 +143,17 @@ app.use((req, res: any, next) => {
 });
 
 // Connect MongoDB
-mongoose.set("strictQuery", false);
-mongoose
-  .connect(MONGO_URI)
-  .then(async (data) => {
-    logger.info(`Mongodb connected ${MONGO_URI} : ${DB_NAME}`);
-  })
-  .catch((error) => {
-    console.log(error);
-    logger.error("Please make sure Mongodb is installed and running!");
-    process.exit(1);
-  });
+// mongoose.set("strictQuery", false);
+// mongoose
+//   .connect(MONGO_URI)
+//   .then(async (data) => {
+//     logger.info(`Mongodb connected ${MONGO_URI} : ${DB_NAME}`);
+//   })
+//   .catch((error) => {
+//     console.log(error);
+//     logger.error("Please make sure Mongodb is installed and running!");
+//     process.exit(1);
+//   });
 
 // Server Listener
 app.listen(PORT_SERVER, () => {
