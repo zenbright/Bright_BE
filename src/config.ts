@@ -46,3 +46,6 @@ export const AUTH_EMAIL = process.env.AUTH_EMAIL || "bright.pmtools@gmail.com";
 export const AUTH_PASSWORD = process.env.AUTH_PASSWORD || "c k l r e z a d z n m f o q v p";
 export const GOOGLE_CLIENT_ID = "852626779740-jgr1dq6mh299pi4m24ag7t47dptct7kr.apps.googleusercontent.com";
 export const GOOGLE_CLIENT_SECRET = "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";
+export const AWS_S3_ACCESS_KEY_ID = "AKIAVRUVQYDVHF6DKYKH";
+export const AWS_S3_SECRET_ACCESS_KEY = "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";
+export const AWS_S3_BUCKET_NAME = "bright-chat-media";

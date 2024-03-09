@@ -1,30 +1,36 @@
 import mongoose from "mongoose";
 
-const userCredentialSchema = new mongoose.Schema({
+const userCredentialSchema = new mongoose.Schema(
+  {
     account: {
-        type: String,
-        unique: true,
-        required: true
+      type: String,
+      unique: true,
+      required: true,
     },
     password: {
-        type: String,
-        required: true
+      type: String,
+      required: true,
     },
     role: {
-        type: String,
-        enum: ["User", "Developer", "Admin"],
-        default: "User",
+      type: String,
+      enum: ["User", "Developer", "Admin"],
+      default: "User",
     },
-    userId: mongoose.Schema.Types.ObjectId,
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      unique: true,
+    },
     refreshToken: String,
     refreshTokenExpires: Date,
     provider: {
-        type: String,
-        enum: ["github", "google", "bright"],
-        default: "bright",
+      type: String,
+      enum: ["github", "google", "bright"],
+      default: "bright",
     },
-}, {
+  },
+  {
     timestamps: true,
-});
+  },
+);
 
 export default mongoose.model("credentials", userCredentialSchema);
