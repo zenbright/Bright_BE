@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 // Port
-export const PORT_SERVER = process.env.PORT_SERVER || 4000;
+export const PORT_SERVER = process.env.PORT_SERVER || 5000;
 
 // Environment
 export const NODE_ENV: string = process.env.NODE_ENV || "local";
@@ -28,8 +28,8 @@ export const MORGAN_FORMAT: string =
 // Swagger
 export const USERNAME_API_DOCS: string = process.env.USERNAME_API_DOCS || "admin";
 export const PASSWORD_API_DOCS: string = process.env.PASSWORD_API_DOCS || "admin";
-export const API_DOCS_HOST: string = process.env.API_DOCS_HOST || "localhost:4000";
-export const BRIGHT_URL: string = process.env.BRIGHT_URL || "http://localhost:4000";
+export const API_DOCS_HOST: string = process.env.API_DOCS_HOST || "localhost:5000";
+export const BRIGHT_URL: string = process.env.BRIGHT_URL || "http://localhost:5000";
 
 // Endpoint
 export const ROUTE_ENDPOINT = {

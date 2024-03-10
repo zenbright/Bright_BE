@@ -1,38 +1,33 @@
 version: '3'
 
 services:
-  server:
-    container_name: bright-BE
-    build: .
-    environment:
-      NODE_ENV: local
-      SERVER_ORIGIN: "*"
-      API_DOCS_HOST: localhost:5000
-      BRIGHT_URL: "http://localhost:5000"
-      API_VERSION: v1
-      USERNAME_API_DOCS: admin
-      PASSWORD_API_DOCS: admin
-      GITHUB_ID: ce0a3e8be7b81c84ee8d
-      GITHUB_SECRET: 5a3084fbd84cf928ea73387cc785d1c85ce53e3e
-      JWT_SECRET: "B9p3nC7wYDA+xVzBp7qiWmwcognfQxOyhUXRueCGk0="
-      MONGO_URI: mongodb://127.0.0.1:27017/bright
-      DB_NAME: bright
-      GOOGLE_CLIENT_ID: 852626779740-jgr1dq6mh299pi4m24ag7t47dptct7kr.apps.googleusercontent.com
-      GOOGLE_CLIENT_SECRET: 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
-      ACCESS_TOKEN_SECRET: "b43a47f1e553454a8bf696eb14baaf4c071425949beb045a0643d504ea6de51ed636a1a340b1ddb42abd9f3dc961f5263c72f77820c6b87c8d1a1644a1625bc5"
-      REFRESH_TOKEN_SECRET: "595123fa6753ef1f1f9ea4c14d6ecb98e287fcf6a03f54fc1874c00b2ccddce973a710aa8a4da28abf73a5cf866f56d8ded8d37d496faa092090a0a3807e02a0"
-    ports:
-      - 5000:5000
-      - 9229:9229 # debugging
-    volumes:
-      - .:/user/src/bright/backend # map current wrkdir with docker wrkdir
-      - /usr/src/bright/backend/node_modules # do not map with local wrkdir
-    depends_on:
-      - redis
-    command: npm start
-
   redis:
     container_name: redis
     image: redis:latest
     ports:
       - "6379:6379"
+  
+  mongo:
+    image: 'mongo:3.6.0'
+    restart: unless-stopped
+    ports:
+      - '27017:27017'
+    volumes:
+      - db:/data/db
+
+  server:
+    container_name: bright-BE
+    build: .
+    ports:
+      - 5000:5000
+      # - 9229:9229 # debugging
+    # volumes:
+      # - .:/user/src/bright/backend # map current wrkdir with docker wrkdir
+      # - /usr/src/bright/backend/node_modules # do not map with local wrkdir
+    depends_on:
+      - redis
+      - mongo
+    command: npm start
+
+volumes:
+  db:
