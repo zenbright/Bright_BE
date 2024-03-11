@@ -46,7 +46,9 @@
     "test": "npm start",
     "dev": "nodemon --exec ts-node ./src/app.ts",
     "start": "nodemon --exec node --loader ts-node/esm src/app.ts",
-    "production": "nodemon --exec node ts-node src/app.ts"
+    "production": "nodemon --exec node ts-node src/app.ts",
+    "build": "tsc",
+    "start:docker": "npm build && npm start"
   },
   "dependencies": {
     "@chimanos/deep-email-validator": "^0.1.24",

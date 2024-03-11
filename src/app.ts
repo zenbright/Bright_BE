@@ -8,7 +8,6 @@ import morgan from "morgan";
 import basicAuth from "express-basic-auth";
 import logger from "./logger";
 import mongoose from "mongoose";
-import redisClient from "./service/utils/redisConfig";
 import ResponseHandler from "./service/utils/responseHandler";
 import swaggerJSDoc from "./swagger";
 import swaggerUI from "swagger-ui-express";
@@ -20,7 +19,7 @@ import cookieParser from "cookie-parser";
 import passport from "passport";
 import("./service/authentication/google/googleAuth.service");
 
-import { UserBasicInfo } from './models/userBasicInfo';
+import { UserBasicInfo } from "./models/userBasicInfo";
 
 dotenv.config();
 
@@ -34,6 +33,7 @@ import {
   MONGO_URI,
   DB_NAME,
 } from "./config";
+import redisClient from "./service/utils/redisConfig";
 
 const app = express();
 
@@ -61,10 +61,6 @@ if (["development", "local", "production"].includes(NODE_ENV)) {
     }),
   );
 }
-
-// Connect Redis
-redisClient.connect();
-
 // Handle Response
 app.use((req, res: any, next) => {
   res.header("Access-Control-Allow-Origin", "*");
@@ -81,6 +77,9 @@ app.use(cors(CORS_OPTIONS));
 
 // Reverse Proxy
 app.enable("trust proxy");
+
+// Connect to Redis
+redisClient.connect();
 
 // Swagger APIs Docs
 if (["production", "development", "local"].includes(NODE_ENV)) {
@@ -149,9 +148,9 @@ app.use((req, res: any, next) => {
 
 // Connect MongoDB
 mongoose.set("strictQuery", false);
-mongoose
-  .connect(MONGO_URI)
-  .then(async (data) => {
+
+mongoose.connect(MONGO_URI)
+  .then(() => {
     logger.info(`Mongodb connected ${MONGO_URI} : ${DB_NAME}`);
   })
   .catch((error) => {
