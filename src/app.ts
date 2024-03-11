@@ -147,11 +147,10 @@ app.use((req, res: any, next) => {
 });
 
 // Connect MongoDB
-const mongoURL = MONGO_URI + "/" + DB_NAME;
 mongoose.set("strictQuery", false);
-mongoose
-  .connect(mongoURL)
-  .then(async (data) => {
+
+mongoose.connect(MONGO_URI)
+  .then(() => {
     logger.info(`Mongodb connected ${MONGO_URI} : ${DB_NAME}`);
   })
   .catch((error) => {
