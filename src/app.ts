@@ -78,6 +78,9 @@ app.use(cors(CORS_OPTIONS));
 // Reverse Proxy
 app.enable("trust proxy");
 
+// Connect to Redis
+redisClient.connect();
+
 // Swagger APIs Docs
 if (["production", "development", "local"].includes(NODE_ENV)) {
   app.use(
@@ -132,8 +135,6 @@ app.get(`${ROUTE_ENDPOINT.BASE_URL_V1}${ROUTE_ENDPOINT.PING}`, (req, res) => {
 // Sever route
 app.use(ROUTE_ENDPOINT.BASE_URL_V1, endpoint);
 
-redisClient.connect();
-
 // Handle Response
 app.use((req, res: any, next) => {
   res.header("Access-Control-Allow-Origin", "*");
@@ -146,17 +147,18 @@ app.use((req, res: any, next) => {
 });
 
 // Connect MongoDB
-// mongoose.set("strictQuery", false);
-// mongoose
-//   .connect(MONGO_URI)
-//   .then(async (data) => {
-//     logger.info(`Mongodb connected ${MONGO_URI} : ${DB_NAME}`);
-//   })
-//   .catch((error) => {
-//     console.log(error);
-//     logger.error("Please make sure Mongodb is installed and running!");
-//     process.exit(1);
-//   });
+const mongoURL = MONGO_URI + "/" + DB_NAME;
+mongoose.set("strictQuery", false);
+mongoose
+  .connect(mongoURL)
+  .then(async (data) => {
+    logger.info(`Mongodb connected ${MONGO_URI} : ${DB_NAME}`);
+  })
+  .catch((error) => {
+    console.log(error);
+    logger.error("Please make sure Mongodb is installed and running!");
+    process.exit(1);
+  });
 
 // Server Listener
 app.listen(PORT_SERVER, () => {

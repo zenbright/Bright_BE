@@ -38,7 +38,7 @@ export const ROUTE_ENDPOINT = {
 };
 
 // Mongodb
-export const MONGO_URI = process.env.MONGO_URI || "mongodb://0.0.0.0:27017";
+export const MONGO_URI = process.env.MONGO_URI || "mongodb://mongo:27017";
 export const DB_NAME = process.env.DB_NAME || "bright";
 
 // Credentials
