@@ -33,6 +33,7 @@ import {
   MONGO_URI,
   DB_NAME,
 } from "./config";
+import redisClient from "./service/utils/redisConfig";
 
 const app = express();
 
@@ -130,6 +131,8 @@ app.get(`${ROUTE_ENDPOINT.BASE_URL_V1}${ROUTE_ENDPOINT.PING}`, (req, res) => {
 
 // Sever route
 app.use(ROUTE_ENDPOINT.BASE_URL_V1, endpoint);
+
+redisClient.connect();
 
 // Handle Response
 app.use((req, res: any, next) => {

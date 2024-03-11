@@ -8,6 +8,7 @@ services:
       - "6379:6379"
   
   mongo:
+    container_name: mongo
     image: 'mongo:3.6.0'
     restart: unless-stopped
     ports:
@@ -18,6 +19,7 @@ services:
   server:
     container_name: bright-BE
     build: .
+    command: npm start
     ports:
       - 5000:5000
       # - 9229:9229 # debugging
@@ -27,7 +29,6 @@ services:
     depends_on:
       - redis
       - mongo
-    command: npm start
 
 volumes:
   db:
